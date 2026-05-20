@@ -61,7 +61,6 @@ export function Header() {
           <button
             type="button"
             onClick={toggleLocale}
-            autoComplete="off"
             suppressHydrationWarning
             className="label-caps !tracking-[0.14em] text-stone-500 transition-colors hover:text-ink"
           >
@@ -117,7 +116,6 @@ export function Header() {
             <button
               type="button"
               onClick={toggleLocale}
-              autoComplete="off"
               suppressHydrationWarning
               className="text-start label-caps text-stone-500"
             >

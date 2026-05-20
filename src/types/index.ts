@@ -97,6 +97,7 @@ export type SiteCopy = {
     galleryTitle: LocalizedString;
     rendersTitle: LocalizedString;
     beforeTitle: LocalizedString;
+    backToPortfolio: LocalizedString;
   };
   process: { title: LocalizedString; subtitle: LocalizedString };
   contact: {

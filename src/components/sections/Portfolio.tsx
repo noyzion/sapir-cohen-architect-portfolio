@@ -4,8 +4,12 @@ import Link from "next/link";
 import { useLanguage, pick } from "@/context/LanguageContext";
 import { projectSummaries } from "@/data/projects";
 import { SectionHeader } from "@/components/ui/SectionHeader";
-import { ProjectImage } from "@/components/ui/ProjectImage";
+import { PortfolioSlideshow } from "@/components/ui/PortfolioSlideshow";
 import { ArrowLink } from "@/components/ui/ArrowLink";
+import {
+  getPortfolioSlideshowImages,
+  getPortfolioSlideshowTiming,
+} from "@/lib/portfolioSlideshow";
 
 export function Portfolio() {
   const { locale, t } = useLanguage();
@@ -18,31 +22,37 @@ export function Portfolio() {
           subtitle={pick(t.portfolio.subtitle, locale)}
         />
 
-        <div className="space-y-16 md:space-y-24">
-          {projectSummaries.map((project, i) => (
-            <article
-              key={project.id}
-              className={`grid items-center gap-8 lg:gap-14 ${
-                i % 2 === 1
-                  ? "lg:grid-cols-[1fr_1.15fr]"
-                  : "lg:grid-cols-[1.15fr_1fr]"
-              }`}
-            >
+        <div className="space-y-14 max-lg:space-y-12 lg:space-y-24">
+          {projectSummaries.map((project, i) => {
+            const imageOnStart = i % 2 === 0;
+
+            const slideshowImages = getPortfolioSlideshowImages(
+              project.slug,
+              project.coverImage,
+              project.thumbnailImage
+            );
+            const { intervalMs, fadeMs } = getPortfolioSlideshowTiming(
+              project.slug
+            );
+
+            const media = (
               <Link
                 href={`/projects/${project.slug}`}
-                className={`group project-media block aspect-[4/3] lg:aspect-[16/10] ${
-                  i % 2 === 1 ? "lg:order-2" : ""
-                }`}
+                className="group project-media block aspect-[4/3] lg:aspect-[16/10]"
               >
-                <ProjectImage
-                  src={project.thumbnailImage}
+                <PortfolioSlideshow
+                  images={slideshowImages}
                   alt={pick(project.name, locale)}
-                  sizes="(max-width: 1024px) 100vw, (max-width: 1280px) 55vw, 600px"
+                  intervalMs={intervalMs}
+                  fadeMs={fadeMs}
+                  priority={i === 0}
                 />
                 <span className="project-media-overlay" />
               </Link>
+            );
 
-              <div className={i % 2 === 1 ? "lg:order-1" : ""}>
+            const copy = (
+              <div>
                 <p className="label-caps">
                   {pick(project.type, locale)}
                   {project.location[locale] &&
@@ -61,8 +71,38 @@ export function Portfolio() {
                   {pick(t.cta.viewProject, locale)}
                 </ArrowLink>
               </div>
-            </article>
-          ))}
+            );
+
+            return (
+              <article
+                key={project.id}
+                className={`portfolio-project grid grid-cols-1 items-center gap-6 max-lg:gap-5 lg:gap-14 ${
+                  imageOnStart
+                    ? "lg:grid-cols-[1.15fr_1fr]"
+                    : "lg:grid-cols-[1fr_1.15fr]"
+                }`}
+              >
+                <div
+                  className={
+                    imageOnStart
+                      ? "portfolio-project__media lg:col-start-1"
+                      : "portfolio-project__media lg:col-start-2"
+                  }
+                >
+                  {media}
+                </div>
+                <div
+                  className={
+                    imageOnStart
+                      ? "portfolio-project__copy lg:col-start-2"
+                      : "portfolio-project__copy lg:col-start-1"
+                  }
+                >
+                  {copy}
+                </div>
+              </article>
+            );
+          })}
         </div>
       </div>
     </section>

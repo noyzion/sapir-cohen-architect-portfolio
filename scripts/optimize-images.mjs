@@ -4,6 +4,7 @@
  * Remove JPG/PNG after conversion: npm run optimize-images:clean
  */
 import fs from "fs";
+import os from "os";
 import path from "path";
 import { fileURLToPath } from "url";
 import sharp from "sharp";
@@ -14,13 +15,22 @@ const imagesRoot = path.join(root, "public", "images");
 const metaOut = path.join(root, "src", "data", "imageMeta.ts");
 
 const WIDTH = {
-  hero: 1920,
+  hero: 2560,
   detail: 1600,
   thumb: 800,
   portrait: 800,
 };
 
-const WEBP_QUALITY = 80;
+/** Project page header images (from projects.ts coverImage) */
+const PROJECT_COVER_PATHS = [
+  "/images/portfolio/duplex-ramat-aviv/cover.webp",
+  "/images/portfolio/beit-neve-yam/02.webp",
+  "/images/portfolio/joseph-bar/02.webp",
+  "/images/portfolio/final-project/06-pool.webp",
+];
+
+const WEBP_QUALITY = 82;
+const WEBP_QUALITY_HERO = 92;
 const BLUR_SIZE = 16;
 const DELETE_ORIGINALS = process.argv.includes("--delete-originals");
 
@@ -54,6 +64,28 @@ function roleForFile(relPath, baseName) {
   return "gallery";
 }
 
+async function encodeWebp(input, maxWidth, quality) {
+  const meta = await sharp(input).metadata();
+  let pipeline = sharp(input);
+  if (meta.width && meta.width > maxWidth) {
+    pipeline = pipeline.resize(maxWidth, null, { withoutEnlargement: true });
+  }
+  return pipeline.webp({ quality }).toBuffer();
+}
+
+async function writeBufferToPath(outPath, buffer) {
+  const tmp = path.join(
+    os.tmpdir(),
+    `sc-hero-${Date.now()}-${path.basename(outPath)}`
+  );
+  await fs.promises.writeFile(tmp, buffer);
+  try {
+    await fs.promises.copyFile(tmp, outPath);
+  } finally {
+    await fs.promises.unlink(tmp).catch(() => {});
+  }
+}
+
 async function blurDataURL(input) {
   const buffer = await sharp(input)
     .resize(BLUR_SIZE, BLUR_SIZE, { fit: "inside" })
@@ -62,30 +94,11 @@ async function blurDataURL(input) {
   return `data:image/webp;base64,${buffer.toString("base64")}`;
 }
 
-async function writeWebp(sourcePath, outPath, maxWidth) {
-  const meta = await sharp(sourcePath).metadata();
-  const needsResize = Boolean(meta.width && meta.width > maxWidth);
+async function writeWebp(sourcePath, outPath, maxWidth, quality = WEBP_QUALITY) {
   const sameFile = path.resolve(sourcePath) === path.resolve(outPath);
-
-  if (sameFile && !needsResize) {
-    return {
-      width: meta.width ?? maxWidth,
-      height: meta.height ?? Math.round(maxWidth * 0.67),
-    };
-  }
-
-  let pipeline = sharp(sourcePath);
-  if (needsResize) {
-    pipeline = pipeline.resize(maxWidth, null, { withoutEnlargement: true });
-  }
-
-  if (sameFile) {
-    const tempPath = `${outPath}.tmp`;
-    await pipeline.webp({ quality: WEBP_QUALITY }).toFile(tempPath);
-    fs.renameSync(tempPath, outPath);
-  } else {
-    await pipeline.webp({ quality: WEBP_QUALITY }).toFile(outPath);
-  }
+  const input = sameFile ? await fs.promises.readFile(sourcePath) : sourcePath;
+  const buffer = await encodeWebp(input, maxWidth, quality);
+  await writeBufferToPath(outPath, buffer);
 
   const outMeta = await sharp(outPath).metadata();
   return {
@@ -94,8 +107,8 @@ async function writeWebp(sourcePath, outPath, maxWidth) {
   };
 }
 
-async function processOutput(webpPath, sourcePath, maxWidth) {
-  const dims = await writeWebp(sourcePath, webpPath, maxWidth);
+async function processOutput(webpPath, sourcePath, maxWidth, quality = WEBP_QUALITY) {
+  const dims = await writeWebp(sourcePath, webpPath, maxWidth, quality);
   const publicPath = toPublicPath(webpPath);
   manifest[publicPath] = {
     width: dims.width,
@@ -115,6 +128,16 @@ function pickSource(dir, baseWithoutExt) {
     if (fs.existsSync(candidate)) return candidate;
   }
   return null;
+}
+
+/** Prefer lossless PNG/JPEG for hero re-encode (skip existing webp when possible). */
+function pickHeroSource(dir, baseWithoutExt) {
+  for (const ext of [".png", ".jpg", ".jpeg"]) {
+    const candidate = path.join(dir, baseWithoutExt + ext);
+    if (fs.existsSync(candidate)) return candidate;
+  }
+  const webp = path.join(dir, baseWithoutExt + ".webp");
+  return fs.existsSync(webp) ? webp : null;
 }
 
 function collectBaseNames(dir) {
@@ -139,8 +162,7 @@ async function processBase(dir, baseName) {
   console.log(`\n${relFromImages} [${role}]`);
 
   if (role === "cover" || role === "hero") {
-    const maxWidth = role === "hero" ? WIDTH.hero : WIDTH.hero;
-    await processOutput(webpPath, sourcePath, maxWidth);
+    await processOutput(webpPath, sourcePath, WIDTH.hero, WEBP_QUALITY_HERO);
     await processOutput(thumbPathFor(webpPath), webpPath, WIDTH.thumb);
   } else if (role === "portrait") {
     await processOutput(webpPath, sourcePath, WIDTH.portrait);
@@ -215,7 +237,30 @@ if (!fs.existsSync(imagesRoot)) {
   process.exit(1);
 }
 
-console.log("Optimizing images in", imagesRoot);
-await walk(imagesRoot);
+async function processProjectCovers() {
+  console.log("\n--- Project header covers (high quality) ---");
+  for (const publicPath of PROJECT_COVER_PATHS) {
+    const webpPath = path.join(root, "public", publicPath.replace(/^\//, ""));
+    const dir = path.dirname(webpPath);
+    const base = path.basename(webpPath, ".webp");
+    const sourcePath = pickHeroSource(dir, base);
+    if (!sourcePath) {
+      console.warn(`  skip (no source): ${publicPath}`);
+      continue;
+    }
+    console.log(`\n${publicPath} [hero-cover]`);
+    await processOutput(webpPath, sourcePath, WIDTH.hero, WEBP_QUALITY_HERO);
+  }
+}
+
+const heroOnly = process.argv.includes("--hero-only");
+
+if (heroOnly) {
+  console.log("Hero covers only");
+} else {
+  console.log("Optimizing images in", imagesRoot);
+  await walk(imagesRoot);
+}
+await processProjectCovers();
 writeMetaFile();
 console.log("\nDone. Portfolio cards should use *-thumb.webp paths.");

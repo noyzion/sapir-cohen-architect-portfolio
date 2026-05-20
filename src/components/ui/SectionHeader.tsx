@@ -15,15 +15,23 @@ export function SectionHeader({
 }: SectionHeaderProps) {
   return (
     <header
-      className={`mb-10 md:mb-14 ${align === "center" ? "mx-auto max-w-prose text-center" : "max-w-prose"} ${className}`}
+      className={`section-header section-header--${align} mb-10 md:mb-14 ${
+        align === "center" ? "mx-auto max-w-prose text-center" : "max-w-prose"
+      } ${className}`}
     >
       <h2
-        className={`font-display text-display-lg text-balance ${
-          light ? "text-white" : "text-ink"
+        className={`section-heading text-balance ${
+          light ? "section-heading--light" : ""
         }`}
       >
         {title}
       </h2>
+      <div
+        className={`section-heading-rule ${
+          light ? "section-heading-rule--light" : ""
+        }`}
+        aria-hidden
+      />
       {subtitle && (
         <p
           className={`mt-4 text-prose ${align === "center" ? "mx-auto" : ""} ${

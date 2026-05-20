@@ -34,8 +34,8 @@ export const projectSummaries: ProjectSummary[] = [
       he: "בית למשפחה שרוצה להרגיש בחופשה, שאוהבת אור טבעי ולא מוכנה להתפשר על פרקטיקה ופונקציונליות. על ידי שימוש בקווים נקיים וחומרים טבעיים, יצירת שפה אחידה והרמונית שניתן להרגיש מכל פינה בבית.",
       en: "A home for a family that wants to feel on vacation, lovers of natural light who won't compromise on practicality. Clean lines and natural materials create a unified, harmonious language felt from every corner.",
     },
-    coverImage: "/images/portfolio/beit-neve-yam/cover.webp",
-    thumbnailImage: "/images/portfolio/beit-neve-yam/cover-thumb.webp",
+    coverImage: "/images/portfolio/beit-neve-yam/02.webp",
+    thumbnailImage: "/images/portfolio/beit-neve-yam/02-thumb.webp",
   },
   {
     id: "joseph-bar",
@@ -50,8 +50,8 @@ export const projectSummaries: ProjectSummary[] = [
       he: "מסעדה שעברה בין דורות ושאפה ליצירת שפה ייחודית. על בסיס הסיפור המשפחתי והאופי של המקום, בניתי קונספט שמבטא את החזון מכל זווית, שמתחיל בעיצוב ונגמר בצלחת.",
       en: "A restaurant passed between generations, aspiring to a unique language. Based on the family story and character of the place, I built a concept expressing the vision from design to the plate.",
     },
-    coverImage: "/images/portfolio/joseph-bar/04.webp",
-    thumbnailImage: "/images/portfolio/joseph-bar/04-thumb.webp",
+    coverImage: "/images/portfolio/joseph-bar/02.webp",
+    thumbnailImage: "/images/portfolio/joseph-bar/02-thumb.webp",
   },
   {
     id: "final-project",
@@ -66,8 +66,8 @@ export const projectSummaries: ProjectSummary[] = [
       he: "הקונספט התבטא מתוך מחשבה על תחושות האדם המגיע לספא והציפיות שלו מהחוויה. הפרויקט מבטא תהליך של ניקוי רעלים, על ידי צורניות וחומריות של שינוי צורה ופירוק. מדמה את האדם שעובר תהליך שבסופו הגוף והנפש מתנקים.",
       en: "A concept born from the feelings of someone arriving at a spa and their expectations, expressing detox and renewal through form and materiality, like body and soul cleansed at the end of the process.",
     },
-    coverImage: "/images/portfolio/final-project/cover.webp",
-    thumbnailImage: "/images/portfolio/final-project/cover-thumb.webp",
+    coverImage: "/images/portfolio/final-project/06-pool.webp",
+    thumbnailImage: "/images/portfolio/final-project/06-pool-thumb.webp",
   },
 ];
 

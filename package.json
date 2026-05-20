@@ -9,7 +9,9 @@
     "start": "next start",
     "lint": "next lint",
     "optimize-images": "node scripts/optimize-images.mjs",
-    "optimize-images:clean": "node scripts/optimize-images.mjs --delete-originals"
+    "optimize-hero-covers": "node scripts/optimize-images.mjs --hero-only",
+    "optimize-images:clean": "node scripts/optimize-images.mjs --delete-originals",
+    "import-neve-yam": "node scripts/import-neve-yam.mjs"
   },
   "dependencies": {
     "next": "^15.1.0",

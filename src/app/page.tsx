@@ -12,11 +12,11 @@ export default function HomePage() {
     <>
       <Hero />
       <About />
-      <Services />
-      <ProjectTypes />
       <Portfolio />
       <CtaBand variant="afterPortfolio" />
+      <Services />
       <Process />
+      <ProjectTypes />
       <Contact />
     </>
   );

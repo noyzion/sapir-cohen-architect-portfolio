@@ -15,13 +15,10 @@ export function About() {
       <div className="container-site about-section-inner">
         <div className="about-layout">
           <header className="about-title-col">
-            <h2
-              id="about-title"
-              className="about-heading font-display text-ink"
-            >
+            <h2 id="about-title" className="section-heading text-balance">
               {pick(about.title, locale)}
             </h2>
-            <div className="about-heading-rule" aria-hidden />
+            <div className="section-heading-rule" aria-hidden />
           </header>
 
           <div className="about-content">
@@ -36,10 +33,46 @@ export function About() {
               </p>
             ))}
 
+            <p className="about-approach-flow about-paragraph">
+              <span>{pick(about.approachIntro, locale)} </span>
+              {about.approachPillars.map((item, i) => {
+                const isLast = i === about.approachPillars.length - 1;
+                const isFirst = i === 0;
+                let separator = "";
+                if (!isFirst) {
+                  separator =
+                    isLast && locale === "he"
+                      ? " ו"
+                      : locale === "he"
+                        ? ", "
+                        : isLast
+                          ? ", and "
+                          : ", ";
+                }
+
+                return (
+                  <span key={i}>
+                    {separator}
+                    <span className="about-pillar-label">
+                      {pick(item, locale)}
+                    </span>
+                  </span>
+                );
+              })}
+              .
+            </p>
+
             <p className="about-highlight">{pick(about.highlight, locale)}</p>
 
             {about.closing.map((paragraph, i) => (
-              <p key={`close-${i}`} className="about-paragraph">
+              <p
+                key={`close-${i}`}
+                className={
+                  i === about.closing.length - 1
+                    ? "about-closing-emphasis"
+                    : "about-paragraph"
+                }
+              >
                 {pick(paragraph, locale)}
               </p>
             ))}

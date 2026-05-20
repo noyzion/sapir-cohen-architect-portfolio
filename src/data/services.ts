@@ -5,8 +5,8 @@ export const servicePackages: ServicePackage[] = [
     id: "light",
     tier: "LIGHT",
     name: {
-      he: "ייעוץ וגיבוש קונספט",
-      en: "Consultation & concept",
+      he: "ייעוץ ממוקד וגיבוש קונספט",
+      en: "Focused consultation & concept",
     },
     summary: {
       he: "כיוון מקצועי, לוח השראה וסקיצה ראשונית ליציאה עצמאית לדרך.",
@@ -17,8 +17,8 @@ export const servicePackages: ServicePackage[] = [
       en: "A focused session to assess your space's potential, define materials and tones, and deliver a digital mood board plus an initial layout sketch, giving you direction and confidence to move forward independently.",
     },
     suitableFor: {
-      he: "מתאים לפני שיפוץ, לדירת קבלן או לחלל מסחרי שצריך זריקת כיוון וסדר בראש, עם תקציב מוגדר ורצון להמשיך ברכש באופן עצמאי.",
-      en: "Ideal before a renovation, for a contractor apartment, or a commercial space that needs clarity and a defined budget while you manage purchases yourself.",
+      he: "אם אתם עומדים לפני שיפוץ, או אם קניתם דירה מקבלן/שכרתם חלל מסחרי ואתם מרגישים שאתם צריכים \"זריקת כיוון\" מקצועית וסדר בראש כדי להמשיך את הרכישות עצמאית. מתאים במיוחד למי שמנהל פרויקט בתקציב מוגדר וממוקד, תוך קבלת החלטות תכנוניות חכמות וחסכוניות שימנעו טעויות יקרות בשטח.",
+      en: "If you are facing a renovation, bought a contractor apartment, or leased a commercial space and need a professional \"direction boost\" and clarity to continue purchases on your own. Especially suited for those managing a defined, focused budget while making smart, economical planning decisions that prevent costly mistakes on site.",
     },
     highlights: [
       { he: "פגישת ייעוץ ממוקדת", en: "Focused consultation" },
@@ -32,8 +32,8 @@ export const servicePackages: ServicePackage[] = [
     tier: "SMART",
     featured: true,
     name: {
-      he: "תכנון ועיצוב מקיף",
-      en: "Full planning & design",
+      he: "תכנון אדריכלי ועיצוב פנים מקיף",
+      en: "Architectural planning & interior design",
     },
     summary: {
       he: "המעטפת המלאה: קונספט, הדמיות תלת-ממד ותוכניות עבודה לביצוע.",
@@ -41,11 +41,11 @@ export const servicePackages: ServicePackage[] = [
     },
     description: {
       he: "המעטפת התכנונית המלאה לחלל שלכם. משלב הסקיצות הרעיוניות, דרך הדמיות פוטו-ריאליסטיות תלת-ממדיות להמחשה מושלמת, ועד להפקת סט תוכניות עבודה מפורטות לביצוע עבור אנשי המקצוע בשטח.",
-      en: "The full planning envelope, from concept sketches and photorealistic 3D visualizations to a detailed set of working drawings for execution on site.",
+      en: "The full planning envelope for your space-from concept sketches and photorealistic 3D visualizations to a detailed set of working drawings for execution by professionals on site.",
     },
     suitableFor: {
-      he: "המסלול הפופולרי ביותר לשיפוץ או רכישה של בית, דירה או חלל מסחרי. מתאים למי שצריך תוכניות מלאות לביצוע מול קבלן ומנהל רכש ושטח בעצמו.",
-      en: "Our most popular path for renovating or buying a home, apartment, or commercial space. For those who need complete plans for a contractor while managing procurement and site themselves.",
+      he: "המסלול הפופולרי ביותר, המיועד למי שעומד בפני שיפוץ/רכישה כולל של בית, דירה או חלל מסחרי. מי שצריך את כל התוכניות המקצועיות כדי לצאת לביצוע מול קבלן, אבל מנהל את הרכש והשטח בעצמו. מסלול זה מותאם לניהול פרויקט עם תקציב מבוקר ומוגדר מראש.",
+      en: "Our most popular path for a full home, apartment, or commercial renovation or purchase. For those who need complete professional plans to execute with a contractor while managing procurement and site themselves. Suited to project management with a controlled, predefined budget.",
     },
     highlights: [
       { he: "סקיצות רעיוניות", en: "Concept sketches" },
@@ -57,8 +57,8 @@ export const servicePackages: ServicePackage[] = [
     id: "premium",
     tier: "PREMIUM",
     name: {
-      he: "ליווי וניהול מלא",
-      en: "Full direction & management",
+      he: "ליווי וניהול אמנותי מלא",
+      en: "Full artistic direction & management",
     },
     summary: {
       he: "שקט נפשי מא' עד ת': רכש, פיקוח בשטח וסטיילינג מסכם.",
@@ -66,11 +66,11 @@ export const servicePackages: ServicePackage[] = [
     },
     description: {
       he: "שקט נפשי מא' ועד ת'. ליווי אישי צמוד לימי רכש וקניות מרוכזים בחנויות הספקים, תיאום מול אנשי מקצוע, פיקוח קפדני בשטח בנקודות המפתח, ויום הלבשה (סטיילינג) סופי להענקת הניצוץ האחרון והחותם הייחודי לחלל שלכם.",
-      en: "Peace of mind from A to Z, personal accompaniment on sourcing days, coordination with trades, key-site supervision, and a final styling day for your space's distinctive signature.",
+      en: "Peace of mind from A to Z-personal accompaniment on sourcing days and focused supplier visits, coordination with trades, meticulous supervision at key site milestones, and a final styling day that adds the last spark and your space's unique signature.",
     },
     suitableFor: {
-      he: "למי שרוצה חלל יוצא דופן בלי פשרות, עם לו\"ז צפוף, ליווי צמוד לספקים ותוצאה ייחודית עם נגרות מותאמת. מותאם לתקציב גמיש יותר.",
-      en: "For clients who want an exceptional space without compromise, a tight schedule, hands-on supplier guidance, and custom carpentry. Suited to a more flexible budget.",
+      he: "לקוחות שרוצים חלל יוצא דופן ויוצאים לדרך ללא פשרות. אם הלו\"ז שלכם צפוף ואתם רוצים להמשיך בשגרת החיים ובקריירה שלכם בזמן שהפרויקט מתקדם, מחפשים עין מקצועית שתלווה אתכם צעד-צעד בכל חנויות הספקים, ושואפים לתוצאה ייחודית בעלת חותם אישי ופרטי נגרות מורכבים. חבילה זו מכוונת לפרויקטים בעלי תקציב גמיש ורחב יותר, המאפשר השקעה בחומרי גלם וליווי VIP מקיף לאורך כל הדרך.",
+      en: "Clients who want an exceptional space and a no-compromise journey. If your schedule is tight and you want to maintain daily life and career while the project progresses, need a professional eye step by step in every supplier showroom, and aspire to a unique result with a personal signature and complex custom carpentry. This package targets projects with a more flexible, generous budget, allowing investment in premium materials and comprehensive VIP guidance throughout.",
     },
     highlights: [
       { he: "ליווי אישי לימי רכש", en: "Personal sourcing days" },

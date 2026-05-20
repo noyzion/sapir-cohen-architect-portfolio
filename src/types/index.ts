@@ -77,6 +77,8 @@ export type SiteCopy = {
     intro: LocalizedString;
     credentials: LocalizedString;
     opening: LocalizedString[];
+    approachIntro: LocalizedString;
+    approachPillars: LocalizedString[];
     highlight: LocalizedString;
     closing: LocalizedString[];
   };

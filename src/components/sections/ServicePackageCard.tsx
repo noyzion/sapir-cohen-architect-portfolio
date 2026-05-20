@@ -4,6 +4,7 @@ import { useId, useState } from "react";
 import type { ServicePackage } from "@/types";
 import type { Locale } from "@/types";
 import { pick } from "@/context/LanguageContext";
+import { setPackageInquiry } from "@/lib/packageInquiry";
 import { ButtonLink } from "@/components/ui/Button";
 
 type ServicePackageCardProps = {
@@ -33,16 +34,12 @@ export function ServicePackageCard({
   const detailsId = useId();
   const featured = Boolean(pkg.featured);
 
-  return (
-    <article
-      className={`service-package-card ${
-        featured ? "service-package-card--featured" : "service-package-card--standard"
-      }`}
-    >
-      {featured && (
-        <span className="service-package-badge">{popularLabel}</span>
-      )}
+  function handleInquiryClick() {
+    setPackageInquiry(pkg.id);
+  }
 
+  const cardBody = (
+    <>
       <header className="service-card-header">
         <span className="service-card-tier">{pkg.tier}</span>
         <h3 className="service-card-title">{pick(pkg.name, locale)}</h3>
@@ -90,10 +87,30 @@ export function ServicePackageCard({
           href="#contact"
           variant={featured ? "primary" : "secondary"}
           className={`w-full ${featured ? "service-card-cta-featured" : ""}`}
+          onClick={handleInquiryClick}
         >
           {featured ? consultCtaLabel : ctaLabel}
         </ButtonLink>
       </div>
+    </>
+  );
+
+  return (
+    <article
+      dir={locale === "he" ? "rtl" : "ltr"}
+      className={`service-package-card ${
+        featured ? "service-package-card--featured" : "service-package-card--standard"
+      }`}
+    >
+      {featured && (
+        <span className="service-package-badge">{popularLabel}</span>
+      )}
+
+      {featured ? (
+        <div className="service-package-card__frame">{cardBody}</div>
+      ) : (
+        cardBody
+      )}
     </article>
   );
 }

@@ -1,8 +1,12 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useLanguage, pick } from "@/context/LanguageContext";
 import { CONTACT_EMAIL, WHATSAPP_NUMBER } from "@/data/siteCopy";
+import {
+  getPackageInquiryMessage,
+  getStoredPackageInquiry,
+} from "@/lib/packageInquiry";
 import { Button, ButtonLink } from "@/components/ui/Button";
 
 function WhatsAppIcon() {
@@ -21,6 +25,26 @@ function WhatsAppIcon() {
 export function Contact() {
   const { locale, t } = useLanguage();
   const [submitted, setSubmitted] = useState(false);
+  const [message, setMessage] = useState("");
+  const [selectedPackage, setSelectedPackage] = useState("");
+
+  useEffect(() => {
+    function applyPackageFromInquiry() {
+      const packageId = getStoredPackageInquiry();
+      if (!packageId) return;
+
+      setSelectedPackage(packageId);
+      setMessage(getPackageInquiryMessage(packageId, locale));
+    }
+
+    applyPackageFromInquiry();
+    window.addEventListener("sapir-package-inquiry", applyPackageFromInquiry);
+    window.addEventListener("hashchange", applyPackageFromInquiry);
+    return () => {
+      window.removeEventListener("sapir-package-inquiry", applyPackageFromInquiry);
+      window.removeEventListener("hashchange", applyPackageFromInquiry);
+    };
+  }, [locale]);
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -30,7 +54,7 @@ export function Contact() {
     const phone = String(data.get("phone") || "");
     const email = String(data.get("email") || "");
     const projectType = String(data.get("projectType") || "");
-    const message = String(data.get("message") || "");
+    const inquiryMessage = String(data.get("message") || "");
 
     const subject =
       locale === "he"
@@ -42,7 +66,7 @@ export function Contact() {
       phone ? (locale === "he" ? `טלפון: ${phone}` : `Phone: ${phone}`) : "",
       locale === "he" ? `סוג פרויקט: ${projectType}` : `Project: ${projectType}`,
       "",
-      message,
+      inquiryMessage,
     ]
       .filter(Boolean)
       .join("\n");
@@ -63,12 +87,13 @@ export function Contact() {
       <div className="container-site">
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:gap-16 xl:gap-20">
           <div className="contact-intro">
-            <p className="label-caps text-stone-400">
+            <h2 className="section-heading text-balance">
               {pick(t.contact.title, locale)}
-            </p>
-            <h2 className="contact-prompt mt-4 font-display text-display-md text-ink">
-              {pick(t.contact.prompt, locale)}
             </h2>
+            <div className="section-heading-rule" aria-hidden />
+            <p className="contact-prompt mt-4 font-display text-display-md text-ink">
+              {pick(t.contact.prompt, locale)}
+            </p>
             <p className="contact-lead mt-5 text-body leading-relaxed text-stone-600">
               {pick(t.contact.text, locale)}
             </p>
@@ -108,6 +133,16 @@ export function Contact() {
             <p className="label-caps mb-6 text-stone-400">
               {locale === "he" ? "טופס פנייה" : "Inquiry form"}
             </p>
+
+            {selectedPackage ? (
+              <p className="mb-5 rounded-sm border border-stone-200 bg-white px-4 py-3 text-body-sm text-stone-600">
+                {locale === "he"
+                  ? `מסלול נבחר: ${selectedPackage.toUpperCase()}`
+                  : `Selected package: ${selectedPackage.toUpperCase()}`}
+              </p>
+            ) : null}
+
+            <input type="hidden" name="package" value={selectedPackage} />
 
             <div className="space-y-5">
               <div>
@@ -163,6 +198,8 @@ export function Contact() {
                   name="message"
                   rows={5}
                   required
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
                   placeholder={pick(t.contact.form.messagePlaceholder, locale)}
                   className="input-field min-h-[140px] resize-y placeholder:text-stone-400"
                 />

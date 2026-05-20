@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Heebo, Outfit, DM_Serif_Display } from "next/font/google";
+import { Heebo, Outfit, Plus_Jakarta_Sans } from "next/font/google";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -18,11 +18,10 @@ const outfit = Outfit({
   weight: ["300", "400", "500", "600"],
 });
 
-const dmSerif = DM_Serif_Display({
+const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
   variable: "--font-display",
-  weight: ["400"],
-  style: ["normal", "italic"],
+  weight: ["300", "400", "500"],
 });
 
 export const metadata: Metadata = {
@@ -39,7 +38,7 @@ export default function RootLayout({
   return (
     <html lang="he" dir="rtl" suppressHydrationWarning>
       <body
-        className={`${heebo.variable} ${outfit.variable} ${dmSerif.variable} font-body`}
+        className={`${heebo.variable} ${outfit.variable} ${plusJakarta.variable} font-body`}
       >
         <LanguageProvider>
           <Header />

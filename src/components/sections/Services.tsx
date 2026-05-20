@@ -9,9 +9,9 @@ export function Services() {
   const { locale, t } = useLanguage();
 
   const orderedPackages = [
-    servicePackages.find((p) => p.id === "light")!,
-    servicePackages.find((p) => p.id === "smart")!,
     servicePackages.find((p) => p.id === "premium")!,
+    servicePackages.find((p) => p.id === "smart")!,
+    servicePackages.find((p) => p.id === "light")!,
   ];
 
   return (

@@ -16,10 +16,11 @@ export function CtaBand({ variant }: CtaBandProps) {
       <div className="container-site section-pad-sm">
         <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between md:gap-12">
           <div className="max-w-xl">
-            <h2 className="font-display text-display-md text-ink">
+            <h2 className="section-heading text-display-md">
               {pick(copy.title, locale)}
             </h2>
-            <p className="mt-3 text-prose">{pick(copy.text, locale)}</p>
+            <div className="section-heading-rule" aria-hidden />
+            <p className="mt-4 text-prose">{pick(copy.text, locale)}</p>
           </div>
           <ButtonLink href="#contact" variant="primary" className="shrink-0 md:min-w-[14rem]">
             {pick(t.cta.consult, locale)}

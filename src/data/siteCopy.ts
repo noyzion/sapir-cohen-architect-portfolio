@@ -18,8 +18,8 @@ export const siteCopy: SiteCopy = {
   },
   nav: [
     { id: "about", href: "#about", label: { he: "אודות", en: "About" } },
-    { id: "services", href: "#services", label: { he: "שירותים", en: "Services" } },
     { id: "portfolio", href: "#portfolio", label: { he: "תיק עבודות", en: "Portfolio" } },
+    { id: "services", href: "#services", label: { he: "שירותים", en: "Services" } },
     { id: "process", href: "#process", label: { he: "תהליך העבודה", en: "Process" } },
     { id: "contact", href: "#contact", label: { he: "יצירת קשר", en: "Contact" } },
   ],
@@ -57,23 +57,36 @@ export const siteCopy: SiteCopy = {
         he: "המפגש בין אדריכלות לעיצוב פנים הוא המקום שבו חלומות הופכים לחומר, לאור ולתחושת שייכות.",
         en: "Where architecture meets interior design, dreams become material, light, and a sense of belonging.",
       },
+    ],
+    approachIntro: {
+      he: "הגישה המקצועית שלי מבוססת על",
+      en: "My professional approach is grounded in",
+    },
+    approachPillars: [
+      { he: "תכנון פונקציונלי", en: "Functional planning" },
       {
-        he: "הגישה המקצועית שלי מבוססת על תכנון פונקציונלי, חשיבה עיצובית נקייה ועל־זמנית, כזו שיודעת לתת כבוד לחומרים טבעיים, למשחק נכון של אור יום, ולקווים מינימליסטיים שמייצרים שקט בעיניים ובלב.",
-        en: "My professional approach is grounded in functional planning and clean, timeless design thinking—one that honors natural materials, the play of daylight, and minimalist lines that bring calm to the eyes and heart.",
+        he: "חשיבה עיצובית נקייה ועל-זמנית",
+        en: "Clean, timeless design thinking",
+      },
+      { he: "כבוד לחומרים טבעיים", en: "Honor for natural materials" },
+      { he: "משחק נכון של אור יום", en: "The play of daylight" },
+      {
+        he: "קווים מינימליסטיים שמייצרים שקט בעיניים ובלב",
+        en: "Minimalist lines that bring calm to the eyes and heart",
       },
     ],
     highlight: {
       he: "בעיניי, הסוד של חלל מנצח טמון בפרטים הקטנים ביותר. אני מאמינה שאין פרויקט אחד שדומה למשנהו, פשוט כי אין לקוח שדומה לאחר. התשוקה שלי היא לרדת לרזולוציות התכנון הגבוהות ביותר, לדייק כל מפגש חומר וכל קו, כדי ליצור עבורכם מרחב בעל חותם ייחודי ובלתי נשכח, כזה שמספר את הסיפור האישי שלכם ולא של אף אחד אחר.",
-      en: "In my view, the secret of a winning space lies in the smallest details. I believe no two projects are alike, simply because no two clients are alike. My passion is to work at the highest level of resolution—to refine every material junction and every line—and create a space with a unique, unforgettable signature, one that tells your personal story and no one else's.",
+      en: "In my view, the secret of a winning space lies in the smallest details. I believe no two projects are alike, simply because no two clients are alike. My passion is to work at the highest level of resolution-to refine every material junction and every line-and create a space with a unique, unforgettable signature, one that tells your personal story and no one else's.",
     },
     closing: [
       {
         he: "מתוך הקשבה עמוקה לצרכים, לרצונות ולאורח החיים שלכם, המטרה הגדולה שלי היא ליצור עבורכם תהליך תכנון ועיצוב מסודר, שקוף ונעים, המקנה לכם ביטחון מלא ושקט להמשיך בשגרת החיים שלכם לצד התפתחות והגשמת החלומות שלכם.",
-        en: "Through deep listening to your needs, wishes, and lifestyle, my greatest goal is to lead a planning and design process that is structured, transparent, and pleasant—one that gives you full confidence and calm to continue daily life alongside the evolution and fulfillment of your dreams.",
+        en: "Through deep listening to your needs, wishes, and lifestyle, my greatest goal is to lead a planning and design process that is structured, transparent, and pleasant-one that gives you full confidence and calm to continue daily life alongside the evolution and fulfillment of your dreams.",
       },
       {
         he: "יחד, מתוך קבלת החלטות נכונות, נתרגם את השאיפות שלכם לשפה עיצובית מזוקקת וניצור מרחב מגורים או עבודה איכותי, מדויק ומרגש שילווה אתכם לאורך זמן.",
-        en: "Together, through sound decisions, we will translate your aspirations into a distilled design language and create a residential or work environment that is refined, precise, and moving—a space that stays with you over time.",
+        en: "Together, through sound decisions, we will translate your aspirations into a distilled design language and create a residential or work environment that is refined, precise, and moving-a space that stays with you over time.",
       },
     ],
   },
@@ -151,8 +164,8 @@ export const siteCopy: SiteCopy = {
     afterPortfolio: {
       title: { he: "יש לכם פרויקט בראש?", en: "Have a project in mind?" },
       text: {
-        he: "נשמח לשמוע, לייעץ ולבנות יחד את החלל הבא שלכם.",
-        en: "We'd love to hear, advise, and build your next space together.",
+        he: "אשמח לשמוע, לייעץ ולבנות יחד את החלל הבא שלכם.",
+        en: "I'd love to hear, advise, and build your next space together.",
       },
     },
   },

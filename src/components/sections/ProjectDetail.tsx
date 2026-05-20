@@ -29,6 +29,7 @@ export function ProjectDetail({ project }: Props) {
           src={project.coverImage}
           alt={name}
           priority
+          unoptimized
           sizes="100vw"
           loading="eager"
         />

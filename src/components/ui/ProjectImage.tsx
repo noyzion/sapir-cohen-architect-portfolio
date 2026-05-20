@@ -4,7 +4,8 @@ import Image from "next/image";
 import { useState } from "react";
 import { getImageMeta } from "@/data/imageMeta";
 
-const IMAGE_QUALITY = 80;
+const IMAGE_QUALITY_DEFAULT = 82;
+const IMAGE_QUALITY_HERO = 95;
 
 type ProjectImageProps = {
   src: string;
@@ -14,6 +15,9 @@ type ProjectImageProps = {
   priority?: boolean;
   loading?: "lazy" | "eager";
   sizes?: string;
+  quality?: number;
+  /** Serve static file as-is (no Next re-encode). Best for pre-optimized hero covers. */
+  unoptimized?: boolean;
   onLoad?: () => void;
 };
 
@@ -25,8 +29,12 @@ export function ProjectImage({
   priority = false,
   loading,
   sizes = "(max-width: 768px) 100vw, 50vw",
+  quality,
+  unoptimized = false,
   onLoad,
 }: ProjectImageProps) {
+  const imageQuality =
+    quality ?? (priority ? IMAGE_QUALITY_HERO : IMAGE_QUALITY_DEFAULT);
   const [error, setError] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const isPlaceholder = src.includes("placeholders");
@@ -65,7 +73,8 @@ export function ProjectImage({
         priority={priority}
         loading={priority ? undefined : loading ?? "lazy"}
         sizes={sizes}
-        quality={IMAGE_QUALITY}
+        quality={imageQuality}
+        unoptimized={unoptimized}
         placeholder={useBlur ? "blur" : "empty"}
         blurDataURL={useBlur ? blurDataURL : undefined}
         className={`object-cover transition-opacity duration-500 ${

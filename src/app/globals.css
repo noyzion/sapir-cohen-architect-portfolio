@@ -611,7 +611,7 @@
   }
 
   .mobile-menu__link {
-    @apply block py-4 font-display text-[1.3rem] font-light leading-none tracking-[0.005em] text-stone-700 transition-colors duration-200 active:text-ink;
+    @apply block py-3.5 font-display text-[1.02rem] font-light leading-none tracking-[0.02em] text-stone-600 transition-colors duration-200 active:text-ink;
   }
 
   .mobile-menu__footer {

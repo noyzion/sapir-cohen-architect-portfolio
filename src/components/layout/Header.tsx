@@ -64,7 +64,7 @@ export function Header() {
             suppressHydrationWarning
             aria-label={locale === "he" ? "Switch to English" : "מעבר לעברית"}
             title={locale === "he" ? "Switch to English" : "מעבר לעברית"}
-            className="flex items-center text-stone-500 transition-colors hover:text-ink"
+            className="hidden items-center text-stone-500 transition-colors hover:text-ink lg:flex"
           >
             <svg
               className="h-[19px] w-[19px]"
@@ -85,7 +85,7 @@ export function Header() {
             href="#contact"
             variant="primary"
             size="sm"
-            className="inline-flex"
+            className="hidden lg:inline-flex"
           >
             {pick(t.cta.consult, locale)}
           </ButtonLink>

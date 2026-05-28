@@ -279,7 +279,12 @@
   }
 
   .btn-primary {
-    @apply btn bg-ink text-white hover:bg-ink-soft;
+    @apply btn text-white;
+    background-color: #3a3530;
+  }
+
+  .btn-primary:hover {
+    background-color: #4c463f;
   }
 
   .btn-secondary {

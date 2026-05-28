@@ -62,9 +62,24 @@ export function Header() {
             type="button"
             onClick={toggleLocale}
             suppressHydrationWarning
-            className="label-caps !tracking-[0.14em] text-stone-500 transition-colors hover:text-ink"
+            aria-label={locale === "he" ? "Switch to English" : "מעבר לעברית"}
+            title={locale === "he" ? "Switch to English" : "מעבר לעברית"}
+            className="flex items-center text-stone-500 transition-colors hover:text-ink"
           >
-            {locale === "he" ? "EN" : "עב"}
+            <svg
+              className="h-[19px] w-[19px]"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.4"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden
+            >
+              <circle cx="12" cy="12" r="9" />
+              <path d="M3 12h18" />
+              <path d="M12 3c2.5 2.6 3.9 5.8 3.9 9s-1.4 6.4-3.9 9c-2.5-2.6-3.9-5.8-3.9-9S9.5 5.6 12 3Z" />
+            </svg>
           </button>
           <ButtonLink
             href="#contact"

@@ -302,7 +302,7 @@
 
   /* Service packages */
   .services-packages {
-    @apply mt-2 grid grid-cols-1 items-start gap-5 overflow-visible;
+    @apply mt-2 grid grid-cols-1 items-stretch gap-5 overflow-visible;
   }
 
   .service-package-card {
@@ -324,7 +324,7 @@
       direction: ltr;
       display: grid;
       grid-template-columns: minmax(0, 0.86fr) minmax(0, 1.15fr) minmax(0, 0.86fr);
-      align-items: start;
+      align-items: stretch;
       gap: 0.625rem;
     }
 
@@ -463,6 +463,47 @@
 
   .service-card-cta-featured.btn-primary {
     @apply bg-white text-ink hover:bg-stone-100;
+  }
+
+  /* Service package cards — simplified content */
+  .service-pkg-tier {
+    @apply text-center font-display text-lg font-medium uppercase tracking-[0.18em] text-ink md:text-xl;
+  }
+
+  .service-package-card--featured .service-pkg-tier {
+    @apply text-white;
+  }
+
+  .service-pkg-desc {
+    @apply mt-3 text-center text-[0.9375rem] leading-relaxed text-stone-600;
+  }
+
+  .service-package-card--featured .service-pkg-desc {
+    @apply text-white/80;
+  }
+
+  .service-pkg-fit {
+    @apply mt-auto border-t border-stone-200 pt-4 text-center;
+  }
+
+  .service-package-card--featured .service-pkg-fit {
+    @apply border-white/20;
+  }
+
+  .service-pkg-fit-label {
+    @apply mb-2 text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-ink;
+  }
+
+  .service-package-card--featured .service-pkg-fit-label {
+    @apply text-white/90;
+  }
+
+  .service-pkg-fit-text {
+    @apply text-[0.8125rem] leading-relaxed text-stone-600;
+  }
+
+  .service-package-card--featured .service-pkg-fit-text {
+    @apply text-white/75;
   }
 
   /* Services — side-by-side comparison table */

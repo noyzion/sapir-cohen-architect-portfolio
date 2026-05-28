@@ -12,7 +12,7 @@ export function ProjectTypes() {
       <div className="container-site">
         <SectionHeader title={pick(t.projectTypes.title, locale)} />
 
-        <ul className="mx-auto flex max-w-3xl flex-col gap-4">
+        <ul className="flex max-w-3xl flex-col gap-4">
           {projectTypes.map((item, i) => (
             <li
               key={item.id}

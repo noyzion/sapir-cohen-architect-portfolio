@@ -14,6 +14,9 @@ const config: Config = {
           soft: "#141414",
           muted: "#2a2a2a",
         },
+        surface: {
+          warm: "#fcfbfa",
+        },
         stone: {
           50: "#fafaf9",
           100: "#f5f5f4",
@@ -54,8 +57,8 @@ const config: Config = {
         ],
       },
       spacing: {
-        section: "clamp(5rem, 12vw, 8rem)",
-        "section-sm": "clamp(3.5rem, 8vw, 5rem)",
+        section: "clamp(3rem, 7vw, 5rem)",
+        "section-sm": "clamp(2.25rem, 5vw, 3.25rem)",
         gutter: "clamp(1.25rem, 4vw, 2.5rem)",
       },
       maxWidth: {

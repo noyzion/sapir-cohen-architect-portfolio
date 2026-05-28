@@ -17,14 +17,13 @@ export const siteCopy: SiteCopy = {
     en: "Architecture & Interior Design",
   },
   nav: [
-    { id: "about", href: "#about", label: { he: "אודות", en: "About" } },
-    { id: "portfolio", href: "#portfolio", label: { he: "תיק עבודות", en: "Portfolio" } },
-    { id: "services", href: "#services", label: { he: "שירותים", en: "Services" } },
-    { id: "process", href: "#process", label: { he: "תהליך העבודה", en: "Process" } },
-    { id: "contact", href: "#contact", label: { he: "יצירת קשר", en: "Contact" } },
+    { id: "about", href: "/about", label: { he: "אודות", en: "About" } },
+    { id: "portfolio", href: "/#portfolio", label: { he: "תיק עבודות", en: "Portfolio" } },
+    { id: "services", href: "/#services", label: { he: "שירותים", en: "Services" } },
+    { id: "contact", href: "/#contact", label: { he: "יצירת קשר", en: "Contact" } },
   ],
   cta: {
-    consult: { he: "לתיאום שיחת ייעוץ", en: "Book a consultation" },
+    consult: { he: "ליצירת קשר", en: "Get in touch" },
     portfolio: { he: "צפייה בתיק עבודות", en: "View portfolio" },
     packageDetails: { he: "לקבלת פרטים על המסלול", en: "Request package details" },
     viewProject: { he: "צפייה בפרויקט", en: "View project" },
@@ -41,21 +40,25 @@ export const siteCopy: SiteCopy = {
       he: "הנדסאית אדריכלות ומעצבת פנים, בוגרת שנקר בהצטיינות יתרה",
       en: "Architectural technologist & interior designer, Summa Cum Laude, Shenkar",
     },
+    scrollHint: {
+      he: "גלילה למטה לתוכן האתר",
+      en: "Scroll down to explore the site",
+    },
   },
   about: {
     title: { he: "אודות", en: "About" },
     intro: {
-      he: "נעים מאוד, אני ספיר כהן",
-      en: "Nice to meet you, I'm Sapir Cohen",
+      he: "ספיר כהן",
+      en: "Sapir Cohen",
     },
     credentials: {
-      he: "הנדסאית אדריכלות ומעצבת פנים, בוגרת שנקר בהצטיינות יתרה.",
-      en: "Architectural technologist and interior designer, Summa Cum Laude graduate of Shenkar.",
+      he: "אדריכלית ומעצבת פנים",
+      en: "Architect & interior designer",
     },
     opening: [
       {
-        he: "המפגש בין אדריכלות לעיצוב פנים הוא המקום שבו חלומות הופכים לחומר, לאור ולתחושת שייכות.",
-        en: "Where architecture meets interior design, dreams become material, light, and a sense of belonging.",
+        he: "המפגש שלי עם עולם העיצוב התחיל מגיל צעיר, דרך ציור ואומנות ועד לסיום לימודים בשנקר בהצטיינות יתרה.",
+        en: "My encounter with the world of design began at a young age—through drawing and art—leading up to graduating from Shenkar with high distinction.",
       },
     ],
     approachIntro: {
@@ -171,5 +174,5 @@ export const siteCopy: SiteCopy = {
   },
 };
 
-export const CONTACT_EMAIL = "sapirkalfa322@gmail.com";
+export const CONTACT_EMAIL = "sapircohenarc@gmail.com";
 export const WHATSAPP_NUMBER = "972500000000";

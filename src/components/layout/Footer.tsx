@@ -9,12 +9,12 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-stone-200 bg-white">
+    <footer className="site-footer surface-warm">
       <div className="container-site section-pad-sm">
         <div className="grid gap-12 md:grid-cols-3 md:gap-10">
           <div>
-            <p className="font-display text-lg font-medium tracking-tight text-stone-900">
-              {pick(siteCopy.brand, locale)}
+            <p className="brand-wordmark text-lg">
+              {siteCopy.brand.en}
             </p>
             <p className="mt-3 max-w-xs text-sm leading-relaxed text-stone-500">
               {pick(t.tagline, locale)}
@@ -44,7 +44,7 @@ export function Footer() {
           </div>
         </div>
 
-        <p className="mt-14 border-t border-stone-100 pt-8 text-center text-xs text-stone-400">
+        <p className="site-footer__divider mt-14 pt-8 text-center text-xs text-stone-400">
           {pick(t.footer.rights, locale).replace("{year}", String(year))}
         </p>
       </div>

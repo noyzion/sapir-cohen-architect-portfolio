@@ -8,20 +8,20 @@ export function ProjectTypes() {
   const { locale, t } = useLanguage();
 
   return (
-    <section id="types" className="section-pad-sm border-y border-stone-200 bg-stone-50">
+    <section id="types" className="section-pad-sm surface-warm">
       <div className="container-site">
         <SectionHeader title={pick(t.projectTypes.title, locale)} />
 
-        <ul className="grid gap-4 md:grid-cols-3 md:gap-6">
+        <ul className="mx-auto flex max-w-3xl flex-col gap-4">
           {projectTypes.map((item, i) => (
             <li
               key={item.id}
-              className="card card-pad transition-colors hover:border-ink hover:shadow-soft"
+              className="card card-pad flex items-center gap-5 transition-colors hover:border-ink hover:shadow-soft"
             >
-              <span className="label-caps text-stone-300">
+              <span className="label-caps shrink-0 text-stone-300">
                 {String(i + 1).padStart(2, "0")}
               </span>
-              <p className="mt-4 text-body-sm leading-relaxed text-ink md:text-body">
+              <p className="text-body-sm leading-relaxed text-ink md:text-body">
                 {pick(item.label, locale)}
               </p>
             </li>

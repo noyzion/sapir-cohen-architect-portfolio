@@ -15,7 +15,7 @@ export function SectionHeader({
 }: SectionHeaderProps) {
   return (
     <header
-      className={`section-header section-header--${align} mb-10 md:mb-14 ${
+      className={`section-header section-header--${align} mb-7 md:mb-9 ${
         align === "center" ? "mx-auto max-w-prose text-center" : "max-w-prose"
       } ${className}`}
     >

@@ -71,6 +71,7 @@ export type SiteCopy = {
     headline: LocalizedString;
     lead: LocalizedString;
     subtext: LocalizedString;
+    scrollHint: LocalizedString;
   };
   about: {
     title: LocalizedString;

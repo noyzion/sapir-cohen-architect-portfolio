@@ -83,7 +83,7 @@ export function Contact() {
   const whatsappHref = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappText)}`;
 
   return (
-    <section id="contact" className="section-pad bg-stone-50">
+    <section id="contact" className="section-pad surface-warm">
       <div className="container-site">
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:gap-16 xl:gap-20">
           <div className="contact-intro">
@@ -149,7 +149,13 @@ export function Contact() {
                 <label htmlFor="name" className="label-caps mb-2 block">
                   {pick(t.contact.form.name, locale)}
                 </label>
-                <input id="name" name="name" required className="input-field" />
+                <input
+                  id="name"
+                  name="name"
+                  required
+                  className="input-field"
+                  suppressHydrationWarning
+                />
               </div>
               <div className="grid gap-5 sm:grid-cols-2">
                 <div>
@@ -162,6 +168,7 @@ export function Contact() {
                     type="tel"
                     required
                     className="input-field"
+                    suppressHydrationWarning
                   />
                 </div>
                 <div>
@@ -174,6 +181,7 @@ export function Contact() {
                     type="email"
                     required
                     className="input-field"
+                    suppressHydrationWarning
                   />
                 </div>
               </div>
@@ -181,7 +189,12 @@ export function Contact() {
                 <label htmlFor="projectType" className="label-caps mb-2 block">
                   {pick(t.contact.form.projectType, locale)}
                 </label>
-                <select id="projectType" name="projectType" className="input-field">
+                <select
+                  id="projectType"
+                  name="projectType"
+                  className="input-field"
+                  suppressHydrationWarning
+                >
                   {t.contact.form.projectTypeOptions.map((opt, i) => (
                     <option key={i} value={pick(opt, locale)}>
                       {pick(opt, locale)}
@@ -202,12 +215,18 @@ export function Contact() {
                   onChange={(e) => setMessage(e.target.value)}
                   placeholder={pick(t.contact.form.messagePlaceholder, locale)}
                   className="input-field min-h-[140px] resize-y placeholder:text-stone-400"
+                  suppressHydrationWarning
                 />
               </div>
             </div>
 
             <div className="contact-actions mt-8">
-              <Button type="submit" variant="primary" fullWidth>
+              <Button
+                type="submit"
+                variant="primary"
+                fullWidth
+                suppressHydrationWarning
+              >
                 {pick(t.cta.send, locale)}
               </Button>
               <ButtonLink

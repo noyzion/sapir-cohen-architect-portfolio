@@ -1,44 +1,45 @@
 "use client";
 
 import { useLanguage, pick } from "@/context/LanguageContext";
-import { ButtonLink } from "@/components/ui/Button";
 
 export function Hero() {
   const { locale, t } = useLanguage();
+  const headline = t.hero.headline.en;
 
   return (
     <section
       id="home"
-      className="hero-section border-b border-stone-200 bg-white"
+      className="hero-section"
       aria-labelledby="hero-title"
     >
+      <div className="hero-backdrop" aria-hidden>
+        <span className="hero-grid" />
+        <span className="hero-corner hero-corner--tl" />
+        <span className="hero-corner hero-corner--tr" />
+        <span className="hero-corner hero-corner--bl" />
+        <span className="hero-corner hero-corner--br" />
+      </div>
+
       <div className="container-site hero-inner">
-        <div className="hero-center">
-          <div className="hero-rule" aria-hidden />
-
-          <p className="hero-eyebrow label-caps">{pick(t.tagline, locale)}</p>
-
-          <h1
-            id="hero-title"
-            className="hero-name font-display text-ink"
-          >
-            {pick(t.hero.headline, locale)}
+        <div className="hero-panel">
+          <h1 id="hero-title" className="hero-name">
+            {headline}
           </h1>
-
-          <p className="hero-statement">{pick(t.hero.lead, locale)}</p>
-
-          <p className="hero-credential">{pick(t.hero.subtext, locale)}</p>
-
-          <div className="hero-actions">
-            <ButtonLink href="#contact" variant="primary">
-              {pick(t.cta.consult, locale)}
-            </ButtonLink>
-            <ButtonLink href="#portfolio" variant="secondary">
-              {pick(t.cta.portfolio, locale)}
-            </ButtonLink>
-          </div>
+          <span className="hero-name-bar" aria-hidden />
+          <p className="hero-subtitle">Architecture &amp; interior design</p>
         </div>
       </div>
+
+      <a
+        href="#portfolio"
+        className="hero-scroll-hint"
+        aria-label={pick(t.hero.scrollHint, locale)}
+      >
+        <span className="hero-scroll-hint__line" aria-hidden />
+        <span className="hero-scroll-hint__icon" aria-hidden>
+          ↓
+        </span>
+      </a>
     </section>
   );
 }

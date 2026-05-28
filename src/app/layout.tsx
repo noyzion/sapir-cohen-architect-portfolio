@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import { Heebo, Outfit, Plus_Jakarta_Sans } from "next/font/google";
+import { Heebo, Outfit, Plus_Jakarta_Sans, Josefin_Sans } from "next/font/google";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { StickyCta } from "@/components/layout/StickyCta";
 import "./globals.css";
 
 const heebo = Heebo({
@@ -24,6 +23,11 @@ const plusJakarta = Plus_Jakarta_Sans({
   weight: ["300", "400", "500"],
 });
 
+const josefinSans = Josefin_Sans({
+  subsets: ["latin"],
+  variable: "--font-hero-en",
+});
+
 export const metadata: Metadata = {
   title: "ספיר כהן | אדריכלות ועיצוב פנים",
   description:
@@ -38,13 +42,12 @@ export default function RootLayout({
   return (
     <html lang="he" dir="rtl" suppressHydrationWarning>
       <body
-        className={`${heebo.variable} ${outfit.variable} ${plusJakarta.variable} font-body`}
+        className={`${heebo.variable} ${outfit.variable} ${plusJakarta.variable} ${josefinSans.variable} font-body`}
       >
         <LanguageProvider>
           <Header />
-          <main className="has-sticky-cta">{children}</main>
+          <main>{children}</main>
           <Footer />
-          <StickyCta />
         </LanguageProvider>
       </body>
     </html>

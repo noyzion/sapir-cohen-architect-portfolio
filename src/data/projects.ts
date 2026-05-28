@@ -6,22 +6,6 @@ function thumbFromCover(coverImage: string): string {
 
 export const projectSummaries: ProjectSummary[] = [
   {
-    id: "duplex-ramat-aviv",
-    slug: "duplex-ramat-aviv",
-    name: { he: "דופלקס ברמת אביב", en: "Ramat Aviv Duplex" },
-    type: {
-      he: "דירה, אדריכלות ועיצוב פנים",
-      en: "Apartment, Architecture & interior design",
-    },
-    location: { he: "רמת אביב", en: "Ramat Aviv" },
-    description: {
-      he: "דירה למשפחה דינמית המשלבת בין חיי עבודה אינטנסיביים לבין אהבה לחופש, סטייל ואירוח. הקו העיצובי מאפיין את המשפחה ומתבטא ביצירת חללים פתוחים ולא צפויים המאפיינים את אופי המשפחה.",
-      en: "An apartment for a dynamic family balancing intensive work with love of freedom, style, and hosting. The design line characterizes the family through open, unexpected spaces that reflect their nature.",
-    },
-    coverImage: "/images/portfolio/duplex-ramat-aviv/cover.webp",
-    thumbnailImage: "/images/portfolio/duplex-ramat-aviv/cover-thumb.webp",
-  },
-  {
     id: "beit-neve-yam",
     slug: "beit-neve-yam",
     name: { he: "הבית בנווה ים", en: "The Neve Yam House" },
@@ -36,6 +20,22 @@ export const projectSummaries: ProjectSummary[] = [
     },
     coverImage: "/images/portfolio/beit-neve-yam/02.webp",
     thumbnailImage: "/images/portfolio/beit-neve-yam/02-thumb.webp",
+  },
+  {
+    id: "duplex-ramat-aviv",
+    slug: "duplex-ramat-aviv",
+    name: { he: "דופלקס ברמת אביב", en: "Ramat Aviv Duplex" },
+    type: {
+      he: "דירה, אדריכלות ועיצוב פנים",
+      en: "Apartment, Architecture & interior design",
+    },
+    location: { he: "רמת אביב", en: "Ramat Aviv" },
+    description: {
+      he: "דירה למשפחה דינמית המשלבת בין חיי עבודה אינטנסיביים לבין אהבה לחופש, סטייל ואירוח. הקו העיצובי מאפיין את המשפחה ומתבטא ביצירת חללים פתוחים ולא צפויים המאפיינים את אופי המשפחה.",
+      en: "An apartment for a dynamic family balancing intensive work with love of freedom, style, and hosting. The design line characterizes the family through open, unexpected spaces that reflect their nature.",
+    },
+    coverImage: "/images/portfolio/duplex-ramat-aviv/cover.webp",
+    thumbnailImage: "/images/portfolio/duplex-ramat-aviv/cover-thumb.webp",
   },
   {
     id: "joseph-bar",

@@ -19,6 +19,26 @@ export function About() {
               {pick(about.title, locale)}
             </h2>
             <div className="section-heading-rule" aria-hidden />
+
+            <figure className="about-portrait" aria-hidden>
+              <div className="about-portrait-frame">
+                <svg
+                  className="about-portrait-icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.25"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M12 13a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z" />
+                  <path d="M4.5 19.5a7.5 7.5 0 0 1 15 0" />
+                </svg>
+                <span className="about-portrait-label">
+                  {locale === "he" ? "תמונת תדמית" : "Portrait photo"}
+                </span>
+              </div>
+            </figure>
           </header>
 
           <div className="about-content">

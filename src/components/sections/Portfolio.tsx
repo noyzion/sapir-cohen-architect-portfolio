@@ -22,7 +22,7 @@ export function Portfolio() {
           subtitle={pick(t.portfolio.subtitle, locale)}
         />
 
-        <div className="space-y-14 max-lg:space-y-12 lg:space-y-24">
+        <div className="space-y-10 max-lg:space-y-9 lg:space-y-16">
           {projectSummaries.map((project, i) => {
             const imageOnStart = i % 2 === 0;
 
@@ -76,30 +76,23 @@ export function Portfolio() {
             return (
               <article
                 key={project.id}
-                className={`portfolio-project grid grid-cols-1 items-center gap-6 max-lg:gap-5 lg:gap-14 ${
+                className={`portfolio-project gap-6 max-lg:flex max-lg:gap-5 lg:grid lg:items-center lg:gap-14 ${
                   imageOnStart
-                    ? "lg:grid-cols-[1.15fr_1fr]"
-                    : "lg:grid-cols-[1fr_1.15fr]"
+                    ? "max-lg:flex-col lg:grid-cols-[1.15fr_1fr]"
+                    : "max-lg:flex-col-reverse lg:grid-cols-[1fr_1.15fr]"
                 }`}
               >
-                <div
-                  className={
-                    imageOnStart
-                      ? "portfolio-project__media lg:col-start-1"
-                      : "portfolio-project__media lg:col-start-2"
-                  }
-                >
-                  {media}
-                </div>
-                <div
-                  className={
-                    imageOnStart
-                      ? "portfolio-project__copy lg:col-start-2"
-                      : "portfolio-project__copy lg:col-start-1"
-                  }
-                >
-                  {copy}
-                </div>
+                {imageOnStart ? (
+                  <>
+                    {media}
+                    {copy}
+                  </>
+                ) : (
+                  <>
+                    {copy}
+                    {media}
+                  </>
+                )}
               </article>
             );
           })}

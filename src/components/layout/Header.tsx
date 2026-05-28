@@ -28,7 +28,7 @@ export function Header() {
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ease-luxury ${
         scrolled || menuOpen
           ? "border-b border-stone-200/90 bg-white/95 shadow-soft backdrop-blur-md"
-          : "border-b border-transparent bg-white/85 backdrop-blur-sm"
+          : "border-b border-transparent bg-[color:var(--surface-warm)]/92 backdrop-blur-sm"
       }`}
     >
       <div className="container-site flex h-[4.25rem] items-center justify-between gap-6 md:h-[4.5rem]">
@@ -37,8 +37,8 @@ export function Header() {
           className="shrink-0 transition-opacity hover:opacity-70"
           onClick={() => setMenuOpen(false)}
         >
-          <span className="font-display text-lg tracking-tight text-ink md:text-xl">
-            {pick(t.brand, locale)}
+          <span className="brand-wordmark text-base md:text-lg">
+            {t.brand.en}
           </span>
         </Link>
 

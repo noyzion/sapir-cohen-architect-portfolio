@@ -20,7 +20,6 @@ export const siteCopy: SiteCopy = {
     { id: "about", href: "/about", label: { he: "אודות", en: "About" } },
     { id: "portfolio", href: "/#portfolio", label: { he: "תיק עבודות", en: "Portfolio" } },
     { id: "services", href: "/#services", label: { he: "שירותים", en: "Services" } },
-    { id: "contact", href: "/#contact", label: { he: "יצירת קשר", en: "Contact" } },
   ],
   cta: {
     consult: { he: "ליצירת קשר", en: "Get in touch" },

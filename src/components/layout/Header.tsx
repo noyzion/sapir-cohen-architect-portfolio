@@ -70,7 +70,7 @@ export function Header() {
             href="#contact"
             variant="primary"
             size="sm"
-            className="hidden sm:inline-flex"
+            className="inline-flex"
           >
             {pick(t.cta.consult, locale)}
           </ButtonLink>

@@ -1,59 +1,160 @@
-# ספיר כהן — אתר אדריכלות ועיצוב פנים
+# ספיר כהן - אדריכלות ועיצוב פנים
 
-אתר דו-לשוני (עברית / אנגלית) בסגנון מינימליסטי פרימיום, בנוי ב-Next.js.
+אתר תדמית דו-לשוני (עברית / אנגלית) בסגנון מינימליסטי פרימיום, המציג תיק עבודות, מסלולי שירות וטופס יצירת קשר. בנוי ב-Next.js עם תמיכה מלאה ב-RTL ובעיצוב רספונסיבי.
+
+---
+
+## תוכן עניינים
+
+- [תכונות עיקריות](#תכונות-עיקריות)
+- [סטאק טכנולוגי](#סטאק-טכנולוגי)
+- [דרישות מקדימות](#דרישות-מקדימות)
+- [הפעלה מקומית](#הפעלה-מקומית)
+- [סקריפטים זמינים](#סקריפטים-זמינים)
+- [מבנה הפרויקט](#מבנה-הפרויקט)
+- [עריכת תוכן](#עריכת-תוכן)
+- [ניהול תמונות](#ניהול-תמונות)
+- [בנייה ופריסה](#בנייה-ופריסה)
+
+---
+
+## תכונות עיקריות
+
+- **דו-לשוניות מלאה** - מעבר בין עברית (RTL) לאנגלית (LTR) עם שמירת ההעדפה ב-localStorage.
+- **תיק עבודות** - דף ראשי עם תקציר פרויקטים ודפי פרויקט ייעודיים (`/projects/<slug>`) הכוללים גלריה ו-lightbox.
+- **מסלולי שירות** - תצוגת כרטיסים מעוצבת במחשב וטבלת השוואה קומפקטית במובייל.
+- **דף אודות** - עמוד ייעודי (`/about`) עם טקסט אישי ותמונת תדמית.
+- **טופס יצירת קשר** - כולל בחירת סוג פרויקט וקישור ישיר לוואטסאפ.
+- **עיצוב רספונסיבי** - מותאם למסכי מובייל, טאבלט ומחשב.
+- **אופטימיזציית תמונות** - סקריפט המבוסס על `sharp` להמרה ל-WebP ויצירת תמונות ממוזערות.
+
+---
+
+## סטאק טכנולוגי
+
+| תחום | טכנולוגיה |
+|------|-----------|
+| Framework | Next.js 15 (App Router) |
+| ספריית UI | React 19 |
+| שפה | TypeScript 5 |
+| עיצוב | Tailwind CSS 3.4 |
+| פונטים | Heebo, Outfit, Plus Jakarta Sans, Josefin Sans (next/font) |
+| עיבוד תמונות | sharp |
+| Linting | ESLint 9 + eslint-config-next |
+
+---
+
+## דרישות מקדימות
+
+- Node.js בגרסה 18.18 ומעלה (מומלץ 20+).
+- npm (מותקן יחד עם Node.js).
+
+---
 
 ## הפעלה מקומית
 
 ```bash
-cd C:\Users\noyzi\sapir-cohen-architect
 npm install
 npm run dev
 ```
 
-פתחי: [http://localhost:3000](http://localhost:3000)
+לאחר מכן יש לפתוח את הכתובת: [http://localhost:3000](http://localhost:3000)
+
+לפיתוח עם ניקוי מטמון הבנייה:
+
+```bash
+npm run dev:clean
+```
+
+---
+
+## סקריפטים זמינים
+
+| סקריפט | תיאור |
+|--------|-------|
+| `npm run dev` | הרצת שרת הפיתוח |
+| `npm run dev:clean` | ניקוי תיקיית `.next` והרצת שרת הפיתוח |
+| `npm run build` | בניית גרסת פרודקשן |
+| `npm start` | הרצת גרסת הפרודקשן שנבנתה |
+| `npm run lint` | בדיקת קוד עם ESLint |
+| `npm run optimize-images` | אופטימיזציה של כלל התמונות |
+| `npm run optimize-hero-covers` | אופטימיזציה של תמונות הכיסוי בלבד |
+| `npm run optimize-images:clean` | אופטימיזציה ומחיקת קבצי המקור |
+| `npm run import-neve-yam` | ייבוא והכנת תמונות פרויקט נווה ים |
+
+---
 
 ## מבנה הפרויקט
 
 ```
 src/
-  app/              # עמודים (ראשי + פרויקטים)
+  app/
+    page.tsx              # דף הבית (Hero, Portfolio, Services, ProjectTypes, Contact)
+    about/page.tsx        # דף אודות
+    projects/[slug]/      # דף פרויקט דינמי
+    layout.tsx            # פריסת השורש, פונטים, Header ו-Footer
+    globals.css           # סגנונות גלובליים ומחלקות מותאמות
   components/
-    layout/         # Header, Footer
-    sections/       # Hero, About, Services, Portfolio...
-    ui/             # רכיבי עזר
-  context/          # LanguageProvider (RTL/LTR)
-  data/             # תוכן, פרויקטים, שירותים
-  types/            # TypeScript types
+    layout/               # Header, Footer
+    sections/             # Hero, About, Services, Portfolio, Contact ...
+    ui/                   # רכיבי עזר (Button, Gallery, Lightbox, Reveal ...)
+  context/
+    LanguageContext.tsx   # ניהול שפה וכיווניות (RTL / LTR)
+  data/                   # תוכן: טקסטים, פרויקטים, שירותים, סוגי פרויקטים
+  lib/                    # לוגיקת עזר
+  types/                  # הגדרות TypeScript
 public/
   images/
-    portfolio/      # תמונות לפי slug
+    portfolio/<slug>/     # תמונות לפי מזהה פרויקט
+scripts/                  # סקריפטים לעיבוד וייבוא תמונות
+docs/                     # תיעוד מערכת העיצוב
 ```
 
-## החלפת תמונות
+---
+
+## עריכת תוכן
+
+כל התוכן מרוכז בקבצי נתונים תחת `src/data/`:
+
+- **תוכן כללי** (כותרות, אודות, יצירת קשר, ניווט): `src/data/siteCopy.ts`
+- **מסלולי שירות**: `src/data/services.ts`
+- **פרויקטים** (תקצירים וסדר תצוגה): `src/data/projects.ts`
+- **גלריות פרויקטים**: `src/data/projectGalleries.ts`
+- **סוגי פרויקטים**: `src/data/projectTypes.ts`
+
+### אימייל ומספר וואטסאפ
+
+יש לעדכן בקובץ `src/data/siteCopy.ts` את הערכים:
+
+- `CONTACT_EMAIL` - כתובת האימייל ליצירת קשר.
+- `WHATSAPP_NUMBER` - מספר הוואטסאפ (בפורמט בינלאומי, ללא סימנים).
+
+---
+
+## ניהול תמונות
 
 | מיקום | נתיב |
 |--------|------|
-| תמונת Hero | `public/images/hero.jpg` |
-| כיסוי פרויקט | `public/images/portfolio/<slug>/cover.jpg` |
-| גלריה | קבצים נוספים באותה תיקייה + עדכון `src/data/projects.ts` |
+| כיסוי פרויקט | `public/images/portfolio/<slug>/cover.webp` |
+| גלריית פרויקט | קבצים נוספים באותה תיקייה + עדכון `src/data/projectGalleries.ts` |
 
-**דופלקס ברמת אביב** — התמונות כבר ב-`public/images/portfolio/duplex-ramat-aviv/`.
+לאחר הוספת תמונות חדשות, מומלץ להריץ:
 
-## עריכת טקסטים
+```bash
+npm run optimize-images
+```
 
-- **תוכן כללי (כותרות, אודות, יצירת קשר):** `src/data/siteCopy.ts`
-- **חבילות שירות:** `src/data/services.ts`
-- **פרויקטים:** `src/data/projects.ts`
-- **תהליך עבודה:** `src/data/process.ts`
-- **סוגי פרויקטים:** `src/data/projectTypes.ts`
+הסקריפט ממיר תמונות לפורמט WebP ומייצר גרסאות ממוזערות לטעינה מהירה.
 
-## אימייל ווואטסאפ
+---
 
-ערכי ב-`src/data/siteCopy.ts`: `CONTACT_EMAIL`, `WHATSAPP_NUMBER`.
+## בנייה ופריסה
 
-## בנייה לפרודקשן
+בנייה והרצה מקומית של גרסת הפרודקשן:
 
 ```bash
 npm run build
 npm start
 ```
+
+הפרויקט מתאים לפריסה ב-Vercel: חיבור מאגר ה-Git לפרויקט ב-Vercel יפעיל בנייה ופריסה אוטומטית בכל דחיפה לענף הראשי.

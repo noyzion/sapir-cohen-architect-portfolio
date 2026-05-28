@@ -80,6 +80,7 @@ export function Header() {
             onClick={() => setMenuOpen((o) => !o)}
             aria-expanded={menuOpen}
             aria-label="Menu"
+            suppressHydrationWarning
           >
             <span
               className={`h-px w-6 bg-ink transition-transform duration-300 ${menuOpen ? "translate-y-[7px] rotate-45" : ""}`}
@@ -95,16 +96,17 @@ export function Header() {
       </div>
 
       {menuOpen && (
-        <nav
-          className="border-t border-stone-200 bg-white px-gutter py-6 lg:hidden"
-          aria-label="Mobile"
-        >
-          <ul className="space-y-1">
-            {t.nav.map((link) => (
-              <li key={link.id}>
+        <nav className="mobile-menu lg:hidden" aria-label="Mobile">
+          <ul className="mobile-menu__list">
+            {t.nav.map((link, i) => (
+              <li
+                key={link.id}
+                className="mobile-menu__item"
+                style={{ animationDelay: `${0.05 + i * 0.05}s` }}
+              >
                 <Link
                   href={link.href}
-                  className="block py-3.5 text-body-sm font-medium text-stone-700"
+                  className="mobile-menu__link"
                   onClick={() => setMenuOpen(false)}
                 >
                   {pick(link.label, locale)}
@@ -112,15 +114,8 @@ export function Header() {
               </li>
             ))}
           </ul>
-          <div className="mt-6 flex flex-col gap-3 border-t border-stone-100 pt-6">
-            <button
-              type="button"
-              onClick={toggleLocale}
-              suppressHydrationWarning
-              className="text-start label-caps text-stone-500"
-            >
-              {locale === "he" ? "English" : "עברית"}
-            </button>
+
+          <div className="mobile-menu__footer">
             <ButtonLink
               href="#contact"
               variant="primary"
@@ -129,6 +124,14 @@ export function Header() {
             >
               {pick(t.cta.consult, locale)}
             </ButtonLink>
+            <button
+              type="button"
+              onClick={toggleLocale}
+              suppressHydrationWarning
+              className="mobile-menu__lang"
+            >
+              {locale === "he" ? "Switch to English" : "מעבר לעברית"}
+            </button>
           </div>
         </nav>
       )}

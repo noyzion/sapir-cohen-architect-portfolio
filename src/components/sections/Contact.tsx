@@ -77,8 +77,8 @@ export function Contact() {
 
   const whatsappText =
     locale === "he"
-      ? "שלום ספיר, אשמח לשמוע על הפרויקט שלי."
-      : "Hello Sapir, I'd like to discuss my project.";
+      ? "היי ספיר, הגעתי דרך האתר ואשמח להתייעץ איתך לגבי פרויקט."
+      : "Hi Sapir, I found you through your website and would love to consult with you about a project.";
 
   const whatsappHref = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappText)}`;
 

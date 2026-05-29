@@ -26,7 +26,7 @@ export function Hero() {
             {headline}
           </h1>
           <span className="hero-name-bar" aria-hidden />
-          <p className="hero-subtitle">Architecture &amp; interior design</p>
+          <p className="hero-subtitle">Architecture &amp; Interior Design</p>
         </div>
       </div>
 

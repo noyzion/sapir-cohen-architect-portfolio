@@ -11,12 +11,12 @@ export const projectSummaries: ProjectSummary[] = [
     name: { he: "הבית בנווה ים", en: "The Neve Yam House" },
     type: {
       he: "בית פרטי, תכנון ועיצוב פנים",
-      en: "Private home, Planning & interior design",
+      en: "Private Residence | Planning & Interior Design | Neve Yam",
     },
-    location: { he: "נווה ים", en: "Neve Yam" },
+    location: { he: "נווה ים", en: "" },
     description: {
       he: "בית למשפחה שרוצה להרגיש בחופשה, שאוהבת אור טבעי ולא מוכנה להתפשר על פרקטיקה ופונקציונליות. על ידי שימוש בקווים נקיים וחומרים טבעיים, יצירת שפה אחידה והרמונית שניתן להרגיש מכל פינה בבית.",
-      en: "A home for a family that wants to feel on vacation, lovers of natural light who won't compromise on practicality. Clean lines and natural materials create a unified, harmonious language felt from every corner.",
+      en: "A home designed for a family that wants to feel on vacation every day. Natural light, clean lines, and warm materials come together to create a practical yet refined living experience, with one harmonious design language flowing through every corner of the home.",
     },
     coverImage: "/images/portfolio/beit-neve-yam/02.webp",
     thumbnailImage: "/images/portfolio/beit-neve-yam/02-thumb.webp",
@@ -27,12 +27,12 @@ export const projectSummaries: ProjectSummary[] = [
     name: { he: "דופלקס ברמת אביב", en: "Ramat Aviv Duplex" },
     type: {
       he: "דירה, אדריכלות ועיצוב פנים",
-      en: "Apartment, Architecture & interior design",
+      en: "Apartment | Architecture & Interior Design | Ramat Aviv",
     },
-    location: { he: "רמת אביב", en: "Ramat Aviv" },
+    location: { he: "רמת אביב", en: "" },
     description: {
       he: "דירה למשפחה דינמית המשלבת בין חיי עבודה אינטנסיביים לבין אהבה לחופש, סטייל ואירוח. הקו העיצובי מאפיין את המשפחה ומתבטא ביצירת חללים פתוחים ולא צפויים המאפיינים את אופי המשפחה.",
-      en: "An apartment for a dynamic family balancing intensive work with love of freedom, style, and hosting. The design line characterizes the family through open, unexpected spaces that reflect their nature.",
+      en: "A duplex apartment designed for a dynamic family that balances a fast-paced lifestyle with a love for freedom, style, and hosting. The design reflects the family's character through open, unexpected spaces that feel both elegant and personal.",
     },
     coverImage: "/images/portfolio/duplex-ramat-aviv/cover.webp",
     thumbnailImage: "/images/portfolio/duplex-ramat-aviv/cover-thumb.webp",
@@ -43,12 +43,12 @@ export const projectSummaries: ProjectSummary[] = [
     name: { he: "ג'וזף בר פחמים", en: "Joseph Bar Pachmim" },
     type: {
       he: "מסחרי, שיפוץ מסעדה",
-      en: "Commercial, Restaurant renovation",
+      en: "Commercial Space | Restaurant Renovation | Pachmim",
     },
-    location: { he: "פחמים", en: "Pachmim" },
+    location: { he: "פחמים", en: "" },
     description: {
       he: "מסעדה שעברה בין דורות ושאפה ליצירת שפה ייחודית. על בסיס הסיפור המשפחתי והאופי של המקום, בניתי קונספט שמבטא את החזון מכל זווית, שמתחיל בעיצוב ונגמר בצלחת.",
-      en: "A restaurant passed between generations, aspiring to a unique language. Based on the family story and character of the place, I built a concept expressing the vision from design to the plate.",
+      en: "A restaurant passed down through generations, reimagined with a fresh and distinctive design language. Inspired by the family story and the character of the place, the concept connects the restaurant's heritage with its future, from the spatial experience to the plate.",
     },
     coverImage: "/images/portfolio/joseph-bar/02.webp",
     thumbnailImage: "/images/portfolio/joseph-bar/02-thumb.webp",
@@ -59,12 +59,12 @@ export const projectSummaries: ProjectSummary[] = [
     name: { he: "פרויקט גמר", en: "Final Project" },
     type: {
       he: "אדריכלות ועיצוב פנים",
-      en: "Architecture & interior design",
+      en: "Architecture & Interior Design | Tel Aviv",
     },
-    location: { he: "תל אביב", en: "Tel Aviv" },
+    location: { he: "תל אביב", en: "" },
     description: {
       he: "הקונספט התבטא מתוך מחשבה על תחושות האדם המגיע לספא והציפיות שלו מהחוויה. הפרויקט מבטא תהליך של ניקוי רעלים, על ידי צורניות וחומריות של שינוי צורה ופירוק. מדמה את האדם שעובר תהליך שבסופו הגוף והנפש מתנקים.",
-      en: "A concept born from the feelings of someone arriving at a spa and their expectations, expressing detox and renewal through form and materiality, like body and soul cleansed at the end of the process.",
+      en: "A conceptual project inspired by the emotional experience of arriving at a spa. Through form, materiality, and spatial flow, the design expresses a process of detox, renewal, and quiet transformation, as if both body and soul are cleansed by the end of the journey.",
     },
     coverImage: "/images/portfolio/final-project/06-pool.webp",
     thumbnailImage: "/images/portfolio/final-project/06-pool-thumb.webp",

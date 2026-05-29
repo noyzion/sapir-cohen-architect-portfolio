@@ -14,11 +14,11 @@ export const servicePackages: ServicePackage[] = [
     },
     description: {
       he: "פגישה ממוקדת לבחינת הפוטנציאל של החלל שתעניק לכם כיוון וביטחון ליציאה לדרך עצמאית.",
-      en: "A focused session to assess your space's potential, giving you direction and confidence to move forward on your own.",
+      en: "A focused consultation session designed to reveal the potential of your space, give you professional direction, and help you move forward with clarity and confidence.",
     },
     suitableFor: {
       he: "לקוחות שמרגישים שהם צריכים זריקת כיוון מקצועית, סדר ובהירות בתהליך.",
-      en: "Clients who feel they need a professional direction boost, order, and clarity in the process.",
+      en: "For clients who feel they need a professional \"direction boost\", along with clarity, structure, and guidance at the beginning of the process.",
     },
     highlights: [
       { he: "פגישת ייעוץ ממוקדת", en: "Focused consultation" },
@@ -41,11 +41,11 @@ export const servicePackages: ServicePackage[] = [
     },
     description: {
       he: "מעטפת תכנונית מלאה והפקת סט תוכניות עבודה מפורטות לביצוע בשטח.",
-      en: "A full planning envelope and a detailed set of working drawings for on-site execution.",
+      en: "A complete planning package, including a detailed set of working drawings for on-site execution.",
     },
     suitableFor: {
       he: "לקוחות שצריכים תוכניות מקצועיות כדי לצאת לביצוע מול קבלן.",
-      en: "Clients who need professional plans to execute with a contractor.",
+      en: "For clients who need professional plans and clear documentation to move forward with a contractor.",
     },
     highlights: [
       { he: "סקיצות רעיוניות", en: "Concept sketches" },
@@ -66,11 +66,11 @@ export const servicePackages: ServicePackage[] = [
     },
     description: {
       he: "שקט נפשי מא׳ עד ת׳. ליווי אישי צמוד הנותן מעטפת מלאה לכל הצרכים שלכם בפרויקט.",
-      en: "Peace of mind from A to Z. Close personal guidance providing a full envelope for all your project needs.",
+      en: "Peace of mind from start to finish. Close personal guidance and a complete planning and design envelope tailored to every stage of your project.",
     },
     suitableFor: {
       he: "לקוחות שרוצים מעטפת תכנונית ועיצובית מלאה ללא פשרות.",
-      en: "Clients who want a complete, no-compromise planning and design envelope.",
+      en: "For clients who want a comprehensive, uncompromising design process, with professional guidance from A to Z.",
     },
     highlights: [
       { he: "ליווי אישי לימי רכש", en: "Personal sourcing days" },

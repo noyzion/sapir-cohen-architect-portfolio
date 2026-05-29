@@ -5,7 +5,7 @@ export const projectTypes: ProjectType[] = [
     id: "residential",
     label: {
       he: "בנייה פרטית ושיפוץ לדירות ובתים פרטיים",
-      en: "Private construction & residential renovations",
+      en: "Private homes & residential renovations",
     },
   },
   {
@@ -19,7 +19,7 @@ export const projectTypes: ProjectType[] = [
     id: "single-spaces",
     label: {
       he: "תכנון ועיצוב חללים בודדים, מטבחים, חללים ציבוריים",
-      en: "Single-space planning & design, kitchens, public spaces",
+      en: "Single-space planning & design, including kitchens and main living areas",
     },
   },
 ];

@@ -131,7 +131,7 @@ export function Contact() {
 
           <form onSubmit={handleSubmit} className="contact-form card card-pad">
             <p className="label-caps mb-6 text-stone-400">
-              {locale === "he" ? "טופס פנייה" : "Inquiry form"}
+              {locale === "he" ? "טופס פנייה" : "Inquiry Form"}
             </p>
 
             {selectedPackage ? (

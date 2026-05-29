@@ -174,4 +174,4 @@ export const siteCopy: SiteCopy = {
 };
 
 export const CONTACT_EMAIL = "sapircohenarc@gmail.com";
-export const WHATSAPP_NUMBER = "972500000000";
+export const WHATSAPP_NUMBER = "972524664443";

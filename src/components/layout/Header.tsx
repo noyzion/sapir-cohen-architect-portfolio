@@ -64,7 +64,7 @@ export function Header() {
             suppressHydrationWarning
             aria-label={locale === "he" ? "Switch to English" : "מעבר לעברית"}
             title={locale === "he" ? "Switch to English" : "מעבר לעברית"}
-            className="hidden items-center text-stone-500 transition-colors hover:text-ink lg:flex"
+            className="flex items-center text-stone-500 transition-colors hover:text-ink"
           >
             <svg
               className="h-[19px] w-[19px]"
@@ -139,14 +139,6 @@ export function Header() {
             >
               {pick(t.cta.consult, locale)}
             </ButtonLink>
-            <button
-              type="button"
-              onClick={toggleLocale}
-              suppressHydrationWarning
-              className="mobile-menu__lang"
-            >
-              {locale === "he" ? "Switch to English" : "מעבר לעברית"}
-            </button>
           </div>
         </nav>
       )}

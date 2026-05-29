@@ -57,7 +57,7 @@ export const siteCopy: SiteCopy = {
     opening: [
       {
         he: "המפגש שלי עם עולם העיצוב התחיל מגיל צעיר, דרך ציור ואומנות ועד לסיום לימודים בשנקר בהצטיינות יתרה.",
-        en: "My encounter with the world of design began at a young age—through drawing and art—leading up to graduating from Shenkar with high distinction.",
+        en: "My encounter with the world of design began at a young age - through drawing and art - leading up to graduating from Shenkar with high distinction.",
       },
     ],
     approachIntro: {

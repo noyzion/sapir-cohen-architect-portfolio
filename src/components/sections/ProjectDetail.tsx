@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import type { MouseEvent } from "react";
 import type { Project } from "@/types";
 import { useLanguage, pick } from "@/context/LanguageContext";
 import { ProjectImage } from "@/components/ui/ProjectImage";
@@ -11,6 +13,15 @@ type Props = { project: Project };
 
 export function ProjectDetail({ project }: Props) {
   const { locale, t, dir } = useLanguage();
+  const router = useRouter();
+
+  function handleBack(e: MouseEvent<HTMLAnchorElement>) {
+    if (typeof window !== "undefined" && window.history.length > 1) {
+      e.preventDefault();
+      router.back();
+    }
+  }
+
   const name = pick(project.name, locale);
   const type = pick(project.type, locale);
   const location = project.location[locale]
@@ -40,6 +51,7 @@ export function ProjectDetail({ project }: Props) {
         <div className="project-detail-back-bar">
           <Link
             href="/#portfolio"
+            onClick={handleBack}
             className="project-detail-back inline-flex items-center gap-2 text-sm font-medium text-stone-600 transition-colors hover:text-ink md:text-body-sm"
           >
             <span aria-hidden>{backArrow}</span>

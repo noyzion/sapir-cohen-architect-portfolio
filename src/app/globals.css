@@ -1499,6 +1499,19 @@
   align-self: flex-start;
 }
 
+.admin-upload-progress {
+  height: 4px;
+  border-radius: 999px;
+  background: #ebe8e4;
+  overflow: hidden;
+}
+.admin-upload-progress__bar {
+  height: 100%;
+  background: var(--admin-ink);
+  border-radius: 999px;
+  transition: width 0.2s ease;
+}
+
 /* Save bar */
 .admin-savebar {
   position: sticky;

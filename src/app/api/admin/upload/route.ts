@@ -1,10 +1,17 @@
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 import { promises as fs } from "fs";
 import path from "path";
 import { put } from "@vercel/blob";
 import { handleUpload, type HandleUploadBody } from "@vercel/blob/client";
+import { SESSION_COOKIE, verifySessionToken } from "@/lib/session";
 
 export const runtime = "nodejs";
+
+async function requireAdminSession(): Promise<boolean> {
+  const cookieStore = await cookies();
+  return verifySessionToken(cookieStore.get(SESSION_COOKIE)?.value);
+}
 
 function sanitizeName(name: string): string {
   const base = name
@@ -33,6 +40,13 @@ async function handleClientUpload(req: Request) {
 
   try {
     const body = (await req.json()) as HandleUploadBody;
+
+    if (body.type === "blob.generate-client-token") {
+      if (!(await requireAdminSession())) {
+        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      }
+    }
+
     const jsonResponse = await handleUpload({
       body,
       request: req,
@@ -50,6 +64,10 @@ async function handleClientUpload(req: Request) {
 
 /** Small-file fallback: multipart form POST (mainly local dev). */
 async function handleFormUpload(req: Request) {
+  if (!(await requireAdminSession())) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   const form = await req.formData().catch(() => null);
   const file = form?.get("file");
 

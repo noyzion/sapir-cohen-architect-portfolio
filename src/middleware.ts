@@ -10,6 +10,12 @@ export async function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
+  // Blob client-upload callbacks (upload-completed) arrive without session cookies.
+  // Auth for token issuance is enforced inside the route handler.
+  if (pathname === "/api/admin/upload") {
+    return NextResponse.next();
+  }
+
   const token = req.cookies.get(SESSION_COOKIE)?.value;
   if (await verifySessionToken(token)) {
     return NextResponse.next();

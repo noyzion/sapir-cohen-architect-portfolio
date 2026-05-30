@@ -11,23 +11,35 @@ type Props = {
 
 export function ImageUploader({ value, onChange, label }: Props) {
   const [busy, setBusy] = useState(false);
+  const [progress, setProgress] = useState<number | null>(null);
   const [error, setError] = useState("");
 
   async function handleFile(e: ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
     setBusy(true);
+    setProgress(0);
     setError("");
     try {
-      const url = await uploadAdminImage(file);
+      const url = await uploadAdminImage(file, (p) => setProgress(p.percent));
       onChange(url);
     } catch (err) {
       setError(err instanceof Error ? err.message : "ההעלאה נכשלה");
     } finally {
       setBusy(false);
+      setProgress(null);
       e.target.value = "";
     }
   }
+
+  const statusLabel =
+    busy && progress !== null
+      ? progress < 10
+        ? "מכינה תמונה..."
+        : `מעלה... ${progress}%`
+      : busy
+        ? "מעלה..."
+        : "העלאת תמונה";
 
   return (
     <div className="admin-image">
@@ -43,7 +55,7 @@ export function ImageUploader({ value, onChange, label }: Props) {
         </div>
         <div className="admin-image__controls">
           <label className="admin-btn admin-btn--ghost admin-image__btn">
-            {busy ? "מעלה..." : "העלאת תמונה"}
+            {statusLabel}
             <input
               type="file"
               accept="image/*"
@@ -52,6 +64,20 @@ export function ImageUploader({ value, onChange, label }: Props) {
               hidden
             />
           </label>
+          {busy && progress !== null && progress >= 10 && (
+            <div
+              className="admin-upload-progress"
+              role="progressbar"
+              aria-valuenow={progress}
+              aria-valuemin={0}
+              aria-valuemax={100}
+            >
+              <div
+                className="admin-upload-progress__bar"
+                style={{ width: `${progress}%` }}
+              />
+            </div>
+          )}
           <input
             className="admin-input"
             value={value || ""}
@@ -64,6 +90,7 @@ export function ImageUploader({ value, onChange, label }: Props) {
               type="button"
               className="admin-link-danger"
               onClick={() => onChange("")}
+              disabled={busy}
             >
               הסרת תמונה
             </button>

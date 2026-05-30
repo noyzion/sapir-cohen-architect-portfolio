@@ -4,6 +4,7 @@ import { promises as fs } from "fs";
 import path from "path";
 import { put } from "@vercel/blob";
 import { getBlobAccess } from "@/lib/blobAccess";
+import { canUseLocalFilesystem } from "@/lib/runtime";
 import { SESSION_COOKIE, verifySessionToken } from "@/lib/session";
 
 export const runtime = "nodejs";
@@ -53,7 +54,17 @@ export async function POST(req: Request) {
 
   const filename = `${Date.now()}-${sanitizeName(file.name)}`;
 
-  if (process.env.BLOB_READ_WRITE_TOKEN) {
+  if (!process.env.BLOB_READ_WRITE_TOKEN) {
+    if (!canUseLocalFilesystem()) {
+      return NextResponse.json(
+        {
+          error:
+            "אחסון תמונות לא מחובר. ב-Vercel: Storage → Blob (Public) → Connect to Project, ואז Redeploy.",
+        },
+        { status: 503 }
+      );
+    }
+  } else {
     try {
       const blob = await put(`uploads/${filename}`, file, {
         access: getBlobAccess(),
@@ -64,6 +75,13 @@ export async function POST(req: Request) {
       const message = err instanceof Error ? err.message : "Upload failed";
       return NextResponse.json({ error: message }, { status: 500 });
     }
+  }
+
+  if (!canUseLocalFilesystem()) {
+    return NextResponse.json(
+      { error: "העלאה לשרת אינה זמינה בסביבה זו" },
+      { status: 503 }
+    );
   }
 
   try {

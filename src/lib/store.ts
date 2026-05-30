@@ -3,6 +3,7 @@ import { promises as fs } from "fs";
 import path from "path";
 import { unstable_noStore as noStore } from "next/cache";
 import { Redis } from "@upstash/redis";
+import { canUseLocalFilesystem } from "@/lib/runtime";
 
 /**
  * Tiny key/value document store for editable site content.
@@ -42,6 +43,11 @@ async function fileReadAll(): Promise<Record<string, unknown>> {
 }
 
 async function fileWriteAll(map: Record<string, unknown>): Promise<void> {
+  if (!canUseLocalFilesystem()) {
+    throw new Error(
+      "Content store not configured. Connect Upstash Redis (KV) in Vercel Storage."
+    );
+  }
   await fs.mkdir(path.dirname(DATA_FILE), { recursive: true });
   await fs.writeFile(DATA_FILE, JSON.stringify(map, null, 2), "utf8");
 }

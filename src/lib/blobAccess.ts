@@ -6,17 +6,15 @@ export type BlobAccessMode = "public" | "private";
  */
 export function getBlobAccess(): BlobAccessMode {
   const raw =
-    process.env.BLOB_ACCESS ??
-    process.env.NEXT_PUBLIC_BLOB_ACCESS ??
-    "private";
-  return raw.toLowerCase() === "public" ? "public" : "private";
+    process.env.BLOB_ACCESS ?? process.env.NEXT_PUBLIC_BLOB_ACCESS ?? "public";
+  return raw.toLowerCase() === "private" ? "private" : "public";
 }
 
 /** Client-safe access mode (set NEXT_PUBLIC_BLOB_ACCESS in Vercel). */
 export function getBlobAccessClient(): BlobAccessMode {
   if (typeof window === "undefined") return getBlobAccess();
-  const raw = process.env.NEXT_PUBLIC_BLOB_ACCESS ?? "private";
-  return raw.toLowerCase() === "public" ? "public" : "private";
+  const raw = process.env.NEXT_PUBLIC_BLOB_ACCESS ?? "public";
+  return raw.toLowerCase() === "private" ? "private" : "public";
 }
 
 /**

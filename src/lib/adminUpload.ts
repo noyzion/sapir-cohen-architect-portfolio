@@ -17,6 +17,7 @@ import {
   resolveBlobSrc,
   type BlobAccessMode,
 } from "@/lib/blobAccess";
+import { canUseLocalFilesystem } from "@/lib/runtime";
 
 type UploadJson = {
   url?: string;
@@ -186,11 +187,11 @@ export async function uploadAdminImage(
     try {
       return await uploadViaBlobToken(pathname, prepared, onProgress);
     } catch (blobErr) {
-      if (prepared.size > 4 * 1024 * 1024) {
+      if (!canUseLocalFilesystem() || prepared.size > 4 * 1024 * 1024) {
         const msg =
           blobErr instanceof Error ? blobErr.message : "ההעלאה נכשלה";
         throw new Error(
-          `${msg}. ודאו ש-Vercel Blob מחובר (BLOB_READ_WRITE_TOKEN).`
+          `${msg}. ודאו ש-Vercel Blob מחובר (BLOB_READ_WRITE_TOKEN) וש-BLOB_ACCESS=public.`
         );
       }
     }

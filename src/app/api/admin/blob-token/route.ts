@@ -1,0 +1,50 @@
+import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
+import { generateClientTokenFromReadWriteToken } from "@vercel/blob/client";
+import { SESSION_COOKIE, verifySessionToken } from "@/lib/session";
+
+export const runtime = "nodejs";
+
+const IMAGE_TYPES = [
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+  "image/gif",
+  "image/avif",
+];
+
+export async function POST(req: Request) {
+  const cookieStore = await cookies();
+  if (!(await verifySessionToken(cookieStore.get(SESSION_COOKIE)?.value))) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  if (!process.env.BLOB_READ_WRITE_TOKEN) {
+    return NextResponse.json(
+      { error: "אחסון תמונות (Vercel Blob) לא מחובר בשרת" },
+      { status: 503 }
+    );
+  }
+
+  const body = (await req.json().catch(() => null)) as {
+    pathname?: string;
+  } | null;
+
+  const pathname = body?.pathname?.trim();
+  if (!pathname || !pathname.startsWith("uploads/")) {
+    return NextResponse.json({ error: "נתיב לא תקין" }, { status: 400 });
+  }
+
+  try {
+    const clientToken = await generateClientTokenFromReadWriteToken({
+      pathname,
+      allowedContentTypes: IMAGE_TYPES,
+      maximumSizeInBytes: 50 * 1024 * 1024,
+    });
+
+    return NextResponse.json({ clientToken });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Token generation failed";
+    return NextResponse.json({ error: message }, { status: 500 });
+  }
+}

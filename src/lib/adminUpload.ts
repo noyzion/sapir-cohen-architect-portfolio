@@ -12,7 +12,7 @@ export function buildUploadPathname(filename: string): string {
 
 export type UploadProgress = { percent: number };
 
-type UploadJson = { url?: string; error?: string };
+type UploadJson = { url?: string; error?: string; clientToken?: string };
 
 const MAX_DIMENSION = 2400;
 const COMPRESS_IF_LARGER_THAN = 1.2 * 1024 * 1024; // 1.2 MB
@@ -108,6 +108,50 @@ function withTimeout<T>(promise: Promise<T>, ms: number, message: string): Promi
   });
 }
 
+async function fetchBlobClientToken(pathname: string): Promise<string> {
+  const res = await fetch("/api/admin/blob-token", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify({ pathname }),
+  });
+  const data = await parseUploadResponse(res);
+  if (!res.ok || !data.clientToken) {
+    throw new Error(data.error || "לא ניתן להתחיל העלאה");
+  }
+  return data.clientToken;
+}
+
+/**
+ * Upload via Vercel Blob client `put` + server-issued token.
+ * Simpler than handleUploadUrl — avoids hanging on the final callback step.
+ */
+async function uploadViaBlobToken(
+  pathname: string,
+  file: File,
+  onProgress?: (progress: UploadProgress) => void
+): Promise<string> {
+  onProgress?.({ percent: 8 });
+
+  const clientToken = await fetchBlobClientToken(pathname);
+  onProgress?.({ percent: 12 });
+
+  const { put } = await import("@vercel/blob/client");
+  const blob = await put(pathname, file, {
+    access: "public",
+    token: clientToken,
+    multipart: file.size > 8 * 1024 * 1024,
+    contentType: file.type || undefined,
+    onUploadProgress: ({ percentage }) => {
+      const raw = Math.round(percentage ?? 0);
+      const pct = Math.min(98, Math.max(12, 12 + Math.round(raw * 0.86)));
+      onProgress?.({ percent: pct });
+    },
+  });
+
+  return blob.url;
+}
+
 /**
  * Upload an image for the admin panel.
  * Compresses large photos, uploads directly to Vercel Blob (no 4.5MB server limit).
@@ -121,31 +165,16 @@ export async function uploadAdminImage(
   onProgress?.({ percent: 5 });
 
   const pathname = buildUploadPathname(prepared.name);
-  const useMultipart = prepared.size > 12 * 1024 * 1024;
 
   const uploadPromise = (async () => {
     try {
-      const { upload } = await import("@vercel/blob/client");
-      const blob = await upload(pathname, prepared, {
-        access: "public",
-        handleUploadUrl: "/api/admin/upload",
-        multipart: useMultipart,
-        contentType: prepared.type || undefined,
-        onUploadProgress: ({ percentage }) => {
-          const pct = Math.min(
-            99,
-            Math.max(5, Math.round(percentage ?? 0))
-          );
-          onProgress?.({ percent: pct });
-        },
-      });
-      return blob.url;
-    } catch (clientErr) {
+      return await uploadViaBlobToken(pathname, prepared, onProgress);
+    } catch (blobErr) {
       if (prepared.size > 4 * 1024 * 1024) {
         const msg =
-          clientErr instanceof Error ? clientErr.message : "ההעלאה נכשלה";
+          blobErr instanceof Error ? blobErr.message : "ההעלאה נכשלה";
         throw new Error(
-          `${msg}. ודאו ש-Vercel Blob מחובר בפרויקט (BLOB_READ_WRITE_TOKEN).`
+          `${msg}. ודאו ש-Vercel Blob מחובר (BLOB_READ_WRITE_TOKEN).`
         );
       }
     }

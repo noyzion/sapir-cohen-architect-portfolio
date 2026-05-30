@@ -3,15 +3,9 @@ import { cookies } from "next/headers";
 import { promises as fs } from "fs";
 import path from "path";
 import { put } from "@vercel/blob";
-import { handleUpload, type HandleUploadBody } from "@vercel/blob/client";
 import { SESSION_COOKIE, verifySessionToken } from "@/lib/session";
 
 export const runtime = "nodejs";
-
-async function requireAdminSession(): Promise<boolean> {
-  const cookieStore = await cookies();
-  return verifySessionToken(cookieStore.get(SESSION_COOKIE)?.value);
-}
 
 function sanitizeName(name: string): string {
   const base = name
@@ -21,49 +15,13 @@ function sanitizeName(name: string): string {
   return base || "image";
 }
 
-const IMAGE_TYPES = [
-  "image/jpeg",
-  "image/png",
-  "image/webp",
-  "image/gif",
-  "image/avif",
-];
-
-/** Client-side upload handshake (Vercel Blob) — bypasses the serverless body size limit. */
-async function handleClientUpload(req: Request) {
-  if (!process.env.BLOB_READ_WRITE_TOKEN) {
-    return NextResponse.json(
-      { error: "אחסון תמונות (Vercel Blob) לא מחובר בשרת" },
-      { status: 503 }
-    );
-  }
-
-  try {
-    const body = (await req.json()) as HandleUploadBody;
-
-    if (body.type === "blob.generate-client-token") {
-      if (!(await requireAdminSession())) {
-        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-      }
-    }
-
-    const jsonResponse = await handleUpload({
-      body,
-      request: req,
-      onBeforeGenerateToken: async () => ({
-        allowedContentTypes: IMAGE_TYPES,
-        maximumSizeInBytes: 50 * 1024 * 1024,
-      }),
-    });
-    return NextResponse.json(jsonResponse);
-  } catch (err) {
-    const message = err instanceof Error ? err.message : "Upload failed";
-    return NextResponse.json({ error: message }, { status: 400 });
-  }
+async function requireAdminSession(): Promise<boolean> {
+  const cookieStore = await cookies();
+  return verifySessionToken(cookieStore.get(SESSION_COOKIE)?.value);
 }
 
-/** Small-file fallback: multipart form POST (mainly local dev). */
-async function handleFormUpload(req: Request) {
+/** Small-file fallback for local dev (multipart form, max 4MB). */
+export async function POST(req: Request) {
   if (!(await requireAdminSession())) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
@@ -86,7 +44,7 @@ async function handleFormUpload(req: Request) {
     return NextResponse.json(
       {
         error:
-          "התמונה גדולה מדי להעלאה דרך השרת. נסו שוב — ההעלאה אמורה לעבור ישירות לאחסון.",
+          "התמונה גדולה מדי. בשרת יש להשתמש בהעלאה הישירה (דחיסה אוטומטית).",
       },
       { status: 413 }
     );
@@ -117,14 +75,4 @@ async function handleFormUpload(req: Request) {
     const message = err instanceof Error ? err.message : "Upload failed";
     return NextResponse.json({ error: message }, { status: 500 });
   }
-}
-
-export async function POST(req: Request) {
-  const contentType = req.headers.get("content-type") ?? "";
-
-  if (contentType.includes("application/json")) {
-    return handleClientUpload(req);
-  }
-
-  return handleFormUpload(req);
 }

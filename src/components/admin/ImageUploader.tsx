@@ -36,7 +36,9 @@ export function ImageUploader({ value, onChange, label }: Props) {
     busy && progress !== null
       ? progress < 10
         ? "מכינה תמונה..."
-        : `מעלה... ${progress}%`
+        : progress >= 98
+          ? "מסיימת..."
+          : `מעלה... ${progress}%`
       : busy
         ? "מעלה..."
         : "העלאת תמונה";

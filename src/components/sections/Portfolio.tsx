@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useLanguage, pick } from "@/context/LanguageContext";
-import { projectSummaries } from "@/data/projects";
+import { useContent } from "@/context/ContentContext";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { PortfolioSlideshow } from "@/components/ui/PortfolioSlideshow";
 import { ArrowLink } from "@/components/ui/ArrowLink";
@@ -13,6 +13,7 @@ import {
 
 export function Portfolio() {
   const { locale, t } = useLanguage();
+  const { projects } = useContent();
 
   return (
     <section id="portfolio" className="section-pad bg-white">
@@ -23,14 +24,10 @@ export function Portfolio() {
         />
 
         <div className="space-y-10 max-lg:space-y-9 lg:space-y-16">
-          {projectSummaries.map((project, i) => {
+          {projects.map((project, i) => {
             const imageOnStart = i % 2 === 0;
 
-            const slideshowImages = getPortfolioSlideshowImages(
-              project.slug,
-              project.coverImage,
-              project.thumbnailImage
-            );
+            const slideshowImages = getPortfolioSlideshowImages(project);
             const { intervalMs, fadeMs } = getPortfolioSlideshowTiming(
               project.slug
             );

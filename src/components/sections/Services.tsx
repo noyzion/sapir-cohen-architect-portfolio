@@ -1,18 +1,15 @@
 "use client";
 
 import { useLanguage, pick } from "@/context/LanguageContext";
-import { servicePackages } from "@/data/services";
+import { useContent } from "@/context/ContentContext";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { ServicePackageCard } from "@/components/sections/ServicePackageCard";
 
 export function Services() {
   const { locale, t } = useLanguage();
+  const { services } = useContent();
 
-  const orderedPackages = [
-    servicePackages.find((p) => p.id === "light")!,
-    servicePackages.find((p) => p.id === "smart")!,
-    servicePackages.find((p) => p.id === "premium")!,
-  ];
+  const orderedPackages = services;
 
   const popularLabel = pick(t.services.popular, locale);
   const suitableLabel = pick(t.services.suitableLabel, locale);

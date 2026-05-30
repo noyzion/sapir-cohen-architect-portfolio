@@ -8,7 +8,7 @@ import {
   useMemo,
   useState,
 } from "react";
-import type { Locale } from "@/types";
+import type { Locale, SiteCopy } from "@/types";
 import { siteCopy } from "@/data/siteCopy";
 
 const STORAGE_KEY = "sapir-locale";
@@ -17,14 +17,22 @@ type LanguageContextValue = {
   locale: Locale;
   setLocale: (locale: Locale) => void;
   toggleLocale: () => void;
-  t: typeof siteCopy;
+  t: SiteCopy;
   dir: "rtl" | "ltr";
   isHe: boolean;
 };
 
 const LanguageContext = createContext<LanguageContextValue | null>(null);
 
-export function LanguageProvider({ children }: { children: React.ReactNode }) {
+export function LanguageProvider({
+  children,
+  copy,
+}: {
+  children: React.ReactNode;
+  /** Editable site copy loaded server-side; falls back to built-in defaults. */
+  copy?: SiteCopy;
+}) {
+  const t = copy ?? siteCopy;
   const [locale, setLocaleState] = useState<Locale>("he");
   const [mounted, setMounted] = useState(false);
 
@@ -56,11 +64,11 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
       locale,
       setLocale,
       toggleLocale,
-      t: siteCopy,
+      t,
       dir: (locale === "he" ? "rtl" : "ltr") as "rtl" | "ltr",
       isHe: locale === "he",
     }),
-    [locale, setLocale, toggleLocale]
+    [locale, setLocale, toggleLocale, t]
   );
 
   return (

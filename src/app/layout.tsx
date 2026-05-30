@@ -1,8 +1,5 @@
 import type { Metadata } from "next";
 import { Heebo, Outfit, Plus_Jakarta_Sans, Josefin_Sans } from "next/font/google";
-import { LanguageProvider } from "@/context/LanguageContext";
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
 import "./globals.css";
 
 const heebo = Heebo({
@@ -44,11 +41,7 @@ export default function RootLayout({
       <body
         className={`${heebo.variable} ${outfit.variable} ${plusJakarta.variable} ${josefinSans.variable} font-body`}
       >
-        <LanguageProvider>
-          <Header />
-          <main>{children}</main>
-          <Footer />
-        </LanguageProvider>
+        {children}
       </body>
     </html>
   );

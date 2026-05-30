@@ -2,11 +2,12 @@
 
 import Link from "next/link";
 import { useLanguage, pick } from "@/context/LanguageContext";
-import { CONTACT_EMAIL, siteCopy } from "@/data/siteCopy";
+import { CONTACT_EMAIL } from "@/data/siteCopy";
 
 export function Footer() {
   const { locale, t } = useLanguage();
   const year = new Date().getFullYear();
+  const email = t.contact.email || CONTACT_EMAIL;
 
   return (
     <footer className="site-footer surface-warm">
@@ -14,7 +15,7 @@ export function Footer() {
         <div className="grid gap-12 md:grid-cols-3 md:gap-10">
           <div>
             <p className="brand-wordmark text-lg">
-              {siteCopy.brand.en}
+              {t.brand.en}
             </p>
             <p className="mt-3 max-w-xs text-sm leading-relaxed text-stone-500">
               {pick(t.tagline, locale)}
@@ -36,10 +37,10 @@ export function Footer() {
           <div>
             <p className="label-caps text-stone-400">{pick(t.contact.emailLabel, locale)}</p>
             <a
-              href={`mailto:${CONTACT_EMAIL}`}
+              href={`mailto:${email}`}
               className="mt-3 block text-sm text-stone-700 transition-colors hover:text-stone-900"
             >
-              {CONTACT_EMAIL}
+              {email}
             </a>
           </div>
         </div>

@@ -1,5 +1,5 @@
 import { imageMeta } from "@/data/imageMeta";
-import { projectGalleries } from "@/data/projectGalleries";
+import type { ProjectImage } from "@/types";
 
 export type PortfolioSlideshowTiming = {
   intervalMs: number;
@@ -30,19 +30,20 @@ function resolvePortfolioSrc(src: string): string {
   return src;
 }
 
-export function getPortfolioSlideshowImages(
-  slug: string,
-  coverImage: string,
-  thumbnailImage: string
-): string[] {
-  const entry = projectGalleries[slug];
+export function getPortfolioSlideshowImages(project: {
+  coverImage: string;
+  thumbnailImage: string;
+  gallery?: ProjectImage[];
+  renders?: ProjectImage[];
+}): string[] {
+  const { coverImage, thumbnailImage } = project;
   const raw: string[] = [];
 
-  if (entry?.renders?.length) {
-    raw.push(...entry.renders.map((img) => img.src));
+  if (project.renders?.length) {
+    raw.push(...project.renders.map((img) => img.src));
   }
-  if (entry?.gallery?.length) {
-    raw.push(...entry.gallery.map((img) => img.src));
+  if (project.gallery?.length) {
+    raw.push(...project.gallery.map((img) => img.src));
   }
   raw.push(coverImage);
 

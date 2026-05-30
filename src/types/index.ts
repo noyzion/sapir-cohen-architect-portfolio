@@ -112,6 +112,8 @@ export type SiteCopy = {
     areaLabel: LocalizedString;
     area: LocalizedString;
     emailLabel: LocalizedString;
+    email: string;
+    whatsapp: string;
     form: {
       name: LocalizedString;
       phone: LocalizedString;

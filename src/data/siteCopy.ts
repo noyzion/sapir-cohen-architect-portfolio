@@ -139,6 +139,8 @@ export const siteCopy: SiteCopy = {
     areaLabel: { he: "אזורי עבודה", en: "Service Area" },
     area: { he: "פריסה ארצית", en: "Nationwide" },
     emailLabel: { he: "אימייל", en: "Email" },
+    email: "sapircohenarc@gmail.com",
+    whatsapp: "972524664443",
     form: {
       name: { he: "שם מלא", en: "Full Name" },
       phone: { he: "טלפון", en: "Phone" },

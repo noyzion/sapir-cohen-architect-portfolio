@@ -1,11 +1,12 @@
 "use client";
 
 import { useLanguage, pick } from "@/context/LanguageContext";
-import { projectTypes } from "@/data/projectTypes";
+import { useContent } from "@/context/ContentContext";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 
 export function ProjectTypes() {
   const { locale, t } = useLanguage();
+  const { projectTypes } = useContent();
 
   return (
     <section id="types" className="section-pad-sm surface-warm">

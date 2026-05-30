@@ -27,6 +27,8 @@ export function Contact() {
   const [submitted, setSubmitted] = useState(false);
   const [message, setMessage] = useState("");
   const [selectedPackage, setSelectedPackage] = useState("");
+  const contactEmail = t.contact.email || CONTACT_EMAIL;
+  const whatsappNumber = t.contact.whatsapp || WHATSAPP_NUMBER;
 
   useEffect(() => {
     function applyPackageFromInquiry() {
@@ -71,7 +73,7 @@ export function Contact() {
       .filter(Boolean)
       .join("\n");
 
-    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = `mailto:${contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     setSubmitted(true);
   }
 
@@ -80,7 +82,7 @@ export function Contact() {
       ? "היי ספיר, הגעתי דרך האתר ואשמח להתייעץ איתך לגבי פרויקט."
       : "Hi Sapir, I found you through your website and would love to consult with you about a project.";
 
-  const whatsappHref = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappText)}`;
+  const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappText)}`;
 
   return (
     <section id="contact" className="section-pad surface-warm">
@@ -120,10 +122,10 @@ export function Contact() {
                   {pick(t.contact.emailLabel, locale)}
                 </span>
                 <a
-                  href={`mailto:${CONTACT_EMAIL}`}
+                  href={`mailto:${contactEmail}`}
                   className="mt-1 block text-body-sm text-ink transition-opacity hover:opacity-70"
                 >
-                  {CONTACT_EMAIL}
+                  {contactEmail}
                 </a>
               </li>
             </ul>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type ChangeEvent } from "react";
+import { uploadAdminImage } from "@/lib/adminUpload";
 
 type Props = {
   value: string;
@@ -18,17 +19,8 @@ export function ImageUploader({ value, onChange, label }: Props) {
     setBusy(true);
     setError("");
     try {
-      const fd = new FormData();
-      fd.append("file", file);
-      const res = await fetch("/api/admin/upload", {
-        method: "POST",
-        body: fd,
-      });
-      const data = (await res.json()) as { url?: string; error?: string };
-      if (!res.ok || !data.url) {
-        throw new Error(data.error || "ההעלאה נכשלה");
-      }
-      onChange(data.url);
+      const url = await uploadAdminImage(file);
+      onChange(url);
     } catch (err) {
       setError(err instanceof Error ? err.message : "ההעלאה נכשלה");
     } finally {

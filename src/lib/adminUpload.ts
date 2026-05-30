@@ -12,7 +12,18 @@ export function buildUploadPathname(filename: string): string {
 
 export type UploadProgress = { percent: number };
 
-type UploadJson = { url?: string; error?: string; clientToken?: string };
+import {
+  getBlobAccessClient,
+  resolveBlobSrc,
+  type BlobAccessMode,
+} from "@/lib/blobAccess";
+
+type UploadJson = {
+  url?: string;
+  error?: string;
+  clientToken?: string;
+  access?: BlobAccessMode;
+};
 
 const MAX_DIMENSION = 2400;
 const COMPRESS_IF_LARGER_THAN = 1.2 * 1024 * 1024; // 1.2 MB
@@ -108,7 +119,9 @@ function withTimeout<T>(promise: Promise<T>, ms: number, message: string): Promi
   });
 }
 
-async function fetchBlobClientToken(pathname: string): Promise<string> {
+async function fetchBlobClientToken(
+  pathname: string
+): Promise<{ clientToken: string; access: BlobAccessMode }> {
   const res = await fetch("/api/admin/blob-token", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -119,7 +132,10 @@ async function fetchBlobClientToken(pathname: string): Promise<string> {
   if (!res.ok || !data.clientToken) {
     throw new Error(data.error || "לא ניתן להתחיל העלאה");
   }
-  return data.clientToken;
+  return {
+    clientToken: data.clientToken,
+    access: data.access ?? getBlobAccessClient(),
+  };
 }
 
 /**
@@ -133,12 +149,12 @@ async function uploadViaBlobToken(
 ): Promise<string> {
   onProgress?.({ percent: 8 });
 
-  const clientToken = await fetchBlobClientToken(pathname);
+  const { clientToken, access } = await fetchBlobClientToken(pathname);
   onProgress?.({ percent: 12 });
 
   const { put } = await import("@vercel/blob/client");
   const blob = await put(pathname, file, {
-    access: "public",
+    access,
     token: clientToken,
     multipart: file.size > 8 * 1024 * 1024,
     contentType: file.type || undefined,
@@ -149,7 +165,7 @@ async function uploadViaBlobToken(
     },
   });
 
-  return blob.url;
+  return resolveBlobSrc(blob.url);
 }
 
 /**
@@ -190,7 +206,7 @@ export async function uploadAdminImage(
     if (!res.ok || !data.url) {
       throw new Error(data.error || "ההעלאה נכשלה");
     }
-    return data.url;
+    return resolveBlobSrc(data.url);
   })();
 
   const url = await withTimeout(

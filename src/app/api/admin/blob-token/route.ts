@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { generateClientTokenFromReadWriteToken } from "@vercel/blob/client";
+import { getBlobAccess } from "@/lib/blobAccess";
 import { SESSION_COOKIE, verifySessionToken } from "@/lib/session";
 
 export const runtime = "nodejs";
@@ -42,7 +43,7 @@ export async function POST(req: Request) {
       maximumSizeInBytes: 50 * 1024 * 1024,
     });
 
-    return NextResponse.json({ clientToken });
+    return NextResponse.json({ clientToken, access: getBlobAccess() });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Token generation failed";
     return NextResponse.json({ error: message }, { status: 500 });

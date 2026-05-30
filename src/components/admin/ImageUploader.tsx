@@ -2,6 +2,7 @@
 
 import { useState, type ChangeEvent } from "react";
 import { uploadAdminImage } from "@/lib/adminUpload";
+import { resolveBlobSrc } from "@/lib/blobAccess";
 
 type Props = {
   value: string;
@@ -50,7 +51,7 @@ export function ImageUploader({ value, onChange, label }: Props) {
         <div className="admin-image__preview">
           {value ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={value} alt="" />
+            <img src={resolveBlobSrc(value)} alt="" />
           ) : (
             <span className="admin-image__empty">אין תמונה</span>
           )}

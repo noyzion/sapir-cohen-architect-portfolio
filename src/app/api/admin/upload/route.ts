@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { promises as fs } from "fs";
 import path from "path";
 import { put } from "@vercel/blob";
+import { getBlobAccess } from "@/lib/blobAccess";
 import { SESSION_COOKIE, verifySessionToken } from "@/lib/session";
 
 export const runtime = "nodejs";
@@ -55,7 +56,7 @@ export async function POST(req: Request) {
   if (process.env.BLOB_READ_WRITE_TOKEN) {
     try {
       const blob = await put(`uploads/${filename}`, file, {
-        access: "public",
+        access: getBlobAccess(),
         contentType: file.type,
       });
       return NextResponse.json({ url: blob.url });

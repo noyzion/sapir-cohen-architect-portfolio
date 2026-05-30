@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import { getImageMeta } from "@/data/imageMeta";
+import { resolveBlobSrc } from "@/lib/blobAccess";
 
 const IMAGE_QUALITY_DEFAULT = 82;
 const IMAGE_QUALITY_HERO = 95;
@@ -37,8 +38,9 @@ export function ProjectImage({
     quality ?? (priority ? IMAGE_QUALITY_HERO : IMAGE_QUALITY_DEFAULT);
   const [error, setError] = useState(false);
   const [loaded, setLoaded] = useState(false);
-  const isPlaceholder = src.includes("placeholders");
-  const meta = getImageMeta(src);
+  const resolvedSrc = resolveBlobSrc(src);
+  const isPlaceholder = resolvedSrc.includes("placeholders");
+  const meta = getImageMeta(resolvedSrc.startsWith("/api/") ? src : resolvedSrc);
   const blurDataURL = meta?.blurDataURL;
   const useBlur = Boolean(blurDataURL) && !priority;
 
@@ -65,8 +67,9 @@ export function ProjectImage({
         aria-hidden
       />
       <Image
-        src={src}
+        src={resolvedSrc}
         alt={alt}
+        unoptimized={unoptimized || resolvedSrc.startsWith("/api/blob")}
         fill={fill}
         width={fill ? undefined : meta?.width}
         height={fill ? undefined : meta?.height}
@@ -74,7 +77,6 @@ export function ProjectImage({
         loading={priority ? undefined : loading ?? "lazy"}
         sizes={sizes}
         quality={imageQuality}
-        unoptimized={unoptimized}
         placeholder={useBlur ? "blur" : "empty"}
         blurDataURL={useBlur ? blurDataURL : undefined}
         className={`object-cover transition-opacity duration-500 ${

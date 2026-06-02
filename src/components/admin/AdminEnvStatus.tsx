@@ -8,11 +8,13 @@ type Health = {
   isLocalDev: boolean;
   admin: { configured: boolean; passwordSet: boolean; sessionSecretSet: boolean };
   blob: {
-    tokenSet: boolean;
+    configured: boolean;
+    authMode: "readWrite" | "oidc" | "none";
+    readWriteTokenSet: boolean;
     storeIdSet: boolean;
-    webhookKeySet: boolean;
+    oidcTokenSet: boolean;
+    clientUploadAvailable: boolean;
     access: string;
-    partialConnection?: boolean;
   };
   contentStore: string;
   hint: string;
@@ -32,9 +34,16 @@ export function AdminEnvStatus() {
 
   const ok = (v: boolean) => (v ? "✓" : "✗");
 
+  const blobAuthLabel =
+    health.blob.authMode === "readWrite"
+      ? "read-write token"
+      : health.blob.authMode === "oidc"
+        ? "OIDC (BLOB_STORE_ID)"
+        : "לא מחובר";
+
   return (
     <div className="admin-env-status" dir="rtl">
-      <p className="admin-env-status__title">מצב השרver (לאבחון)</p>
+      <p className="admin-env-status__title">מצב השרת (לאבחון)</p>
       <p className="admin-env-status__hint">{health.hint}</p>
       <ul className="admin-env-status__list">
         <li>
@@ -48,12 +57,15 @@ export function AdminEnvStatus() {
           מפתח session (ADMIN_SESSION_SECRET): {ok(health.admin.sessionSecretSet)}
         </li>
         <li>
-          Blob (BLOB_READ_WRITE_TOKEN): {ok(health.blob.tokenSet)}
+          Blob (אחסון תמונות): {ok(health.blob.configured)} — {blobAuthLabel}
         </li>
-        {health.blob.partialConnection && (
+        <li>
+          BLOB_STORE_ID: {ok(health.blob.storeIdSet)}
+        </li>
+        {!health.blob.readWriteTokenSet && health.blob.authMode === "oidc" && (
           <li className="admin-env-status__warn-inline">
-            ⚠ יש BLOB_STORE_ID אבל חסר BLOB_READ_WRITE_TOKEN — חיבור Blob חלקי.
-            Storage → Blob → Connect to Project, ואז Redeploy.
+            ℹ אין BLOB_READ_WRITE_TOKEN — זה תקין. Vercel משתמש ב-OIDC
+            (BLOB_STORE_ID + VERCEL_OIDC_TOKEN). ההעלאה עוברת דרך השרת.
           </li>
         )}
         <li>
@@ -64,6 +76,8 @@ export function AdminEnvStatus() {
       {health.isLocalDev && (
         <p className="admin-env-status__warn">
           במחשב שלך הסיסמה מגיעה מקובץ <code>.env.local</code>, לא מ-Vercel.
+          BLOB_STORE_ID לבד לא מספיק מקומית — צריך BLOB_READ_WRITE_TOKEN או
+          שמירה ב-<code>public/uploads</code>.
         </p>
       )}
       {health.environment === "preview" && (

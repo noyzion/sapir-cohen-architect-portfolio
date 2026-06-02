@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { isBlobConfigured } from "@/lib/blobAccess";
 import { storeMode } from "@/lib/store";
 
 export const dynamic = "force-dynamic";
@@ -28,7 +29,7 @@ const SECTIONS = [
 
 export default function AdminDashboard() {
   const mode = storeMode();
-  const blobReady = Boolean(process.env.BLOB_READ_WRITE_TOKEN);
+  const blobReady = isBlobConfigured();
   const redisReady = mode === "redis";
 
   return (

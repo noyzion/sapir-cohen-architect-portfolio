@@ -3,8 +3,8 @@ import { cookies } from "next/headers";
 import { promises as fs } from "fs";
 import path from "path";
 import { put } from "@vercel/blob";
-import { getBlobAccess } from "@/lib/blobAccess";
-import { canUseLocalFilesystem } from "@/lib/runtime";
+import { getBlobAccess, isBlobConfigured } from "@/lib/blobAccess";
+import { canUseLocalFilesystem, isVercelDeployment } from "@/lib/runtime";
 import { SESSION_COOKIE, verifySessionToken } from "@/lib/session";
 
 export const runtime = "nodejs";
@@ -41,32 +41,25 @@ export async function POST(req: Request) {
     );
   }
 
-  const maxServerBytes = 4 * 1024 * 1024;
-  if (file.size > maxServerBytes) {
-    return NextResponse.json(
-      {
-        error:
-          "התמונה גדולה מדי. בשרת יש להשתמש בהעלאה הישירה (דחיסה אוטומטית).",
-      },
-      { status: 413 }
-    );
-  }
-
   const filename = `${Date.now()}-${sanitizeName(file.name)}`;
+  const blobPath = `uploads/${filename}`;
 
-  if (!process.env.BLOB_READ_WRITE_TOKEN) {
-    if (!canUseLocalFilesystem()) {
+  if (isBlobConfigured()) {
+    const maxBlobBytes = isVercelDeployment()
+      ? 4.5 * 1024 * 1024
+      : 4 * 1024 * 1024;
+    if (file.size > maxBlobBytes) {
       return NextResponse.json(
         {
           error:
-            "אחסון תמונות לא מחובר. ב-Vercel: Storage → Blob (Public) → Connect to Project, ואז Redeploy.",
+            "התמונה גדולה מדי גם אחרי דחיסה. נסו תמונה קטנה יותר או דחסו אותה לפני ההעלאה.",
         },
-        { status: 503 }
+        { status: 413 }
       );
     }
-  } else {
+
     try {
-      const blob = await put(`uploads/${filename}`, file, {
+      const blob = await put(blobPath, file, {
         access: getBlobAccess(),
         contentType: file.type,
       });
@@ -77,9 +70,23 @@ export async function POST(req: Request) {
     }
   }
 
+  const maxLocalBytes = 4 * 1024 * 1024;
+  if (file.size > maxLocalBytes) {
+    return NextResponse.json(
+      {
+        error:
+          "התמונה גדולה מדי. בשרת יש להשתמש בהעלאה הישירה (דחיסה אוטומטית).",
+      },
+      { status: 413 }
+    );
+  }
+
   if (!canUseLocalFilesystem()) {
     return NextResponse.json(
-      { error: "העלאה לשרת אינה זמינה בסביבה זו" },
+      {
+        error:
+          "אחסון תמונות לא מחובר. ב-Vercel: Storage → Blob → Connect to Project, ואז Redeploy.",
+      },
       { status: 503 }
     );
   }

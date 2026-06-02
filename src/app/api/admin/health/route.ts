@@ -1,5 +1,13 @@
 import { NextResponse } from "next/server";
-import { getBlobAccess } from "@/lib/blobAccess";
+import {
+  canUseClientBlobUpload,
+  getBlobAccess,
+  getBlobAuthMode,
+  hasBlobReadWriteToken,
+  hasBlobStoreId,
+  hasVercelOidcToken,
+  isBlobConfigured,
+} from "@/lib/blobAccess";
 import { getAdminPassword, isAdminConfigured } from "@/lib/session";
 import { storeMode } from "@/lib/store";
 
@@ -23,13 +31,14 @@ export async function GET() {
       sessionSecretSet: Boolean(process.env.ADMIN_SESSION_SECRET?.trim()),
     },
     blob: {
-      tokenSet: Boolean(process.env.BLOB_READ_WRITE_TOKEN),
-      storeIdSet: Boolean(process.env.BLOB_STORE_ID),
+      configured: isBlobConfigured(),
+      authMode: getBlobAuthMode(),
+      readWriteTokenSet: hasBlobReadWriteToken(),
+      storeIdSet: hasBlobStoreId(),
+      oidcTokenSet: hasVercelOidcToken(),
+      clientUploadAvailable: canUseClientBlobUpload(),
       webhookKeySet: Boolean(process.env.BLOB_WEBHOOK_PUBLIC_KEY),
       access: getBlobAccess(),
-      partialConnection:
-        Boolean(process.env.BLOB_STORE_ID) &&
-        !process.env.BLOB_READ_WRITE_TOKEN,
     },
     contentStore: storeMode(),
     hint: isLocal

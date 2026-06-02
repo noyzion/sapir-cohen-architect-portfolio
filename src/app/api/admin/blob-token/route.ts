@@ -1,7 +1,11 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { generateClientTokenFromReadWriteToken } from "@vercel/blob/client";
-import { getBlobAccess } from "@/lib/blobAccess";
+import {
+  canUseClientBlobUpload,
+  getBlobAccess,
+  isBlobConfigured,
+} from "@/lib/blobAccess";
 import { SESSION_COOKIE, verifySessionToken } from "@/lib/session";
 
 export const runtime = "nodejs";
@@ -20,11 +24,18 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  if (!process.env.BLOB_READ_WRITE_TOKEN) {
+  if (!isBlobConfigured()) {
     return NextResponse.json(
       { error: "אחסון תמונות (Vercel Blob) לא מחובר בשרת" },
       { status: 503 }
     );
+  }
+
+  if (!canUseClientBlobUpload()) {
+    return NextResponse.json({
+      useServerUpload: true,
+      access: getBlobAccess(),
+    });
   }
 
   const body = (await req.json().catch(() => null)) as {

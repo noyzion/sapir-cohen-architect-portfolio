@@ -23,6 +23,7 @@ type UploadJson = {
   url?: string;
   error?: string;
   clientToken?: string;
+  useServerUpload?: boolean;
   access?: BlobAccessMode;
 };
 
@@ -120,9 +121,12 @@ function withTimeout<T>(promise: Promise<T>, ms: number, message: string): Promi
   });
 }
 
-async function fetchBlobClientToken(
+async function fetchUploadStrategy(
   pathname: string
-): Promise<{ clientToken: string; access: BlobAccessMode }> {
+): Promise<
+  | { mode: "client"; clientToken: string; access: BlobAccessMode }
+  | { mode: "server"; access: BlobAccessMode }
+> {
   const res = await fetch("/api/admin/blob-token", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -130,10 +134,20 @@ async function fetchBlobClientToken(
     body: JSON.stringify({ pathname }),
   });
   const data = await parseUploadResponse(res);
-  if (!res.ok || !data.clientToken) {
+  if (!res.ok) {
+    throw new Error(data.error || "לא ניתן להתחיל העלאה");
+  }
+  if (data.useServerUpload) {
+    return {
+      mode: "server",
+      access: data.access ?? getBlobAccessClient(),
+    };
+  }
+  if (!data.clientToken) {
     throw new Error(data.error || "לא ניתן להתחיל העלאה");
   }
   return {
+    mode: "client",
     clientToken: data.clientToken,
     access: data.access ?? getBlobAccessClient(),
   };
@@ -146,11 +160,10 @@ async function fetchBlobClientToken(
 async function uploadViaBlobToken(
   pathname: string,
   file: File,
+  clientToken: string,
+  access: BlobAccessMode,
   onProgress?: (progress: UploadProgress) => void
 ): Promise<string> {
-  onProgress?.({ percent: 8 });
-
-  const { clientToken, access } = await fetchBlobClientToken(pathname);
   onProgress?.({ percent: 12 });
 
   const { put } = await import("@vercel/blob/client");
@@ -169,6 +182,28 @@ async function uploadViaBlobToken(
   return resolveBlobSrc(blob.url);
 }
 
+async function uploadViaServerForm(
+  file: File,
+  onProgress?: (progress: UploadProgress) => void
+): Promise<string> {
+  onProgress?.({ percent: 15 });
+
+  const fd = new FormData();
+  fd.append("file", file);
+  const res = await fetch("/api/admin/upload", {
+    method: "POST",
+    body: fd,
+    credentials: "include",
+  });
+  onProgress?.({ percent: 92 });
+
+  const data = await parseUploadResponse(res);
+  if (!res.ok || !data.url) {
+    throw new Error(data.error || "ההעלאה נכשלה");
+  }
+  return resolveBlobSrc(data.url);
+}
+
 /**
  * Upload an image for the admin panel.
  * Compresses large photos, uploads directly to Vercel Blob (no 4.5MB server limit).
@@ -184,30 +219,29 @@ export async function uploadAdminImage(
   const pathname = buildUploadPathname(prepared.name);
 
   const uploadPromise = (async () => {
-    try {
-      return await uploadViaBlobToken(pathname, prepared, onProgress);
-    } catch (blobErr) {
-      if (!canUseLocalFilesystem() || prepared.size > 4 * 1024 * 1024) {
-        const msg =
-          blobErr instanceof Error ? blobErr.message : "ההעלאה נכשלה";
-        throw new Error(
-          `${msg}. ודאו ש-Vercel Blob מחובר (BLOB_READ_WRITE_TOKEN) וש-BLOB_ACCESS=public.`
-        );
+    onProgress?.({ percent: 8 });
+
+    if (canUseLocalFilesystem() && prepared.size <= 4 * 1024 * 1024) {
+      try {
+        return await uploadViaServerForm(prepared, onProgress);
+      } catch {
+        // Fall through to Blob strategies when local save fails.
       }
     }
 
-    const fd = new FormData();
-    fd.append("file", prepared);
-    const res = await fetch("/api/admin/upload", {
-      method: "POST",
-      body: fd,
-      credentials: "include",
-    });
-    const data = await parseUploadResponse(res);
-    if (!res.ok || !data.url) {
-      throw new Error(data.error || "ההעלאה נכשלה");
+    const strategy = await fetchUploadStrategy(pathname);
+
+    if (strategy.mode === "client") {
+      return uploadViaBlobToken(
+        pathname,
+        prepared,
+        strategy.clientToken,
+        strategy.access,
+        onProgress
+      );
     }
-    return resolveBlobSrc(data.url);
+
+    return uploadViaServerForm(prepared, onProgress);
   })();
 
   const url = await withTimeout(

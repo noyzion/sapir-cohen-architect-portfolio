@@ -40,7 +40,7 @@ export async function verifySessionToken(
   token: string | undefined | null
 ): Promise<boolean> {
   if (!token) return false;
-  if (!process.env.ADMIN_SESSION_SECRET) return false;
+  if (!process.env.ADMIN_SESSION_SECRET?.trim()) return false;
   try {
     await jwtVerify(token, getSecret());
     return true;

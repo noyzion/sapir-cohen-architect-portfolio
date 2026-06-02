@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
+import { AdminEnvStatus } from "@/components/admin/AdminEnvStatus";
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -57,6 +58,8 @@ export default function AdminLoginPage() {
         >
           {busy ? "מתחבר..." : "כניסה"}
         </button>
+
+        <AdminEnvStatus />
       </form>
     </div>
   );

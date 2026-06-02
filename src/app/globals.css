@@ -1582,3 +1582,36 @@
   margin-top: 1rem;
 }
 
+.admin-env-status {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid #ebe8e4;
+  font-size: 0.78rem;
+  color: #78716c;
+  line-height: 1.55;
+}
+.admin-env-status__title {
+  font-weight: 600;
+  color: #57534e;
+  margin-bottom: 0.35rem;
+}
+.admin-env-status__hint {
+  margin-bottom: 0.5rem;
+}
+.admin-env-status__list {
+  list-style: none;
+  display: grid;
+  gap: 0.2rem;
+}
+.admin-env-status__warn {
+  margin-top: 0.65rem;
+  padding: 0.55rem 0.65rem;
+  background: #fdf8ec;
+  border: 1px solid #f0e3c0;
+  border-radius: 0.45rem;
+  color: #8a7a4f;
+}
+.admin-env-status code {
+  font-size: 0.85em;
+}
+

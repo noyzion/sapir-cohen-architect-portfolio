@@ -5,8 +5,12 @@ import { SESSION_COOKIE, verifySessionToken } from "@/lib/session";
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  // Login page + login endpoint must stay public.
-  if (pathname === "/admin/login" || pathname === "/api/admin/login") {
+  // Login page + login endpoint + health check must stay public.
+  if (
+    pathname === "/admin/login" ||
+    pathname === "/api/admin/login" ||
+    pathname === "/api/admin/health"
+  ) {
     return NextResponse.next();
   }
 

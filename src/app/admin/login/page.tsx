@@ -3,7 +3,6 @@
 import { useEffect, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { AdminEnvStatus } from "@/components/admin/AdminEnvStatus";
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -67,7 +66,7 @@ export default function AdminLoginPage() {
         <p className="admin-login__subtitle">הזינו את הסיסמה כדי להמשיך</p>
 
         {alreadyLoggedIn && (
-          <div className="admin-env-status__warn">
+          <div className="admin-login__notice">
             <p>כבר מחוברת עם session פעיל בדפדפן (cookie).</p>
             <p>
               אם שינית סיסמה ב-Vercel — לחצי &quot;יציאה&quot; ואז התחברי עם
@@ -111,8 +110,6 @@ export default function AdminLoginPage() {
         >
           {busy ? "מתחבר..." : "כניסה"}
         </button>
-
-        <AdminEnvStatus />
       </form>
     </div>
   );

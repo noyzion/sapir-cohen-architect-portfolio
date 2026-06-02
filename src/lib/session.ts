@@ -10,14 +10,22 @@ export const SESSION_COOKIE = "sapir_admin";
 const ALG = "HS256";
 const MAX_AGE_SECONDS = 60 * 60 * 24 * 7; // 7 days
 
-function getSecret(): Uint8Array {
-  const secret = process.env.ADMIN_SESSION_SECRET;
+export function getAdminPassword(): string {
+  return (process.env.ADMIN_PASSWORD ?? "").trim();
+}
+
+function getSessionSecret(): string {
+  const secret = process.env.ADMIN_SESSION_SECRET?.trim();
   if (!secret) throw new Error("ADMIN_SESSION_SECRET is not set");
-  return new TextEncoder().encode(secret);
+  return secret;
+}
+
+function getSecret(): Uint8Array {
+  return new TextEncoder().encode(getSessionSecret());
 }
 
 export function isAdminConfigured(): boolean {
-  return Boolean(process.env.ADMIN_PASSWORD && process.env.ADMIN_SESSION_SECRET);
+  return Boolean(getAdminPassword() && process.env.ADMIN_SESSION_SECRET?.trim());
 }
 
 export async function createSessionToken(): Promise<string> {
@@ -43,7 +51,7 @@ export async function verifySessionToken(
 
 /** Constant-time-ish comparison to avoid trivial timing leaks. */
 export function checkPassword(input: string): boolean {
-  const expected = process.env.ADMIN_PASSWORD ?? "";
+  const expected = getAdminPassword();
   if (!expected || input.length !== expected.length) return false;
   let mismatch = 0;
   for (let i = 0; i < expected.length; i++) {

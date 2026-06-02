@@ -14,7 +14,7 @@ export async function POST(req: Request) {
   if (!isAdminConfigured()) {
     const missing = [
       !getAdminPassword() && "ADMIN_PASSWORD",
-      !process.env.ADMIN_SESSION_SECRET?.trim() && "ADMIN_SESSION_SECRET",
+      getAdminPassword() && !isAdminConfigured() && "ADMIN_SESSION_SECRET",
     ].filter(Boolean);
     return NextResponse.json(
       {

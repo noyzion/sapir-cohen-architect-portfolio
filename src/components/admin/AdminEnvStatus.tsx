@@ -6,7 +6,7 @@ type Health = {
   environment: string;
   host: string;
   isLocalDev: boolean;
-  admin: { configured: boolean; passwordSet: boolean; sessionSecretSet: boolean };
+  admin: { configured: boolean; passwordSet: boolean; sessionSecretSet: boolean; passwordRevision?: string };
   blob: {
     configured: boolean;
     authMode: "readWrite" | "oidc" | "none";
@@ -56,6 +56,12 @@ export function AdminEnvStatus() {
         <li>
           מפתח session (ADMIN_SESSION_SECRET): {ok(health.admin.sessionSecretSet)}
         </li>
+        {health.admin.passwordRevision && (
+          <li>
+            גרסת סיסמה בשרת:{" "}
+            <code>{health.admin.passwordRevision}</code>
+          </li>
+        )}
         <li>
           Blob (אחסון תמונות): {ok(health.blob.configured)} — {blobAuthLabel}
         </li>
@@ -84,6 +90,13 @@ export function AdminEnvStatus() {
         <p className="admin-env-status__warn">
           Preview משתמשת במשתנים נפרדים מ-Production. ודאי שהגדרת גם Preview וגם
           Production ב-Vercel.
+        </p>
+      )}
+      {!health.isLocalDev && (
+        <p className="admin-env-status__warn">
+          אחרי שינוי ADMIN_PASSWORD ב-Vercel — חובה Redeploy. ב-Vercel הערך
+          צריך להיות בלי מרכאות (לא <code>&quot;sisi&quot;</code> אלא{" "}
+          <code>sisi</code>).
         </p>
       )}
     </div>

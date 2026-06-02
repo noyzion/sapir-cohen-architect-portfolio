@@ -8,7 +8,11 @@ import {
   hasVercelOidcToken,
   isBlobConfigured,
 } from "@/lib/blobAccess";
-import { getAdminPassword, isAdminConfigured } from "@/lib/session";
+import {
+  getAdminPassword,
+  getPasswordRevision,
+  isAdminConfigured,
+} from "@/lib/session";
 import { storeMode } from "@/lib/store";
 
 export const dynamic = "force-dynamic";
@@ -29,6 +33,8 @@ export async function GET() {
       configured: isAdminConfigured(),
       passwordSet: Boolean(getAdminPassword()),
       sessionSecretSet: Boolean(process.env.ADMIN_SESSION_SECRET?.trim()),
+      /** Changes after ADMIN_PASSWORD changes + redeploy — use to confirm Vercel picked up the new value. */
+      passwordRevision: await getPasswordRevision(),
     },
     blob: {
       configured: isBlobConfigured(),

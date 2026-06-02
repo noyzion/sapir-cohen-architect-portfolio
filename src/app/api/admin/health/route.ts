@@ -25,7 +25,11 @@ export async function GET() {
     blob: {
       tokenSet: Boolean(process.env.BLOB_READ_WRITE_TOKEN),
       storeIdSet: Boolean(process.env.BLOB_STORE_ID),
+      webhookKeySet: Boolean(process.env.BLOB_WEBHOOK_PUBLIC_KEY),
       access: getBlobAccess(),
+      partialConnection:
+        Boolean(process.env.BLOB_STORE_ID) &&
+        !process.env.BLOB_READ_WRITE_TOKEN,
     },
     contentStore: storeMode(),
     hint: isLocal

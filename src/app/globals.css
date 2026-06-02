@@ -1614,4 +1614,8 @@
 .admin-env-status code {
   font-size: 0.85em;
 }
+.admin-env-status__warn-inline {
+  margin-top: 0.35rem;
+  color: #b45309;
+}
 

@@ -7,7 +7,13 @@ type Health = {
   host: string;
   isLocalDev: boolean;
   admin: { configured: boolean; passwordSet: boolean; sessionSecretSet: boolean };
-  blob: { tokenSet: boolean; storeIdSet: boolean; access: string };
+  blob: {
+    tokenSet: boolean;
+    storeIdSet: boolean;
+    webhookKeySet: boolean;
+    access: string;
+    partialConnection?: boolean;
+  };
   contentStore: string;
   hint: string;
 };
@@ -44,6 +50,12 @@ export function AdminEnvStatus() {
         <li>
           Blob (BLOB_READ_WRITE_TOKEN): {ok(health.blob.tokenSet)}
         </li>
+        {health.blob.partialConnection && (
+          <li className="admin-env-status__warn-inline">
+            ⚠ יש BLOB_STORE_ID אבל חסר BLOB_READ_WRITE_TOKEN — חיבור Blob חלקי.
+            Storage → Blob → Connect to Project, ואז Redeploy.
+          </li>
+        )}
         <li>
           Redis/KV (תוכן): {ok(health.contentStore === "redis")} (
           {health.contentStore})

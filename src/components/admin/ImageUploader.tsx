@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type ChangeEvent } from "react";
+import { useRef, useState, type ChangeEvent } from "react";
 import { uploadAdminImage } from "@/lib/adminUpload";
 import { resolveBlobSrc } from "@/lib/blobAccess";
 
@@ -11,6 +11,7 @@ type Props = {
 };
 
 export function ImageUploader({ value, onChange, label }: Props) {
+  const inputRef = useRef<HTMLInputElement>(null);
   const [busy, setBusy] = useState(false);
   const [progress, setProgress] = useState<number | null>(null);
   const [error, setError] = useState("");
@@ -57,16 +58,22 @@ export function ImageUploader({ value, onChange, label }: Props) {
           )}
         </div>
         <div className="admin-image__controls">
-          <label className="admin-btn admin-btn--ghost admin-image__btn">
+          <button
+            type="button"
+            className="admin-btn admin-btn--ghost admin-image__btn"
+            onClick={() => inputRef.current?.click()}
+            disabled={busy}
+          >
             {statusLabel}
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleFile}
-              disabled={busy}
-              hidden
-            />
-          </label>
+          </button>
+          <input
+            ref={inputRef}
+            type="file"
+            accept="image/*"
+            onChange={handleFile}
+            disabled={busy}
+            hidden
+          />
           {busy && progress !== null && progress >= 10 && (
             <div
               className="admin-upload-progress"

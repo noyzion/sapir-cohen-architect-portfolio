@@ -34,6 +34,44 @@ function isImageKey(key: string): boolean {
   );
 }
 
+function isGalleryArrayKey(key: string): boolean {
+  return key === "gallery" || key === "renders";
+}
+
+function isImageArrayKey(key: string): boolean {
+  return isGalleryArrayKey(key);
+}
+
+function galleryItemTemplate(): { src: string; caption: Localized } {
+  return { src: "", caption: { he: "", en: "" } };
+}
+
+/** Gallery items must be { src, caption } — older saves may contain bare URL strings. */
+function normalizeGalleryItem(item: unknown): Record<string, unknown> {
+  if (typeof item === "string") {
+    return { src: item, caption: { he: "", en: "" } };
+  }
+  if (isPlainObject(item)) {
+    const src = typeof item.src === "string" ? item.src : "";
+    const caption = isLocalized(item.caption)
+      ? item.caption
+      : { he: "", en: "" };
+    const normalized: Record<string, unknown> = { src, caption };
+    if (item.phase === "before" || item.phase === "after") {
+      normalized.phase = item.phase;
+    }
+    return normalized;
+  }
+  return galleryItemTemplate();
+}
+
+function arrayItemTemplate(fieldKey: string, items: unknown[]): unknown {
+  if (items.length > 0) return blankLike(items[0]);
+  if (isGalleryArrayKey(fieldKey)) return galleryItemTemplate();
+  if (fieldKey === "highlights") return { he: "", en: "" };
+  return "";
+}
+
 /** Build an empty value with the same shape as a sample, for "add item". */
 function blankLike(sample: unknown): unknown {
   if (typeof sample === "string") return "";
@@ -310,7 +348,7 @@ export function JsonNode({
       onChange(copy);
     };
     const add = () => {
-      const template = items.length > 0 ? blankLike(items[0]) : "";
+      const template = arrayItemTemplate(fieldKey, items);
       onChange([...items, template]);
     };
 
@@ -320,8 +358,13 @@ export function JsonNode({
           {label} <span className="admin-group__count">({items.length})</span>
         </summary>
         <div className="admin-group__body">
-          {items.map((item, i) => (
-            <details className="admin-item" key={i}>
+          {items.map((rawItem, i) => {
+            const item = isImageArrayKey(fieldKey)
+              ? normalizeGalleryItem(rawItem)
+              : rawItem;
+
+            return (
+            <details className="admin-item" key={i} open>
               <summary className="admin-item__summary">
                 <span className="admin-item__title">{itemTitle(item, i)}</span>
                 <span className="admin-item__tools">
@@ -363,12 +406,19 @@ export function JsonNode({
               <div className="admin-item__body">
                 <JsonNode
                   value={item}
-                  onChange={(next) => update(i, next)}
+                  onChange={(next) => {
+                    if (isImageArrayKey(fieldKey) && typeof next === "string") {
+                      update(i, { ...normalizeGalleryItem(item), src: next });
+                      return;
+                    }
+                    update(i, next);
+                  }}
                   label={`פריט ${i + 1}`}
                 />
               </div>
             </details>
-          ))}
+            );
+          })}
           <button type="button" className="admin-btn admin-btn--add" onClick={add}>
             + הוספת פריט
           </button>

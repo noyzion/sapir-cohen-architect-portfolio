@@ -110,6 +110,7 @@ const LABELS: Record<string, string> = {
   scrollHint: "רמז גלילה",
   intro: "שם",
   credentials: "תפקיד",
+  portraitImage: "תמונת תדמית (אודות)",
   opening: "פסקת פתיחה",
   approachIntro: "מבוא לגישה",
   approachPillars: "עקרונות הגישה",

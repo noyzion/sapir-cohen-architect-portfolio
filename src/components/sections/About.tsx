@@ -1,10 +1,12 @@
 "use client";
 
 import { useLanguage, pick } from "@/context/LanguageContext";
+import { ProjectImage } from "@/components/ui/ProjectImage";
 
 export function About() {
   const { locale, t } = useLanguage();
   const { about } = t;
+  const portraitSrc = about.portraitImage?.trim() ?? "";
 
   return (
     <section
@@ -20,23 +22,39 @@ export function About() {
             </h2>
             <div className="section-heading-rule" aria-hidden />
 
-            <figure className="about-portrait" aria-hidden>
-              <div className="about-portrait-frame">
-                <svg
-                  className="about-portrait-icon"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.25"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M12 13a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z" />
-                  <path d="M4.5 19.5a7.5 7.5 0 0 1 15 0" />
-                </svg>
-                <span className="about-portrait-label">
-                  {locale === "he" ? "תמונת תדמית" : "Portrait photo"}
-                </span>
+            <figure className="about-portrait">
+              <div
+                className={`about-portrait-frame${
+                  portraitSrc ? " about-portrait-frame--photo" : ""
+                }`}
+              >
+                {portraitSrc ? (
+                  <ProjectImage
+                    src={portraitSrc}
+                    alt={pick(about.intro, locale)}
+                    sizes="(max-width: 768px) 16rem, 20vw"
+                    priority
+                  />
+                ) : (
+                  <>
+                    <svg
+                      className="about-portrait-icon"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.25"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden
+                    >
+                      <path d="M12 13a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z" />
+                      <path d="M4.5 19.5a7.5 7.5 0 0 1 15 0" />
+                    </svg>
+                    <span className="about-portrait-label">
+                      {locale === "he" ? "תמונת תדמית" : "Portrait photo"}
+                    </span>
+                  </>
+                )}
               </div>
             </figure>
           </header>

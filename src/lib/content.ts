@@ -19,8 +19,15 @@ export const CONTENT_KEYS = [
 export type ContentKey = (typeof CONTENT_KEYS)[number];
 
 export const getSiteCopy = cache(
-  async (): Promise<SiteCopy> =>
-    (await storeGet<SiteCopy>("siteCopy")) ?? seedSiteCopy
+  async (): Promise<SiteCopy> => {
+    const stored = await storeGet<SiteCopy>("siteCopy");
+    if (!stored) return seedSiteCopy;
+    return {
+      ...seedSiteCopy,
+      ...stored,
+      about: { ...seedSiteCopy.about, ...stored.about },
+    };
+  }
 );
 
 export const getProjects = cache(

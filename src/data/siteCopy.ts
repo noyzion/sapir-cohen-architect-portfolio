@@ -54,6 +54,7 @@ export const siteCopy: SiteCopy = {
       he: "אדריכלית ומעצבת פנים",
       en: "Architect & Interior Designer",
     },
+    portraitImage: "",
     opening: [
       {
         he: "המפגש שלי עם עולם העיצוב התחיל מגיל צעיר, דרך ציור ואומנות ועד לסיום לימודים בשנקר בהצטיינות יתרה.",

@@ -684,7 +684,11 @@
   }
 
   .about-portrait-frame {
-    @apply flex aspect-[4/5] w-full flex-col items-center justify-center gap-3 border border-dashed border-stone-300 bg-stone-50 text-stone-400;
+    @apply relative flex aspect-[4/5] w-full flex-col items-center justify-center gap-3 overflow-hidden border border-dashed border-stone-300 bg-stone-50 text-stone-400;
+  }
+
+  .about-portrait-frame--photo {
+    @apply border-solid border-stone-200 bg-stone-100;
   }
 
   .about-portrait-icon {

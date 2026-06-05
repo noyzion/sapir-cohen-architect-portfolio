@@ -77,6 +77,8 @@ export type SiteCopy = {
     title: LocalizedString;
     intro: LocalizedString;
     credentials: LocalizedString;
+    /** About page portrait — editable in admin under Site texts → About */
+    portraitImage: string;
     opening: LocalizedString[];
     approachIntro: LocalizedString;
     approachPillars: LocalizedString[];

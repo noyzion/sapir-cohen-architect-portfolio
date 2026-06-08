@@ -37,6 +37,12 @@ export function getSiteUrl(): string {
     return `https://${normalized}`;
   }
 
+  const productionHost = process.env.VERCEL_PROJECT_PRODUCTION_URL?.trim();
+  if (productionHost) {
+    const host = productionHost.replace(/^https?:\/\//i, "").replace(/\/$/, "");
+    return `https://${host}`;
+  }
+
   const vercel = process.env.VERCEL_URL?.trim();
   if (vercel) return `https://${vercel.replace(/\/$/, "")}`;
 

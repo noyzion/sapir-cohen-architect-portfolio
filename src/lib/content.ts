@@ -10,6 +10,7 @@ import {
   seedSiteTheme,
 } from "@/lib/seed";
 import { mergeSiteTheme } from "@/lib/themeCss";
+import { mergeSiteCopy } from "@/lib/siteCopyMerge";
 
 export const CONTENT_KEYS = [
   "siteCopy",
@@ -23,42 +24,8 @@ export type ContentKey = (typeof CONTENT_KEYS)[number];
 
 export const getSiteCopy = cache(
   async (): Promise<SiteCopy> => {
-    const stored = await storeGet<SiteCopy>("siteCopy");
-    if (!stored) return seedSiteCopy;
-    return {
-      ...seedSiteCopy,
-      ...stored,
-      about: { ...seedSiteCopy.about, ...stored.about },
-      footer: { ...seedSiteCopy.footer, ...stored.footer },
-      privacy: {
-        ...seedSiteCopy.privacy,
-        ...stored.privacy,
-        sections: stored.privacy?.sections?.length
-          ? stored.privacy.sections
-          : seedSiteCopy.privacy.sections,
-      },
-      accessibility: {
-        ...seedSiteCopy.accessibility,
-        ...stored.accessibility,
-        sections: stored.accessibility?.sections?.length
-          ? stored.accessibility.sections
-          : seedSiteCopy.accessibility.sections,
-      },
-      terms: {
-        ...seedSiteCopy.terms,
-        ...stored.terms,
-        sections: stored.terms?.sections?.length
-          ? stored.terms.sections
-          : seedSiteCopy.terms.sections,
-      },
-      cookies: {
-        ...seedSiteCopy.cookies,
-        ...stored.cookies,
-        sections: stored.cookies?.sections?.length
-          ? stored.cookies.sections
-          : seedSiteCopy.cookies.sections,
-      },
-    };
+    const stored = await storeGet<Partial<SiteCopy>>("siteCopy");
+    return mergeSiteCopy(seedSiteCopy, stored);
   }
 );
 

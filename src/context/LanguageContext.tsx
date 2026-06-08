@@ -82,6 +82,9 @@ export function useLanguage() {
   return ctx;
 }
 
-export function pick<T extends Record<Locale, string>>(obj: T, locale: Locale) {
-  return obj[locale];
+export function pick<T extends Record<Locale, string>>(
+  obj: T | undefined | null,
+  locale: Locale
+) {
+  return obj?.[locale] ?? "";
 }

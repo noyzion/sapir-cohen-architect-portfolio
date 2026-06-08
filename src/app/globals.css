@@ -461,6 +461,10 @@
     border-radius: var(--theme-border-radius);
   }
 
+  .service-package-card--featured .service-package-card__frame {
+    @apply flex-1;
+  }
+
   .service-package-badge {
     @apply absolute top-0 inset-x-0 z-30 mx-auto w-fit -translate-y-1/2 px-4 py-1.5 label-caps;
     border: var(--theme-border-width-strong) solid var(--theme-featured-badge-border);
@@ -610,10 +614,11 @@
 
   .service-package-card--featured .service-pkg-desc {
     color: var(--theme-featured-text-muted);
+    @apply mb-1;
   }
 
   .service-pkg-fit {
-    @apply mt-auto border-t border-stone-200 pt-4 text-center;
+    @apply mt-auto border-t border-stone-200 pt-5 text-center;
   }
 
   .service-package-card--featured .service-pkg-fit {
@@ -1998,12 +2003,15 @@
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
+  min-width: 0;
 }
 
 .admin-theme-field__label {
   font-size: 0.82rem;
   font-weight: 600;
   color: var(--admin-ink);
+  line-height: 1.45;
+  overflow-wrap: anywhere;
 }
 
 .admin-theme-field__hint {
@@ -2016,6 +2024,7 @@
   display: flex;
   align-items: center;
   gap: 0.55rem;
+  min-width: 0;
 }
 
 .admin-theme-color {

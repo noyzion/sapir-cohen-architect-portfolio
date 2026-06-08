@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useLanguage, pick } from "@/context/LanguageContext";
 import { CONTACT_EMAIL } from "@/data/siteCopy";
+import { SITE_BUILDER_CREDIT } from "@/data/siteMeta";
 import { LEGAL_ROUTES } from "@/data/legalCopy";
 
 export function Footer() {
@@ -66,6 +67,8 @@ export function Footer() {
 
         <p className="site-footer__divider mt-8 pt-8 text-center text-xs text-stone-400">
           {pick(t.footer.rights, locale).replace("{year}", String(year))}
+          {" · "}
+          {SITE_BUILDER_CREDIT[locale]}
         </p>
       </div>
     </footer>

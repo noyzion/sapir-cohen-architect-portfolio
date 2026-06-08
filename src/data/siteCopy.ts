@@ -173,7 +173,7 @@ export const siteCopy: SiteCopy = {
     },
   },
   footer: {
-    rights: { he: "© {year} ספיר כהן. כל הזכויות שמורות", en: "© {year} Sapir Cohen. All rights reserved" },
+    rights: { he: "© {year} ספיר כהן · כל הזכויות שמורות", en: "© {year} Sapir Cohen · All rights reserved" },
     privacyLabel: { he: "מדיניות פרטיות", en: "Privacy Policy" },
     accessibilityLabel: { he: "הצהרת נגישות", en: "Accessibility Statement" },
     termsLabel: { he: "תנאי שימוש", en: "Terms of Use" },

@@ -61,7 +61,7 @@ const THEME_SECTIONS: ThemeSection[] = [
     fields: [
       { path: ["hero", "panelBackground"], label: "רקע הפאנל", type: "color" },
       { path: ["hero", "panelBorder"], label: "מסגרת הפאנל", type: "color" },
-      { path: ["hero", "cornerColor"], label: "פינות דекораטивיות", type: "color" },
+      { path: ["hero", "cornerColor"], label: "פינות דקורטיביות", type: "color" },
       { path: ["hero", "titleColor"], label: "צבע כותרת", type: "color" },
       { path: ["hero", "subtitleColor"], label: "צבע תת-כותרת", type: "color" },
       { path: ["hero", "accentBar"], label: "פס תחתון לשם", type: "color" },

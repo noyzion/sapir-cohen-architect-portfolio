@@ -1270,6 +1270,12 @@
   color: var(--admin-ink);
   margin-bottom: 0.35rem;
 }
+.admin-field-hint {
+  margin: 0.35rem 0 0;
+  font-size: 0.75rem;
+  line-height: 1.45;
+  color: var(--admin-muted, #78716c);
+}
 .admin-input {
   width: 100%;
   background: #fff;

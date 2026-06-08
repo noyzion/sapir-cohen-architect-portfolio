@@ -1,6 +1,11 @@
 "use client";
 
 import { ImageUploader } from "@/components/admin/ImageUploader";
+import {
+  shouldSyncSlugFromName,
+  slugify,
+  slugifyFromName,
+} from "@/lib/slugify";
 
 /* -------------------------------------------------------------------------- */
 /* Helpers                                                                    */
@@ -174,6 +179,14 @@ const LABELS: Record<string, string> = {
   phase: "שלב (before/after)",
 };
 
+function isProjectShape(v: unknown): v is Record<string, unknown> & {
+  slug: string;
+  name: Localized;
+} {
+  if (!isPlainObject(v)) return false;
+  return typeof v.slug === "string" && isLocalized(v.name);
+}
+
 function humanize(key: string): string {
   if (LABELS[key]) return LABELS[key];
   return key
@@ -240,6 +253,35 @@ function LocalizedField({
   );
 }
 
+function SlugField({
+  value,
+  onChange,
+  label,
+}: {
+  value: string;
+  onChange: (next: string) => void;
+  label: string;
+}) {
+  return (
+    <div className="admin-field">
+      <span className="admin-field-label">{label}</span>
+      <input
+        className="admin-input"
+        dir="ltr"
+        spellCheck={false}
+        autoComplete="off"
+        value={value}
+        placeholder="my-project-name"
+        onChange={(e) => onChange(slugify(e.target.value))}
+      />
+      <p className="admin-field-hint">
+        מתעדכן אוטומטית: אותיות קטנות באנגלית, מקפים במקום רווחים. ניתן לערוך
+        ידנית.
+      </p>
+    </div>
+  );
+}
+
 function StringField({
   value,
   onChange,
@@ -302,6 +344,10 @@ export function JsonNode({
     return (
       <ImageUploader value={value} label={label} onChange={(url) => onChange(url)} />
     );
+  }
+
+  if (typeof value === "string" && fieldKey === "slug") {
+    return <SlugField value={value} label={label} onChange={onChange} />;
   }
 
   if (typeof value === "string") {
@@ -439,6 +485,8 @@ export function JsonNode({
   // Plain object -> section
   if (isPlainObject(value)) {
     const entries = Object.entries(value);
+    const isProject = isProjectShape(value);
+
     return (
       <details className="admin-group" open>
         <summary className="admin-group__summary">{label}</summary>
@@ -449,7 +497,23 @@ export function JsonNode({
               value={child}
               fieldKey={key}
               label={humanize(key)}
-              onChange={(next) => onChange({ ...value, [key]: next })}
+              onChange={(next) => {
+                if (isProject && key === "name" && isLocalized(next)) {
+                  const previousName = value.name as Localized;
+                  const previousSlug =
+                    typeof value.slug === "string" ? value.slug : "";
+                  const updates: Record<string, unknown> = {
+                    ...value,
+                    name: next,
+                  };
+                  if (shouldSyncSlugFromName(previousSlug, previousName)) {
+                    updates.slug = slugifyFromName(next);
+                  }
+                  onChange(updates);
+                  return;
+                }
+                onChange({ ...value, [key]: next });
+              }}
             />
           ))}
         </div>

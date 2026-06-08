@@ -15,7 +15,7 @@ const config: Config = {
           muted: "#2a2a2a",
         },
         surface: {
-          warm: "#fcfbfa",
+          warm: "var(--surface-warm)",
         },
         stone: {
           50: "#fafaf9",

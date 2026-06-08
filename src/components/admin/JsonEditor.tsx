@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ImageUploader } from "@/components/admin/ImageUploader";
 import {
   shouldSyncSlugFromName,
@@ -228,6 +228,39 @@ function itemTitle(value: unknown, index: number): string {
 /* Field renderers                                                            */
 /* -------------------------------------------------------------------------- */
 
+function syncTextareaHeight(el: HTMLTextAreaElement) {
+  el.style.height = "auto";
+  el.style.height = `${el.scrollHeight}px`;
+}
+
+function AdminTextarea({
+  value,
+  onChange,
+  dir,
+}: {
+  value: string;
+  onChange: (next: string) => void;
+  dir?: "rtl" | "ltr";
+}) {
+  const ref = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    if (ref.current) syncTextareaHeight(ref.current);
+  }, [value]);
+
+  return (
+    <textarea
+      ref={ref}
+      className="admin-input admin-textarea"
+      dir={dir}
+      rows={3}
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      onInput={(e) => syncTextareaHeight(e.currentTarget)}
+    />
+  );
+}
+
 function LocalizedField({
   value,
   onChange,
@@ -239,26 +272,22 @@ function LocalizedField({
 }) {
   return (
     <div className="admin-field">
-      <span className="admin-field-label">{label}</span>
+      {label ? <span className="admin-field-label">{label}</span> : null}
       <div className="admin-localized">
         <label className="admin-localized__col">
           <span className="admin-localized__tag">עברית</span>
-          <textarea
-            className="admin-input admin-textarea"
+          <AdminTextarea
             dir="rtl"
-            rows={Math.min(6, Math.max(1, Math.ceil(value.he.length / 60)))}
             value={value.he}
-            onChange={(e) => onChange({ ...value, he: e.target.value })}
+            onChange={(he) => onChange({ ...value, he })}
           />
         </label>
         <label className="admin-localized__col">
           <span className="admin-localized__tag">English</span>
-          <textarea
-            className="admin-input admin-textarea"
+          <AdminTextarea
             dir="ltr"
-            rows={Math.min(6, Math.max(1, Math.ceil(value.en.length / 60)))}
             value={value.en}
-            onChange={(e) => onChange({ ...value, en: e.target.value })}
+            onChange={(en) => onChange({ ...value, en })}
           />
         </label>
       </div>
@@ -309,12 +338,7 @@ function StringField({
     <div className="admin-field">
       <span className="admin-field-label">{label}</span>
       {multiline ? (
-        <textarea
-          className="admin-input admin-textarea"
-          rows={Math.min(6, Math.max(2, Math.ceil(value.length / 60)))}
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-        />
+        <AdminTextarea value={value} onChange={onChange} />
       ) : (
         <input
           className="admin-input"
@@ -532,7 +556,7 @@ function ArrayNode({
                       }
                       update(i, next);
                     }}
-                    label={itemTitle(item, i)}
+                    label={isLocalized(item) ? "" : itemTitle(item, i)}
                   />
                 )}
               </div>

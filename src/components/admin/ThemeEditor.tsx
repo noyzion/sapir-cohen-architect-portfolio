@@ -7,6 +7,7 @@ import { seedSiteTheme } from "@/lib/themeCss";
 type ThemeSection = {
   id: string;
   title: string;
+  intro?: string;
   fields: ThemeFieldDef[];
 };
 
@@ -70,6 +71,7 @@ const THEME_SECTIONS: ThemeSection[] = [
   {
     id: "cards",
     title: "כרטיסים וצללים",
+    intro: "«צל כרטיס» משפיע על כרטיסי שירותים, טופס יצירת קשר, שער ועוד.",
     fields: [
       { path: ["cards", "background"], label: "רקע כרטיס", type: "color" },
       { path: ["cards", "border"], label: "מסגרת כרטיס", type: "color" },
@@ -84,10 +86,12 @@ const THEME_SECTIONS: ThemeSection[] = [
   {
     id: "featured",
     title: "מסלול מומלץ (Featured)",
+    intro:
+      "ברירת המחדל: רקע כהה (#0a0a0a) וטקסט בהיר (#ffffff). ודאו שיש ניגודיות בין «רקע» ל«טקסט», אחרת תוכן הכרטיס לא ייראה.",
     fields: [
       { path: ["featured", "background"], label: "רקע", type: "color" },
       { path: ["featured", "text"], label: "טקסט", type: "color" },
-      { path: ["featured", "textMuted"], label: "טקסט משני", type: "color" },
+      { path: ["featured", "textMuted"], label: "טקסט משני", type: "color", hint: "hex או rgba, למשל rgba(255,255,255,0.75)" },
       { path: ["featured", "border"], label: "מסגרת חיצונית", type: "color" },
       { path: ["featured", "innerBorder"], label: "מסגרת פנימית", type: "color" },
       { path: ["featured", "badgeBackground"], label: "רקע תגית «מומלץ»", type: "color" },
@@ -98,6 +102,7 @@ const THEME_SECTIONS: ThemeSection[] = [
   {
     id: "buttons",
     title: "כפתורים",
+    intro: "ודאו ניגודיות בין «כפתור ראשי - רקע» ל«כפתור ראשי - טקסט».",
     fields: [
       { path: ["buttons", "primaryBackground"], label: "כפתור ראשי - רקע", type: "color" },
       { path: ["buttons", "primaryText"], label: "כפתור ראשי - טקסט", type: "color" },
@@ -191,8 +196,12 @@ function setNestedValue(obj: SiteTheme, path: string[], value: string): SiteThem
   return copy;
 }
 
+function isHexColor(value: string): boolean {
+  return /^#[0-9a-fA-F]{6}$/.test(value);
+}
+
 function toColorInputValue(value: string): string {
-  if (/^#[0-9a-fA-F]{6}$/.test(value)) return value;
+  if (isHexColor(value)) return value;
   return "#000000";
 }
 
@@ -210,7 +219,7 @@ function ThemeField({
       <span className="admin-theme-field__label">{def.label}</span>
       {def.hint && <span className="admin-theme-field__hint">{def.hint}</span>}
       <div className="admin-theme-field__row">
-        {def.type === "color" && (
+        {def.type === "color" && isHexColor(value) && (
           <input
             type="color"
             className="admin-theme-color"
@@ -224,6 +233,7 @@ function ThemeField({
           dir="ltr"
           value={value}
           onChange={(e) => onChange(e.target.value)}
+          placeholder={def.type === "color" && !isHexColor(value) ? "hex או rgba" : undefined}
         />
       </div>
     </label>
@@ -306,6 +316,9 @@ export function ThemeEditor() {
           <details key={section.id} className="admin-group" open>
             <summary className="admin-group__summary">{section.title}</summary>
             <div className="admin-group__body admin-theme-section">
+              {section.intro ? (
+                <p className="admin-theme-section__intro">{section.intro}</p>
+              ) : null}
               {section.fields.map((field) => {
                 const value = getNestedValue(theme, field.path);
                 return (

@@ -35,7 +35,7 @@ export function SectionHeader({
       {subtitle && (
         <p
           className={`mt-4 text-prose ${align === "center" ? "mx-auto" : ""} ${
-            light ? "!text-white/60" : ""
+            light ? "section-header__subtitle--light" : ""
           }`}
         >
           {subtitle}

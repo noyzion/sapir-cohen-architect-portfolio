@@ -15,7 +15,7 @@ export function Services() {
   const suitableLabel = pick(t.services.suitableLabel, locale);
 
   return (
-    <section id="services" className="section-pad bg-stone-50">
+    <section id="services" className="section-pad surface-warm">
       <div className="container-site">
         <SectionHeader
           title={pick(t.services.title, locale)}

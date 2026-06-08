@@ -51,6 +51,7 @@ export function themeToCssText(theme: SiteTheme): string {
     "--theme-card-bg": theme.cards.background,
     "--theme-card-border": theme.cards.border,
     "--theme-card-shadow": theme.cards.shadow,
+    "--theme-shadow-soft": theme.cards.shadow,
     "--theme-featured-bg": theme.featured.background,
     "--theme-featured-text": theme.featured.text,
     "--theme-featured-text-muted": theme.featured.textMuted,
@@ -84,7 +85,6 @@ export function themeToCssText(theme: SiteTheme): string {
     "--theme-about-highlight-border": theme.about.highlightBorder,
     "--theme-project-media-border": theme.project.mediaBorder,
     "--theme-project-overlay": theme.project.overlay,
-    "--theme-shadow-soft": "0 8px 32px rgba(0, 0, 0, 0.05)",
   };
 
   const lines = Object.entries(v)

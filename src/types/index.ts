@@ -140,7 +140,6 @@ export type SiteCopy = {
     };
   };
   footer: {
-    rights: LocalizedString;
     privacyLabel: LocalizedString;
     accessibilityLabel: LocalizedString;
     termsLabel: LocalizedString;

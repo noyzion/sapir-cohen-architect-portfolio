@@ -4,7 +4,11 @@ function mergeLocalized(
   base: LocalizedString,
   patch: LocalizedString | undefined
 ): LocalizedString {
-  return patch ? { ...base, ...patch } : base;
+  if (!patch) return base;
+  return {
+    he: patch.he?.trim() ? patch.he : base.he,
+    en: patch.en?.trim() ? patch.en : base.en,
+  };
 }
 
 function mergeLegalPage(
@@ -94,7 +98,6 @@ export function mergeSiteCopy(
     footer: {
       ...seed.footer,
       ...stored.footer,
-      rights: mergeLocalized(seed.footer.rights, stored.footer?.rights),
       privacyLabel: mergeLocalized(seed.footer.privacyLabel, stored.footer?.privacyLabel),
       accessibilityLabel: mergeLocalized(
         seed.footer.accessibilityLabel,

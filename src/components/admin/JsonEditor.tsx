@@ -158,7 +158,6 @@ const LABELS: Record<string, string> = {
   message: "הודעה",
   messagePlaceholder: "טקסט רמז בהודעה",
   projectTypeOptions: "אפשרויות סוג פרויקט",
-  rights: "כל הזכויות שמורות",
   afterPortfolio: "אחרי תיק עבודות",
   text: "טקסט",
   consult: "יצירת קשר",

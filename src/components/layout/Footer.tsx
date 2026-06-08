@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useLanguage, pick } from "@/context/LanguageContext";
 import { CONTACT_EMAIL } from "@/data/siteCopy";
+import { LEGAL_ROUTES } from "@/data/legalCopy";
 
 export function Footer() {
   const { locale, t } = useLanguage();
@@ -45,18 +46,26 @@ export function Footer() {
           </div>
         </div>
 
-        <p className="site-footer__divider mt-14 pt-8 text-center text-xs text-stone-400">
+        <nav
+          className="site-footer__legal-nav mt-10 flex flex-wrap justify-center gap-x-4 gap-y-2 text-xs"
+          aria-label={locale === "he" ? "מסמכים משפטיים" : "Legal"}
+        >
+          <Link href={LEGAL_ROUTES.privacy} className="site-footer__legal-link">
+            {pick(t.footer.privacyLabel, locale)}
+          </Link>
+          <Link href={LEGAL_ROUTES.accessibility} className="site-footer__legal-link">
+            {pick(t.footer.accessibilityLabel, locale)}
+          </Link>
+          <Link href={LEGAL_ROUTES.terms} className="site-footer__legal-link">
+            {pick(t.footer.termsLabel, locale)}
+          </Link>
+          <Link href={LEGAL_ROUTES.cookies} className="site-footer__legal-link">
+            {pick(t.footer.cookiesLabel, locale)}
+          </Link>
+        </nav>
+
+        <p className="site-footer__divider mt-8 pt-8 text-center text-xs text-stone-400">
           {pick(t.footer.rights, locale).replace("{year}", String(year))}
-          <span className="site-footer__legal">
-            {" · "}
-            <Link href="/privacy" className="site-footer__legal-link">
-              {pick(t.footer.privacyLabel, locale)}
-            </Link>
-            {" · "}
-            <Link href="/accessibility" className="site-footer__legal-link">
-              {pick(t.footer.accessibilityLabel, locale)}
-            </Link>
-          </span>
         </p>
       </div>
     </footer>

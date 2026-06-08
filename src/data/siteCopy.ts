@@ -1,4 +1,11 @@
 import type { SiteCopy } from "@/types";
+import {
+  LEGAL_DISCLAIMER,
+  accessibilityStatementCopy,
+  cookiesPolicyCopy,
+  privacyPolicyCopy,
+  termsOfUseCopy,
+} from "@/data/legalCopy";
 
 export const siteCopy: SiteCopy = {
   meta: {
@@ -160,142 +167,28 @@ export const siteCopy: SiteCopy = {
         { he: "ייעוץ / קונספט", en: "Consultation / concept" },
         { he: "אחר", en: "Other" },
       ],
+      privacyConsent: {
+        he: "אני מאשר/ת את מדיניות הפרטיות ואת השימוש בפרטים לצורך יצירת קשר.",
+        en: "I agree to the Privacy Policy and to the use of my details for contact purposes.",
+      },
+      privacySubmitNote: {
+        he: "בלחיצה על שליחה אני מאשר/ת את העברת הפרטים לצורך יצירת קשר, בהתאם למדיניות הפרטיות של האתר.",
+        en: "By clicking send, I agree to share my details for contact purposes, in accordance with this site's Privacy Policy.",
+      },
     },
   },
   footer: {
     rights: { he: "© {year} ספיר כהן. כל הזכויות שמורות", en: "© {year} Sapir Cohen. All rights reserved" },
     privacyLabel: { he: "מדיניות פרטיות", en: "Privacy Policy" },
     accessibilityLabel: { he: "הצהרת נגישות", en: "Accessibility Statement" },
+    termsLabel: { he: "תנאי שימוש", en: "Terms of Use" },
+    cookiesLabel: { he: "מדיניות Cookies", en: "Cookies Policy" },
   },
-  privacy: {
-    title: { he: "מדיניות פרטיות", en: "Privacy Policy" },
-    updatedAt: {
-      he: "עודכן לאחרונה: מאי 2026",
-      en: "Last updated: May 2026",
-    },
-    intro: {
-      he: "מדיניות פרטיות זו מתארת כיצד ספיר כהן («האתר», «אנחנו») אוספת, משתמשת ושומרת מידע אישי במסגרת השימוש באתר ובפנייה דרך טופס יצירת הקשר.",
-      en: "This Privacy Policy explains how Sapir Cohen (\"the website\", \"we\") collects, uses, and stores personal information when you use this site and submit the contact form.",
-    },
-    sections: [
-      {
-        heading: { he: "איזה מידע נאסף", en: "What information we collect" },
-        paragraphs: [
-          {
-            he: "בעת מילוי טופס יצירת הקשר: שם, טלפון, כתובת אימייל, סוג פרויקט ותוכן ההודעה. בנוסף, המערכת עשויה לשמור מידע טכני בסיסי (כגון סוג דפדפן) לצורכי אבטחה ותפעול.",
-            en: "When you submit the contact form: name, phone, email address, project type, and message content. The site may also store basic technical data (such as browser type) for security and operation.",
-          },
-        ],
-      },
-      {
-        heading: { he: "כיצד אנו משתמשים במידע", en: "How we use the information" },
-        paragraphs: [
-          {
-            he: "המידע משמש ליצירת קשר, מתן מענה לפנייה, תיאום שיחת ייעוץ, ושיפור השירות. לא נשתמש במידע למטרות שיווקיות ללא הסכמתכם.",
-            en: "We use the information to respond to inquiries, schedule consultations, and improve our service. We will not use your data for marketing without your consent.",
-          },
-        ],
-      },
-      {
-        heading: { he: "שיתוף מידע", en: "Sharing information" },
-        paragraphs: [
-          {
-            he: "איננו מוכרים מידע אישי. המידע עשוי להיות מעובד על ידי ספקי תשתית (אחסון, אימייל, אחסון תמונות) לצורך הפעלת האתר בלבד, בכפוף להתחייבותם לשמירה על סודיות.",
-            en: "We do not sell personal data. Information may be processed by infrastructure providers (hosting, email, image storage) solely to operate the website, subject to their confidentiality obligations.",
-          },
-        ],
-      },
-      {
-        heading: { he: "עוגיות (Cookies)", en: "Cookies" },
-        paragraphs: [
-          {
-            he: "האתר עשוי להשתמש בעוגיות לשמירת העדפת שפה (עברית/אנגלית) בדפדפן. ניתן למחוק עוגיות דרך הגדרות הדפדפן.",
-            en: "The site may use cookies to remember your language preference (Hebrew/English). You can delete cookies through your browser settings.",
-          },
-        ],
-      },
-      {
-        heading: { he: "זכויותיכם", en: "Your rights" },
-        paragraphs: [
-          {
-            he: "בכפוף לדין, ניתן לפנות אלינו לעיון במידע, לתיקון או לבקשת מחיקה, בכפוף לחובות שמירה על פי חוק.",
-            en: "Subject to applicable law, you may contact us to access, correct, or request deletion of your data, subject to legal retention requirements.",
-          },
-        ],
-      },
-      {
-        heading: { he: "יצירת קשר", en: "Contact" },
-        paragraphs: [
-          {
-            he: "לשאלות בנושא פרטיות: sapircohenarc@gmail.com",
-            en: "Privacy inquiries: sapircohenarc@gmail.com",
-          },
-        ],
-      },
-    ],
-  },
-  accessibility: {
-    title: { he: "הצהרת נגישות", en: "Accessibility Statement" },
-    updatedAt: {
-      he: "עודכן לאחרונה: מאי 2026",
-      en: "Last updated: May 2026",
-    },
-    intro: {
-      he: "ספיר כהן מקדישה מאמצים להנגיש את האתר לאנשים עם מוגבלות, על מנת לאפשר לכל אדם גלישה שוויונית, נוחה ועצמאית.",
-      en: "Sapir Cohen is committed to making this website accessible to people with disabilities, so that every person can browse with equity, comfort, and independence.",
-    },
-    sections: [
-      {
-        heading: { he: "רמת הנגישות", en: "Accessibility level" },
-        paragraphs: [
-          {
-            he: "האתר נבנה בהתאם להנחיות WCAG 2.1 ברמה AA, בכפוף ליכולות המערכת. הנגישות נבדקה באופן חלקי ומשתפרת בהתאם.",
-            en: "The site was built with WCAG 2.1 Level AA guidelines in mind, subject to platform capabilities. Accessibility has been partially reviewed and is being improved.",
-          },
-        ],
-      },
-      {
-        heading: { he: "התאמות שבוצעו", en: "Adaptations made" },
-        paragraphs: [
-          {
-            he: "מבנה סמנטי, כותרות היררכיות, טקסט חלופי לתמונות במידת האפשר, ניגודיות צבעים, תמיכה בכיווניות RTL/LTR, וניווט מקלדת בסיסי.",
-            en: "Semantic structure, hierarchical headings, alt text where applicable, color contrast, RTL/LTR support, and basic keyboard navigation.",
-          },
-        ],
-      },
-      {
-        heading: { he: "פערים ידועים", en: "Known gaps" },
-        paragraphs: [
-          {
-            he: "ייתכן שחלק מהתמונות, מסמכים או רכיבים חיצוניים (כגון וואטסאפ) אינם נגישים במלואם. אנו פועלים לשפרם.",
-            en: "Some images, documents, or third-party components (such as WhatsApp) may not be fully accessible. We are working to improve them.",
-          },
-        ],
-      },
-      {
-        heading: { he: "דפדפנים וטכנולוגיה", en: "Browsers and technology" },
-        paragraphs: [
-          {
-            he: "האתר מותאם לדפדפנים מודרניים (Chrome, Safari, Edge, Firefox) במחשב ובמובייל.",
-            en: "The site is designed for modern browsers (Chrome, Safari, Edge, Firefox) on desktop and mobile.",
-          },
-        ],
-      },
-      {
-        heading: { he: "רכז/ת נגישות — פניות", en: "Accessibility coordinator — contact" },
-        paragraphs: [
-          {
-            he: "נתקלתם בבעיית נגישות? נשמח לסייע. פנו אל: sapircohenarc@gmail.com (נושא: נגישות).",
-            en: "Encountered an accessibility issue? We will gladly help. Contact: sapircohenarc@gmail.com (subject: Accessibility).",
-          },
-          {
-            he: "נשתדל להשיב ולטפל בפנייה בהקדם האפשרי.",
-            en: "We will respond and address your request as soon as possible.",
-          },
-        ],
-      },
-    ],
-  },
+  legalDisclaimer: LEGAL_DISCLAIMER,
+  privacy: privacyPolicyCopy,
+  accessibility: accessibilityStatementCopy,
+  terms: termsOfUseCopy,
+  cookies: cookiesPolicyCopy,
   ctaBand: {
     afterPortfolio: {
       title: { he: "יש לכם פרויקט בראש?", en: "Have a project in mind?" },

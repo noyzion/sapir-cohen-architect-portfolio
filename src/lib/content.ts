@@ -44,6 +44,20 @@ export const getSiteCopy = cache(
           ? stored.accessibility.sections
           : seedSiteCopy.accessibility.sections,
       },
+      terms: {
+        ...seedSiteCopy.terms,
+        ...stored.terms,
+        sections: stored.terms?.sections?.length
+          ? stored.terms.sections
+          : seedSiteCopy.terms.sections,
+      },
+      cookies: {
+        ...seedSiteCopy.cookies,
+        ...stored.cookies,
+        sections: stored.cookies?.sections?.length
+          ? stored.cookies.sections
+          : seedSiteCopy.cookies.sections,
+      },
     };
   }
 );

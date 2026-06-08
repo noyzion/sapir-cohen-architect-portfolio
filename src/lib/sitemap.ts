@@ -44,12 +44,22 @@ function buildStaticRoutes(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
-      url: absoluteUrl("/privacy"),
+      url: absoluteUrl("/privacy-policy"),
       changeFrequency: "yearly",
       priority: 0.3,
     },
     {
       url: absoluteUrl("/accessibility"),
+      changeFrequency: "yearly",
+      priority: 0.3,
+    },
+    {
+      url: absoluteUrl("/terms-of-use"),
+      changeFrequency: "yearly",
+      priority: 0.3,
+    },
+    {
+      url: absoluteUrl("/cookies"),
       changeFrequency: "yearly",
       priority: 0.3,
     },

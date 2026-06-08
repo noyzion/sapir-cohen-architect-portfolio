@@ -1,8 +1,10 @@
 "use client";
 
 import { FormEvent, useEffect, useState } from "react";
+import Link from "next/link";
 import { useLanguage, pick } from "@/context/LanguageContext";
 import { CONTACT_EMAIL, WHATSAPP_NUMBER } from "@/data/siteCopy";
+import { LEGAL_ROUTES } from "@/data/legalCopy";
 import {
   getPackageInquiryMessage,
   getStoredPackageInquiry,
@@ -27,6 +29,7 @@ export function Contact() {
   const [submitted, setSubmitted] = useState(false);
   const [message, setMessage] = useState("");
   const [selectedPackage, setSelectedPackage] = useState("");
+  const [privacyAccepted, setPrivacyAccepted] = useState(false);
   const contactEmail = t.contact.email || CONTACT_EMAIL;
   const whatsappNumber = t.contact.whatsapp || WHATSAPP_NUMBER;
 
@@ -50,6 +53,7 @@ export function Contact() {
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (!privacyAccepted) return;
     const form = e.currentTarget;
     const data = new FormData(form);
     const name = String(data.get("name") || "");
@@ -220,6 +224,31 @@ export function Contact() {
                   suppressHydrationWarning
                 />
               </div>
+            </div>
+
+            <div className="contact-privacy mt-6 space-y-4 border-t border-stone-200 pt-6">
+              <label className="contact-privacy__checkbox flex items-start gap-3 text-start">
+                <input
+                  type="checkbox"
+                  name="privacyConsent"
+                  required
+                  checked={privacyAccepted}
+                  onChange={(e) => setPrivacyAccepted(e.target.checked)}
+                  className="contact-privacy__input mt-0.5"
+                />
+                <span className="text-body-sm leading-relaxed text-stone-600">
+                  {pick(t.contact.form.privacyConsent, locale)}{" "}
+                  <Link
+                    href={LEGAL_ROUTES.privacy}
+                    className="text-ink underline-offset-2 hover:underline"
+                  >
+                    {pick(t.footer.privacyLabel, locale)}
+                  </Link>
+                </span>
+              </label>
+              <p className="contact-privacy__note text-[0.8125rem] leading-relaxed text-stone-500">
+                {pick(t.contact.form.privacySubmitNote, locale)}
+              </p>
             </div>
 
             <div className="contact-actions mt-8">

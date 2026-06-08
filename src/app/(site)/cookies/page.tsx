@@ -5,13 +5,13 @@ import { buildLegalMetadata } from "@/lib/seo";
 
 export async function generateMetadata(): Promise<Metadata> {
   const siteCopy = await getSiteCopy();
-  return buildLegalMetadata(siteCopy, "privacy");
+  return buildLegalMetadata(siteCopy, "cookies");
 }
 
-export default function PrivacyPage() {
+export default function CookiesPage() {
   return (
     <div className="pt-[4.25rem] md:pt-[4.5rem]">
-      <LegalDocument docKey="privacy" />
+      <LegalDocument docKey="cookies" />
     </div>
   );
 }

@@ -1,9 +1,12 @@
 "use client";
 
+import Link from "next/link";
 import { useLanguage, pick } from "@/context/LanguageContext";
+import type { LegalDocKey } from "@/data/legalCopy";
+import { LEGAL_ROUTES } from "@/data/legalCopy";
 
 type Props = {
-  docKey: "privacy" | "accessibility";
+  docKey: LegalDocKey;
 };
 
 export function LegalDocument({ docKey }: Props) {
@@ -36,6 +39,19 @@ export function LegalDocument({ docKey }: Props) {
             </section>
           ))}
         </div>
+
+        {docKey === "privacy" ? (
+          <p className="legal-page__related">
+            {locale === "he" ? "למידע נוסף: " : "See also: "}
+            <Link href={LEGAL_ROUTES.cookies} className="legal-page__link">
+              {pick(t.footer.cookiesLabel, locale)}
+            </Link>
+          </p>
+        ) : null}
+
+        <p className="legal-page__disclaimer">
+          {pick(t.legalDisclaimer, locale)}
+        </p>
       </div>
     </article>
   );

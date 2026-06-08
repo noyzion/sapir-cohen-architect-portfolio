@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import type { LocalizedString, Project, SiteCopy } from "@/types";
+import type { LegalDocKey } from "@/data/legalCopy";
+import { LEGAL_ROUTES } from "@/data/legalCopy";
 
 export const SEO_KEYWORDS_HE = [
   "אדריכלות ועיצוב פנים",
@@ -209,15 +211,16 @@ export function buildProjectMetadata(project: Project): Metadata {
 
 export function buildLegalMetadata(
   siteCopy: SiteCopy,
-  docKey: "privacy" | "accessibility"
+  docKey: LegalDocKey
 ): Metadata {
   const page = siteCopy[docKey];
   const title = page.title.he;
+  const path = LEGAL_ROUTES[docKey];
 
   return buildPageMetadata({
     title,
     description: page.intro.he,
-    path: `/${docKey}`,
+    path,
     keywords: [page.title.he, siteCopy.brand.he, ...SEO_KEYWORDS_HE.slice(0, 4)],
   });
 }

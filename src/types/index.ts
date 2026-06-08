@@ -136,15 +136,22 @@ export type SiteCopy = {
       message: LocalizedString;
       messagePlaceholder: LocalizedString;
       projectTypeOptions: LocalizedString[];
+      privacyConsent: LocalizedString;
+      privacySubmitNote: LocalizedString;
     };
   };
   footer: {
     rights: LocalizedString;
     privacyLabel: LocalizedString;
     accessibilityLabel: LocalizedString;
+    termsLabel: LocalizedString;
+    cookiesLabel: LocalizedString;
   };
+  legalDisclaimer: LocalizedString;
   privacy: LegalPageCopy;
   accessibility: LegalPageCopy;
+  terms: LegalPageCopy;
+  cookies: LegalPageCopy;
   ctaBand: {
     afterPortfolio: { title: LocalizedString; text: LocalizedString };
   };

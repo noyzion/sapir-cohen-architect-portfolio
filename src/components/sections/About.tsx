@@ -7,6 +7,10 @@ export function About() {
   const { locale, t } = useLanguage();
   const { about } = t;
   const portraitSrc = about.portraitImage?.trim() ?? "";
+  const portraitAlt =
+    locale === "he"
+      ? `${pick(about.intro, locale)} – ${pick(about.credentials, locale)}, אדריכלות ועיצוב פנים`
+      : `${pick(about.intro, locale)} – ${pick(about.credentials, locale)}, architecture and interior design`;
 
   return (
     <section
@@ -17,9 +21,9 @@ export function About() {
       <div className="container-site about-section-inner">
         <div className="about-layout">
           <header className="about-title-col">
-            <h2 id="about-title" className="section-heading text-balance">
+            <h1 id="about-title" className="section-heading text-balance">
               {pick(about.title, locale)}
-            </h2>
+            </h1>
             <div className="section-heading-rule" aria-hidden />
 
             <figure className="about-portrait">
@@ -31,7 +35,7 @@ export function About() {
                 {portraitSrc ? (
                   <ProjectImage
                     src={portraitSrc}
-                    alt={pick(about.intro, locale)}
+                    alt={portraitAlt}
                     sizes="(max-width: 768px) 16rem, 20vw"
                     priority
                   />

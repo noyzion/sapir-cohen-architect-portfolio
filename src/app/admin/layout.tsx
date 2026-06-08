@@ -3,7 +3,16 @@ import { AdminChrome } from "@/components/admin/AdminChrome";
 
 export const metadata: Metadata = {
   title: "ניהול האתר | ספיר כהן",
-  robots: { index: false, follow: false },
+  robots: {
+    index: false,
+    follow: false,
+    nocache: true,
+    googleBot: {
+      index: false,
+      follow: false,
+      noimageindex: true,
+    },
+  },
 };
 
 export default function AdminLayout({

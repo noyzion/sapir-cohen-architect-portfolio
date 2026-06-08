@@ -4,7 +4,7 @@ import { useLanguage, pick } from "@/context/LanguageContext";
 
 export function Hero() {
   const { locale, t } = useLanguage();
-  const headline = t.hero.headline.en;
+  const headline = pick(t.hero.headline, locale);
 
   return (
     <section

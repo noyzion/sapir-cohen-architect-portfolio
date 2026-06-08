@@ -25,15 +25,18 @@ function imageAlt(
   img: ProjectImageType,
   locale: Locale,
   phase: GalleryPhase | null | undefined,
-  imageNumber: number
+  imageNumber: number,
+  fallbackAlt: string
 ) {
   if (img.caption) {
     const room = pick(img.caption, locale);
     if (phase) return `${phaseSectionTitle[phase][locale]}, ${room}`;
     return room;
   }
-  if (phase) return phaseSectionTitle[phase][locale];
-  return locale === "he" ? `תמונה ${imageNumber}` : `Image ${imageNumber}`;
+  if (phase) return `${fallbackAlt} – ${phaseSectionTitle[phase][locale]}`;
+  return locale === "he"
+    ? `${fallbackAlt} – תמונה ${imageNumber}`
+    : `${fallbackAlt} – image ${imageNumber}`;
 }
 
 export function ProjectGallery({
@@ -66,13 +69,14 @@ export function ProjectGallery({
             img,
             locale,
             section.phase ?? img.phase,
-            imageNumber
+            imageNumber,
+            fallbackAlt
           ),
           caption: img.caption ? pick(img.caption, locale) : null,
         };
       })
     );
-  }, [sections, locale]);
+  }, [sections, locale, fallbackAlt]);
 
   const indexedSections = useMemo(() => {
     let index = 0;

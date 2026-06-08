@@ -1,13 +1,11 @@
 import type { Metadata } from "next";
 import { LegalDocument } from "@/components/sections/LegalDocument";
 import { getSiteCopy } from "@/lib/content";
+import { buildLegalMetadata } from "@/lib/seo";
 
 export async function generateMetadata(): Promise<Metadata> {
   const siteCopy = await getSiteCopy();
-  return {
-    title: `${siteCopy.accessibility.title.he} | ${siteCopy.brand.he}`,
-    description: siteCopy.accessibility.intro.he.slice(0, 160),
-  };
+  return buildLegalMetadata(siteCopy, "accessibility");
 }
 
 export default function AccessibilityPage() {

@@ -27,6 +27,7 @@ export function ProjectDetail({ project }: Props) {
   const location = project.location[locale]
     ? pick(project.location, locale)
     : null;
+  const coverAlt = location ? `${name} – ${type}, ${location}` : `${name} – ${type}`;
   const gallery = project.gallery ?? [];
   const renders = project.renders ?? [];
   const hasGallery = gallery.length > 0;
@@ -38,7 +39,7 @@ export function ProjectDetail({ project }: Props) {
       <div className="project-detail-hero project-media">
         <ProjectImage
           src={project.coverImage}
-          alt={name}
+          alt={coverAlt}
           priority
           unoptimized
           sizes="100vw"
@@ -104,7 +105,7 @@ export function ProjectDetail({ project }: Props) {
               {pick(t.portfolio.galleryTitle, locale)}
             </h2>
             <div className="project-media aspect-[16/9] max-w-4xl">
-              <ProjectImage src={project.coverImage} alt={name} sizes="90vw" />
+              <ProjectImage src={project.coverImage} alt={coverAlt} sizes="90vw" />
             </div>
           </section>
         )}

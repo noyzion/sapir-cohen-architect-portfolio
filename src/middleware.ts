@@ -2,6 +2,11 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { SESSION_COOKIE, verifySessionToken } from "@/lib/session";
 
+function withAdminRobotsTag(response: NextResponse): NextResponse {
+  response.headers.set("X-Robots-Tag", "noindex, nofollow, noarchive");
+  return response;
+}
+
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
@@ -13,22 +18,24 @@ export async function middleware(req: NextRequest) {
     pathname === "/api/admin/health" ||
     pathname === "/api/admin/session"
   ) {
-    return NextResponse.next();
+    return withAdminRobotsTag(NextResponse.next());
   }
 
   const token = req.cookies.get(SESSION_COOKIE)?.value;
   if (await verifySessionToken(token)) {
-    return NextResponse.next();
+    return withAdminRobotsTag(NextResponse.next());
   }
 
   if (pathname.startsWith("/api/")) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return withAdminRobotsTag(
+      NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+    );
   }
 
   const url = req.nextUrl.clone();
   url.pathname = "/admin/login";
   url.searchParams.set("from", pathname);
-  return NextResponse.redirect(url);
+  return withAdminRobotsTag(NextResponse.redirect(url));
 }
 
 export const config = {

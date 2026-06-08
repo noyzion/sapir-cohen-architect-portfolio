@@ -84,7 +84,7 @@ export function PortfolioSlideshow({
         >
           <ProjectImage
             src={src}
-            alt={i === index ? alt : ""}
+            alt={alt}
             sizes={sizes}
             priority={priority && i === 0}
           />

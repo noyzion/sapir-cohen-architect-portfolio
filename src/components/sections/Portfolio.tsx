@@ -31,6 +31,12 @@ export function Portfolio() {
             const { intervalMs, fadeMs } = getPortfolioSlideshowTiming(
               project.slug
             );
+            const projectLocation = project.location[locale]
+              ? pick(project.location, locale)
+              : null;
+            const slideshowAlt = projectLocation
+              ? `${pick(project.name, locale)} – ${pick(project.type, locale)}, ${projectLocation}`
+              : `${pick(project.name, locale)} – ${pick(project.type, locale)}`;
 
             const media = (
               <Link
@@ -39,7 +45,7 @@ export function Portfolio() {
               >
                 <PortfolioSlideshow
                   images={slideshowImages}
-                  alt={pick(project.name, locale)}
+                  alt={slideshowAlt}
                   intervalMs={intervalMs}
                   fadeMs={fadeMs}
                   priority={i === 0}

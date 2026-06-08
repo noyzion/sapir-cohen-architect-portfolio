@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { AdminChrome } from "@/components/admin/AdminChrome";
 
 export const metadata: Metadata = {
-  title: "ניהול האתר | ספיר כהן",
+  title: "ניהול האתר של ספיר כהן",
   robots: {
     index: false,
     follow: false,

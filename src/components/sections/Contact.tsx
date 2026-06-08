@@ -1,15 +1,14 @@
 "use client";
 
 import { FormEvent, useEffect, useState } from "react";
-import Link from "next/link";
 import { useLanguage, pick } from "@/context/LanguageContext";
 import { CONTACT_EMAIL, WHATSAPP_NUMBER } from "@/data/siteCopy";
-import { LEGAL_ROUTES } from "@/data/legalCopy";
 import {
   getPackageInquiryMessage,
   getStoredPackageInquiry,
 } from "@/lib/packageInquiry";
 import { Button, ButtonLink } from "@/components/ui/Button";
+import { LegalModal } from "@/components/legal/LegalModal";
 
 function WhatsAppIcon() {
   return (
@@ -31,6 +30,7 @@ export function Contact() {
   const [selectedPackage, setSelectedPackage] = useState("");
   const [privacyAccepted, setPrivacyAccepted] = useState(false);
   const [privacyError, setPrivacyError] = useState(false);
+  const [privacyModalOpen, setPrivacyModalOpen] = useState(false);
   const contactEmail = t.contact.email || CONTACT_EMAIL;
   const whatsappNumber = t.contact.whatsapp || WHATSAPP_NUMBER;
 
@@ -95,6 +95,11 @@ export function Contact() {
 
   return (
     <section id="contact" className="section-pad surface-warm">
+      <LegalModal
+        docKey="privacy"
+        open={privacyModalOpen}
+        onClose={() => setPrivacyModalOpen(false)}
+      />
       <div className="container-site">
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:gap-16 xl:gap-20">
           <div className="contact-intro">
@@ -232,8 +237,9 @@ export function Contact() {
             </div>
 
             <div className="contact-privacy mt-6 border-t border-stone-200 pt-6">
-              <label className="contact-privacy__checkbox flex items-start gap-3 text-start">
+              <div className="contact-privacy__row flex items-start gap-3 text-start">
                 <input
+                  id="privacy-consent"
                   type="checkbox"
                   name="privacyConsent"
                   checked={privacyAccepted}
@@ -243,19 +249,25 @@ export function Contact() {
                   }}
                   className="contact-privacy__input mt-0.5"
                   aria-invalid={privacyError}
-                  aria-describedby={privacyError ? "privacy-consent-error" : undefined}
+                  aria-describedby={
+                    privacyError ? "privacy-consent-error privacy-consent-text" : "privacy-consent-text"
+                  }
                 />
-                <span className="text-body-sm leading-relaxed text-stone-600">
+                <p
+                  id="privacy-consent-text"
+                  className="text-body-sm leading-relaxed text-stone-600"
+                >
                   {pick(t.contact.form.privacyConsentBefore, locale)}
-                  <Link
-                    href={LEGAL_ROUTES.privacy}
-                    className="text-ink underline-offset-2 hover:underline"
+                  <button
+                    type="button"
+                    className="contact-privacy__link"
+                    onClick={() => setPrivacyModalOpen(true)}
                   >
                     {pick(t.contact.form.privacyConsentLink, locale)}
-                  </Link>
+                  </button>
                   {pick(t.contact.form.privacyConsentAfter, locale)}
-                </span>
-              </label>
+                </p>
+              </div>
               {privacyError ? (
                 <p
                   id="privacy-consent-error"

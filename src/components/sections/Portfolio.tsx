@@ -35,8 +35,8 @@ export function Portfolio() {
               ? pick(project.location, locale)
               : null;
             const slideshowAlt = projectLocation
-              ? `${pick(project.name, locale)} – ${pick(project.type, locale)}, ${projectLocation}`
-              : `${pick(project.name, locale)} – ${pick(project.type, locale)}`;
+              ? `${pick(project.name, locale)} - ${pick(project.type, locale)}, ${projectLocation}`
+              : `${pick(project.name, locale)} - ${pick(project.type, locale)}`;
 
             const media = (
               <Link

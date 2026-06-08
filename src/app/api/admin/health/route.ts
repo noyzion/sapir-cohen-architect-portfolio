@@ -18,7 +18,7 @@ import { storeMode } from "@/lib/store";
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-/** Non-secret diagnostics — shows what THIS server instance actually reads. */
+/** Non-secret diagnostics - shows what THIS server instance actually reads. */
 export async function GET() {
   const vercelEnv = process.env.VERCEL_ENV;
   const isLocal =
@@ -33,7 +33,7 @@ export async function GET() {
       configured: isAdminConfigured(),
       passwordSet: Boolean(getAdminPassword()),
       sessionSecretSet: Boolean(process.env.ADMIN_SESSION_SECRET?.trim()),
-      /** Changes after ADMIN_PASSWORD changes + redeploy — use to confirm Vercel picked up the new value. */
+      /** Changes after ADMIN_PASSWORD changes + redeploy - use to confirm Vercel picked up the new value. */
       passwordRevision: await getPasswordRevision(),
     },
     blob: {
@@ -48,9 +48,9 @@ export async function GET() {
     },
     contentStore: storeMode(),
     hint: isLocal
-      ? "זו סביבת פיתוח מקומית — משתמשת ב-.env.local, לא ב-Vercel."
+      ? "זו סביבת פיתוח מקומית - משתמשת ב-.env.local, לא ב-Vercel."
       : vercelEnv === "preview"
-        ? "זו Preview deployment — משתמשת במשתני Preview ב-Vercel, לא Production."
-        : "זו Production — משתמשת במשתני Production ב-Vercel.",
+        ? "זו Preview deployment - משתמשת במשתני Preview ב-Vercel, לא Production."
+        : "זו Production - משתמשת במשתני Production ב-Vercel.",
   });
 }

@@ -4,6 +4,8 @@ import { ContentProvider } from "@/context/ContentContext";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ThemeStyles } from "@/components/site/ThemeStyles";
+import { SkipLink } from "@/components/a11y/SkipLink";
+import { AccessibilityToolbar } from "@/components/a11y/AccessibilityToolbar";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getAllContent } from "@/lib/content";
 import { buildSiteGraphSchema, getDefaultOgImage } from "@/lib/seo";
@@ -22,7 +24,7 @@ export async function generateMetadata(): Promise<Metadata> {
             images: [
               {
                 url: defaultImage,
-                alt: `${siteCopy.brand.he} – ${siteCopy.tagline.he}`,
+                alt: `${siteCopy.brand.he} - ${siteCopy.tagline.he}`,
               },
             ],
           }
@@ -46,9 +48,13 @@ export default async function SiteLayout({
       <JsonLd data={buildSiteGraphSchema(siteCopy)} />
       <LanguageProvider copy={siteCopy}>
         <ContentProvider value={{ projects, services, projectTypes }}>
+          <SkipLink />
           <Header />
-          <main>{children}</main>
+          <main id="main-content" tabIndex={-1}>
+            {children}
+          </main>
           <Footer />
+          <AccessibilityToolbar />
         </ContentProvider>
       </LanguageProvider>
     </>

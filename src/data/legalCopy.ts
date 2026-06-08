@@ -2,6 +2,10 @@ import type { LegalPageCopy, LocalizedString } from "@/types";
 
 const CONTACT_EMAIL = "sapircohenarc@gmail.com";
 
+/** Legal / site entity naming (the website, not the person). */
+export const SITE_ENTITY_HE = "האתר של ספיר כהן";
+export const SITE_ENTITY_EN = "the Sapir Cohen website";
+
 /** Display phone derived from WhatsApp number (972524664443 → 052-466-4433). */
 export const CONTACT_PHONE_DISPLAY = "052-466-4433";
 
@@ -17,8 +21,8 @@ export const privacyPolicyCopy: LegalPageCopy = {
     en: "Last updated: May 30, 2026",
   },
   intro: {
-    he: "מדיניות פרטיות זו מתארת כיצד ספיר כהן («האתר», «אנחנו») אוספת, משתמשת, שומרת ומגנה על מידע אישי במסגרת השימוש באתר, לרבות מילוי טופס יצירת הקשר.",
-    en: "This Privacy Policy describes how Sapir Cohen (\"the website\", \"we\") collects, uses, stores, and protects personal information when you use this site, including the contact form.",
+    he: `מדיניות פרטיות זו מתארת כיצד ${SITE_ENTITY_HE} («האתר», «אנחנו») אוסף, משתמש, שומר ומגן על מידע אישי במסגרת השימוש באתר, לרבות מילוי טופס יצירת הקשר.`,
+    en: `This Privacy Policy describes how ${SITE_ENTITY_EN} ("the website", "we") collects, uses, stores, and protects personal information when you use this site, including the contact form.`,
   },
   sections: [
     {
@@ -29,8 +33,8 @@ export const privacyPolicyCopy: LegalPageCopy = {
           en: "When you submit the contact form: name, phone number, email address, project type, and message content.",
         },
         {
-          he: "בנוסף, המערכת עשויה לאסוף מידע טכני ושימושי, כגון כתובת IP, סוג דפדפן, מערכת הפעלה, נתוני שימוש באתר, עוגיות (Cookies) ונתוני אנליטיקה — בכפוף להגדרות הדפדפן והכלים המותקנים באתר.",
-          en: "The site may also collect technical and usage data such as IP address, browser type, operating system, usage data, cookies, and analytics data — subject to browser settings and tools installed on the site.",
+          he: "בנוסף, המערכת עשויה לאסוף מידע טכני ושימושי, כגון כתובת IP, סוג דפדפן, מערכת הפעלה, נתוני שימוש באתר, עוגיות (Cookies) ונתוני אנליטיקה - בכפוף להגדרות הדפדפן והכלים המותקנים באתר.",
+          en: "The site may also collect technical and usage data such as IP address, browser type, operating system, usage data, cookies, and analytics data - subject to browser settings and tools installed on the site.",
         },
       ],
     },
@@ -51,8 +55,8 @@ export const privacyPolicyCopy: LegalPageCopy = {
       heading: { he: "עם מי המידע עשוי להיות משותף", en: "Who information may be shared with" },
       paragraphs: [
         {
-          he: "איננו מוכרים מידע אישי. המידע עשוי להיות מעובד על ידי ספקי שירות טכניים הנדרשים להפעלת האתר, וביניהם: ספק אחסון (Hosting), כלי אנליטיקה (אם מותקנים), כלי CRM או ניהול פניות, שירותי דוא\"ל, WhatsApp וספקי תשתית נוספים — וכל זאת אך ורק לצורך הפעלת האתר, מתן השירות ותפעולו.",
-          en: "We do not sell personal data. Information may be processed by technical service providers required to operate the site, including hosting, analytics tools (if installed), CRM or inquiry tools, email services, WhatsApp, and other infrastructure providers — solely to operate the site and provide services.",
+          he: "איננו מוכרים מידע אישי. המידע עשוי להיות מעובד על ידי ספקי שירות טכניים הנדרשים להפעלת האתר, וביניהם: ספק אחסון (Hosting), כלי אנליטיקה (אם מותקנים), כלי CRM או ניהול פניות, שירותי דוא\"ל, WhatsApp וספקי תשתית נוספים - וכל זאת אך ורק לצורך הפעלת האתר, מתן השירות ותפעולו.",
+          en: "We do not sell personal data. Information may be processed by technical service providers required to operate the site, including hosting, analytics tools (if installed), CRM or inquiry tools, email services, WhatsApp, and other infrastructure providers - solely to operate the site and provide services.",
         },
       ],
     },
@@ -106,8 +110,8 @@ export const accessibilityStatementCopy: LegalPageCopy = {
     en: "Statement last updated: May 30, 2026",
   },
   intro: {
-    he: "ספיר כהן מקדישה מאמצים להנגיש את האתר לאנשים עם מוגבלות, על מנת לאפשר לכל אדם גלישה שוויונית, נוחה ועצמאית ככל האפשר.",
-    en: "Sapir Cohen is committed to making this website accessible to people with disabilities, so that every person can browse with equity, comfort, and independence wherever possible.",
+    he: `${SITE_ENTITY_HE} מקדיש מאמצים להנגיש את עצמו לאנשים עם מוגבלות, על מנת לאפשר לכל אדם גלישה שוויונית, נוחה ועצמאית ככל האפשר.`,
+    en: `${SITE_ENTITY_EN} is committed to making the site accessible to people with disabilities, so that every person can browse with equity, comfort, and independence wherever possible.`,
   },
   sections: [
     {
@@ -123,8 +127,12 @@ export const accessibilityStatementCopy: LegalPageCopy = {
       heading: { he: "התאמות נגישות שבוצעו", en: "Accessibility adaptations" },
       paragraphs: [
         {
-          he: "בין היתר: ניווט מקלדת, היררכיית כותרות ברורה, טקסט חלופי (Alt) לתמונות במידת האפשר, ניגודיות קריאה, עיצוב רספונסיבי למובייל, תמיכה בקוראי מסך במידת האפשר, קישורים וכפתורים ברורים, ותמיכה בכיווניות RTL/LTR.",
-          en: "Including: keyboard navigation, clear heading hierarchy, alt text for images where possible, readable contrast, responsive mobile design, screen reader support where possible, clear links and buttons, and RTL/LTR support.",
+          he: "בין היתר: ניווט מקלדת, דילוג לתוכן הראשי, היררכיית כותרות ברורה, טקסט חלופי (Alt) לתמונות במידת האפשר, ניגודיות קריאה, עיצוב רספונסיבי למובייל, תמיכה בקוראי מסך במידת האפשר, קישורים וכפתורים ברורים, ותמיכה בכיווניות RTL/LTR.",
+          en: "Including: keyboard navigation, skip to main content, clear heading hierarchy, alt text for images where possible, readable contrast, responsive mobile design, screen reader support where possible, clear links and buttons, and RTL/LTR support.",
+        },
+        {
+          he: "באתר מותקן תפריט נגישות (כפתור קבוע בפינה) המאפשר: הגדלה/הקטנה של טקסט, מצב ניגודיות גבוהה, הדגשת קישורים, גופן קריא, והקראת טקסט (בהתאם לתמיכת הדפדפן).",
+          en: "The site includes an accessibility menu (fixed corner button) for: text size adjustment, high contrast, link underlining, readable font, and text-to-speech (subject to browser support).",
         },
       ],
     },
@@ -132,7 +140,7 @@ export const accessibilityStatementCopy: LegalPageCopy = {
       heading: { he: "רכיבים חיצוניים", en: "Third-party components" },
       paragraphs: [
         {
-          he: "ייתכן שחלק מהרכיבים, השירותים או הקישורים החיצוניים (כגון WhatsApp) אינם בשליטת בעלת האתר במלואם, ולכן ייתכנו פערי נגישות. אנו פועלים לשפר את הנגישות באופן שוטף.",
+          he: "ייתכן שחלק מהרכיבים, השירותים או הקישורים החיצוניים (כגון WhatsApp) אינם בשליטת מפעילת האתר במלואם, ולכן ייתכנו פערי נגישות. אנו פועלים לשפר את הנגישות באופן שוטף.",
           en: "Some third-party components, services, or external links (such as WhatsApp) may not be fully controlled by the site owner, and accessibility gaps may exist. We work to improve accessibility on an ongoing basis.",
         },
       ],
@@ -160,8 +168,8 @@ export const termsOfUseCopy: LegalPageCopy = {
     en: "Last updated: May 30, 2026",
   },
   intro: {
-    he: "ברוכים הבאים לאתר ספיר כהן. השימוש באתר כפוף לתנאים המפורטים להלן. גלישה באתר ו/או שימוש בו מהווים הסכמה לתנאים אלה.",
-    en: "Welcome to the Sapir Cohen website. Use of this site is subject to the terms below. Browsing or using the site constitutes acceptance of these terms.",
+    he: `ברוכים הבאים ל${SITE_ENTITY_HE}. השימוש באתר כפוף לתנאים המפורטים להלן. גלישה באתר ו/או שימוש בו מהווים הסכמה לתנאים אלה.`,
+    en: `Welcome to ${SITE_ENTITY_EN}. Use of this site is subject to the terms below. Browsing or using the site constitutes acceptance of these terms.`,
   },
   sections: [
     {
@@ -190,7 +198,7 @@ export const termsOfUseCopy: LegalPageCopy = {
       heading: { he: "שינויים באתר", en: "Changes to the site" },
       paragraphs: [
         {
-          he: "בעלת האתר רשאית לעדכן, לשנות, להסיר או להוסיף תוכן, וכן לשנות את מבנה האתר, בכל עת וללא הודעה מוקדמת.",
+          he: "מפעילת האתר של ספיר כהן רשאית לעדכן, לשנות, להסיר או להוסיף תוכן, וכן לשנות את מבנה האתר, בכל עת וללא הודעה מוקדמת.",
           en: "The site owner may update, change, remove, or add content, or modify the site structure, at any time without prior notice.",
         },
       ],
@@ -232,8 +240,8 @@ export const cookiesPolicyCopy: LegalPageCopy = {
     en: "Last updated: May 30, 2026",
   },
   intro: {
-    he: "מדיניות זו מסבירה מהן עוגיות (Cookies), כיצד האתר עשוי להשתמש בהן, וכיצד ניתן לנהל אותן.",
-    en: "This policy explains what cookies are, how the site may use them, and how you can manage them.",
+    he: `מדיניות זו מסבירה מהן עוגיות (Cookies), כיצד ${SITE_ENTITY_HE} עשוי להשתמש בהן, וכיצד ניתן לנהל אותן.`,
+    en: `This policy explains what cookies are, how ${SITE_ENTITY_EN} may use them, and how you can manage them.`,
   },
   sections: [
     {
@@ -249,20 +257,20 @@ export const cookiesPolicyCopy: LegalPageCopy = {
       heading: { he: "סוגי עוגיות", en: "Types of cookies" },
       paragraphs: [
         {
-          he: "עוגיות הכרחיות — נדרשות לתפקוד בסיסי של האתר.",
-          en: "Essential cookies — required for basic site operation.",
+          he: "עוגיות הכרחיות - נדרשות לתפקוד בסיסי של האתר.",
+          en: "Essential cookies - required for basic site operation.",
         },
         {
-          he: "עוגיות העדפות — לדוגמה, שמירת בחירת שפה (עברית/אנגלית) בדפדפן.",
-          en: "Preference cookies — for example, remembering language choice (Hebrew/English) in the browser.",
+          he: "עוגיות העדפות - לדוגמה, שמירת בחירת שפה (עברית/אנגלית) בדפדפן.",
+          en: "Preference cookies - for example, remembering language choice (Hebrew/English) in the browser.",
         },
         {
-          he: "עוגיות אנליטיקה — לניתוח שימוש באתר. נכון לעדכון מדיניות זו, לא מותקנים באתר Google Analytics, Meta Pixel או כלי שיווק דומים.",
-          en: "Analytics cookies — for usage analysis. As of this policy update, Google Analytics, Meta Pixel, or similar marketing tools are not installed on this site.",
+          he: "עוגיות אנליטיקה - לניתוח שימוש באתר. נכון לעדכון מדיניות זו, לא מותקנים באתר Google Analytics, Meta Pixel או כלי שיווק דומים.",
+          en: "Analytics cookies - for usage analysis. As of this policy update, Google Analytics, Meta Pixel, or similar marketing tools are not installed on this site.",
         },
         {
-          he: "עוגיות שיווק — יופיעו רק אם יותקנו בעתיד ויינתן הסכם מתאים. כרגע לא נעשה שימוש בעוגיות שיווק.",
-          en: "Marketing cookies — would only apply if installed in the future with appropriate consent. Marketing cookies are not currently used.",
+          he: "עוגיות שיווק - יופיעו רק אם יותקנו בעתיד ויינתן הסכם מתאים. כרגע לא נעשה שימוש בעוגיות שיווק.",
+          en: "Marketing cookies - would only apply if installed in the future with appropriate consent. Marketing cookies are not currently used.",
         },
       ],
     },

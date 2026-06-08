@@ -9,8 +9,8 @@ export function About() {
   const portraitSrc = about.portraitImage?.trim() ?? "";
   const portraitAlt =
     locale === "he"
-      ? `${pick(about.intro, locale)} – ${pick(about.credentials, locale)}, אדריכלות ועיצוב פנים`
-      : `${pick(about.intro, locale)} – ${pick(about.credentials, locale)}, architecture and interior design`;
+      ? `${pick(about.intro, locale)} - ${pick(about.credentials, locale)}, אדריכלות ועיצוב פנים`
+      : `${pick(about.intro, locale)} - ${pick(about.credentials, locale)}, architecture and interior design`;
 
   return (
     <section

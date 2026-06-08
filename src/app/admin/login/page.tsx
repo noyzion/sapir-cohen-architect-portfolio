@@ -69,7 +69,7 @@ export default function AdminLoginPage() {
           <div className="admin-login__notice">
             <p>כבר מחוברת עם session פעיל בדפדפן (cookie).</p>
             <p>
-              אם שינית סיסמה ב-Vercel — לחצי &quot;יציאה&quot; ואז התחברי עם
+              אם שינית סיסמה ב-Vercel - לחצי &quot;יציאה&quot; ואז התחברי עם
               הסיסמה החדשה. אחרי שינוי משתנים ב-Vercel חובה{" "}
               <strong>Redeploy</strong>.
             </p>

@@ -44,7 +44,7 @@ function unreadableImageError(): Error {
   );
 }
 
-/** Shrink photos before upload — always re-encode for predictable size on Vercel. */
+/** Shrink photos before upload - always re-encode for predictable size on Vercel. */
 export async function compressImageForUpload(file: File): Promise<File> {
   if (!file.type.startsWith("image/")) return file;
 
@@ -121,7 +121,7 @@ export async function parseUploadResponse(res: Response): Promise<UploadJson> {
     ) {
       return {
         error:
-          "התמונה גדולה מדי. נסו שוב — ההעלאה אמורה לעבור ישירות לאחסון.",
+          "התמונה גדולה מדי. נסו שוב - ההעלאה אמורה לעבור ישירות לאחסון.",
       };
     }
     return { error: text.slice(0, 160) || `שגיאת שרת (${res.status})` };
@@ -177,7 +177,7 @@ async function fetchUploadStrategy(
 
 /**
  * Upload via Vercel Blob client `put` + server-issued token.
- * Simpler than handleUploadUrl — avoids hanging on the final callback step.
+ * Simpler than handleUploadUrl - avoids hanging on the final callback step.
  */
 async function uploadViaBlobToken(
   pathname: string,

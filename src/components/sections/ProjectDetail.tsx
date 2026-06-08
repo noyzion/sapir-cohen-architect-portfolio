@@ -27,7 +27,7 @@ export function ProjectDetail({ project }: Props) {
   const location = project.location?.[locale]
     ? pick(project.location, locale)
     : null;
-  const coverAlt = location ? `${name} – ${type}, ${location}` : `${name} – ${type}`;
+  const coverAlt = location ? `${name} - ${type}, ${location}` : `${name} - ${type}`;
   const gallery = project.gallery ?? [];
   const renders = project.renders ?? [];
   const hasGallery = gallery.length > 0;

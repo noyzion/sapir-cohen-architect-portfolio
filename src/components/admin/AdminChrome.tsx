@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LogoutButton } from "@/components/admin/LogoutButton";
+import { SITE_ENTITY_HE } from "@/data/legalCopy";
 
 const NAV = [
   { href: "/admin", label: "ראשי" },
@@ -24,7 +25,7 @@ export function AdminChrome({ children }: { children: React.ReactNode }) {
     <div className="admin-shell" dir="rtl">
       <header className="admin-bar">
         <div className="admin-bar__inner">
-          <span className="admin-bar__brand">ניהול האתר · ספיר כהן</span>
+          <span className="admin-bar__brand">ניהול {SITE_ENTITY_HE}</span>
           <nav className="admin-nav" aria-label="ניהול">
             {NAV.map((item) => {
               const active =

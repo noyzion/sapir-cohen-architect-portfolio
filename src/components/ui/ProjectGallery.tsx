@@ -33,10 +33,10 @@ function imageAlt(
     if (phase) return `${phaseSectionTitle[phase][locale]}, ${room}`;
     return room;
   }
-  if (phase) return `${fallbackAlt} – ${phaseSectionTitle[phase][locale]}`;
+  if (phase) return `${fallbackAlt} - ${phaseSectionTitle[phase][locale]}`;
   return locale === "he"
-    ? `${fallbackAlt} – תמונה ${imageNumber}`
-    : `${fallbackAlt} – image ${imageNumber}`;
+    ? `${fallbackAlt} - תמונה ${imageNumber}`
+    : `${fallbackAlt} - image ${imageNumber}`;
 }
 
 export function ProjectGallery({

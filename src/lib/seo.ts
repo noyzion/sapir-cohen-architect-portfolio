@@ -31,7 +31,7 @@ export const SEO_KEYWORDS_EN = [
 export const SITE_NAME_HE = "ספיר כהן";
 export const SITE_NAME_EN = "Sapir Cohen";
 
-/** Production site URL (Vercel) — used for canonical, sitemap, and Open Graph. */
+/** Production site URL (Vercel) - used for canonical, sitemap, and Open Graph. */
 export const DEFAULT_SITE_URL = "https://sapir-cohen-portfolio.vercel.app";
 
 export const HOME_TITLE = "ספיר כהן | אדריכלות ועיצוב פנים";
@@ -165,21 +165,21 @@ export function buildHomeMetadata(siteCopy: SiteCopy, defaultImage?: string): Me
     description: HOME_DESCRIPTION,
     path: "/",
     image: defaultImage,
-    imageAlt: `${SITE_NAME_HE} – ${siteCopy.tagline.he}`,
+    imageAlt: `${SITE_NAME_HE} - ${siteCopy.tagline.he}`,
   });
 }
 
 export function buildAboutMetadata(siteCopy: SiteCopy, defaultImage?: string): Metadata {
   const description = truncateDescription(
-    `${pickLocalized(siteCopy.about.intro)} – ${pickLocalized(siteCopy.about.credentials)}. ${pickLocalized(siteCopy.about.opening[0] ?? { he: siteCopy.meta.description.he, en: siteCopy.meta.description.en })}`
+    `${pickLocalized(siteCopy.about.intro)} - ${pickLocalized(siteCopy.about.credentials)}. ${pickLocalized(siteCopy.about.opening[0] ?? { he: siteCopy.meta.description.he, en: siteCopy.meta.description.en })}`
   );
 
   return buildPageMetadata({
-    title: "אודות – אדריכלות ועיצוב פנים",
+    title: "אודות - אדריכלות ועיצוב פנים",
     description,
     path: "/about",
     image: defaultImage,
-    imageAlt: `${pickLocalized(siteCopy.about.intro)} – ${pickLocalized(siteCopy.about.credentials)}`,
+    imageAlt: `${pickLocalized(siteCopy.about.intro)} - ${pickLocalized(siteCopy.about.credentials)}`,
   });
 }
 
@@ -190,7 +190,7 @@ export function buildProjectMetadata(project: Project): Metadata {
   const locationPart = location ? `, ${location}` : "";
   const title = `${name} | ${type}`;
   const description = truncateDescription(
-    `${name} – ${type}${locationPart}. ${project.description.he}`
+    `${name} - ${type}${locationPart}. ${project.description.he}`
   );
 
   return buildPageMetadata({
@@ -198,7 +198,7 @@ export function buildProjectMetadata(project: Project): Metadata {
     description,
     path: `/projects/${project.slug}`,
     image: project.coverImage,
-    imageAlt: `${name} – ${type}${locationPart}`,
+    imageAlt: `${name} - ${type}${locationPart}`,
     ogType: "article",
     keywords: [
       name,
@@ -262,8 +262,8 @@ export function buildSiteGraphSchema(siteCopy: SiteCopy) {
   const professionalService = {
     "@type": "ProfessionalService",
     "@id": `${siteUrl}/#professional-service`,
-    name: `${siteCopy.brand.he} – ${siteCopy.tagline.he}`,
-    alternateName: `${siteCopy.brand.en} – ${siteCopy.tagline.en}`,
+    name: `${siteCopy.brand.he} - ${siteCopy.tagline.he}`,
+    alternateName: `${siteCopy.brand.en} - ${siteCopy.tagline.en}`,
     url: siteUrl,
     parentOrganization: { "@id": organizationId },
     image: absoluteUrl("/"),

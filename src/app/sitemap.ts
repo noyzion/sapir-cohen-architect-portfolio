@@ -6,18 +6,50 @@ import { absoluteUrl, isPublicProjectSlug, projectPageUrl } from "@/lib/seo";
 
 export const revalidate = 3600;
 
+function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
+  return new Promise((resolve, reject) => {
+    const timer = setTimeout(() => reject(new Error("timeout")), ms);
+    promise
+      .then((value) => {
+        clearTimeout(timer);
+        resolve(value);
+      })
+      .catch((error) => {
+        clearTimeout(timer);
+        reject(error);
+      });
+  });
+}
+
 async function loadProjects(): Promise<Project[]> {
   try {
-    return await getProjects();
+    return await withTimeout(getProjects(), 2500);
   } catch {
     return seedProjects;
   }
 }
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const projects = await loadProjects();
+function buildProjectRoutes(projects: Project[]): MetadataRoute.Sitemap {
+  const seen = new Set<string>();
 
-  const staticRoutes: MetadataRoute.Sitemap = [
+  return projects
+    .filter((project) => isPublicProjectSlug(project.slug))
+    .flatMap((project) => {
+      const url = projectPageUrl(project.slug);
+      if (seen.has(url)) return [];
+      seen.add(url);
+      return [
+        {
+          url,
+          changeFrequency: "monthly" as const,
+          priority: 0.7,
+        },
+      ];
+    });
+}
+
+function buildStaticRoutes(): MetadataRoute.Sitemap {
+  return [
     {
       url: absoluteUrl("/"),
       changeFrequency: "weekly",
@@ -39,14 +71,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.3,
     },
   ];
+}
 
-  const projectRoutes: MetadataRoute.Sitemap = projects
-    .filter((project) => isPublicProjectSlug(project.slug))
-    .map((project) => ({
-      url: projectPageUrl(project.slug),
-      changeFrequency: "monthly" as const,
-      priority: 0.7,
-    }));
-
-  return [...staticRoutes, ...projectRoutes];
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  try {
+    const projects = await loadProjects();
+    return [...buildStaticRoutes(), ...buildProjectRoutes(projects)];
+  } catch {
+    return [...buildStaticRoutes(), ...buildProjectRoutes(seedProjects)];
+  }
 }

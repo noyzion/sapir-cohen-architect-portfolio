@@ -8,6 +8,7 @@ const NAV = [
   { href: "/admin", label: "ראשי" },
   { href: "/admin/projects", label: "פרויקטים" },
   { href: "/admin/texts", label: "טקסטים" },
+  { href: "/admin/theme", label: "עיצוב" },
   { href: "/admin/services", label: "שירותים" },
   { href: "/admin/types", label: "סוגי פרויקטים" },
 ];

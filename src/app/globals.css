@@ -5,6 +5,64 @@
 @layer base {
   :root {
     --surface-warm: #fcfbfa;
+    --theme-color-ink: #0a0a0a;
+    --theme-color-ink-soft: #141414;
+    --theme-color-text: #57534e;
+    --theme-color-text-muted: #78716c;
+    --theme-color-text-subtle: #a8a29e;
+    --theme-color-surface-warm: #fcfbfa;
+    --theme-color-surface-white: #ffffff;
+    --theme-color-page-bg: #ffffff;
+    --theme-border-color: #e7e5e4;
+    --theme-border-color-light: #f5f5f4;
+    --theme-border-color-strong: #d6d3d1;
+    --theme-border-width: 1px;
+    --theme-border-width-strong: 2px;
+    --theme-border-radius: 0px;
+    --theme-hero-panel-bg: #ffffff;
+    --theme-hero-panel-border: #e7e5e4;
+    --theme-hero-corner: #a8a29e;
+    --theme-hero-title: #1a1a1a;
+    --theme-hero-subtitle: #8a8a8a;
+    --theme-hero-accent-bar: #dcdcdc;
+    --theme-hero-section-border: #e7e5e4;
+    --theme-card-bg: #ffffff;
+    --theme-card-border: #e7e5e4;
+    --theme-card-shadow: 0 12px 36px rgb(28 25 23 / 0.035);
+    --theme-featured-bg: #0a0a0a;
+    --theme-featured-text: #ffffff;
+    --theme-featured-text-muted: rgba(255, 255, 255, 0.75);
+    --theme-featured-border: #0a0a0a;
+    --theme-featured-badge-bg: #ffffff;
+    --theme-featured-badge-border: #0a0a0a;
+    --theme-featured-badge-text: #0a0a0a;
+    --theme-featured-inner-border: #ffffff;
+    --theme-button-primary-bg: #0a0a0a;
+    --theme-button-primary-text: #ffffff;
+    --theme-button-primary-hover: #141414;
+    --theme-button-outline-border: #d6d3d1;
+    --theme-button-outline-text: #0a0a0a;
+    --theme-button-ghost-hover-border: #d6d3d1;
+    --theme-header-border: rgba(231, 229, 228, 0.9);
+    --theme-header-bg: #fcfbfa;
+    --theme-header-bg-scrolled: #ffffff;
+    --theme-input-border: #e7e5e4;
+    --theme-input-bg: #ffffff;
+    --theme-input-text: #0a0a0a;
+    --theme-footer-bg: #fcfbfa;
+    --theme-footer-border: rgba(231, 229, 228, 0.5);
+    --theme-selection-bg: #0a0a0a;
+    --theme-selection-text: #ffffff;
+    --theme-focus-ring: #0a0a0a;
+    --theme-section-rule: #0a0a0a;
+    --theme-link-underline: rgba(10, 10, 10, 0.3);
+    --theme-about-portrait-border: #e7e5e4;
+    --theme-about-portrait-bg: #f5f5f4;
+    --theme-about-portrait-placeholder-border: #d6d3d1;
+    --theme-about-highlight-border: rgba(10, 10, 10, 0.2);
+    --theme-project-media-border: #e7e5e4;
+    --theme-project-overlay: rgba(10, 10, 10, 0.08);
+    --theme-shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.05);
   }
 
   html {
@@ -19,7 +77,9 @@
   }
 
   body {
-    @apply bg-white text-ink antialiased text-body-sm;
+    @apply antialiased text-body-sm;
+    color: var(--theme-color-text);
+    background-color: var(--theme-color-page-bg);
   }
 
   html[lang="he"] body {
@@ -42,11 +102,13 @@
   }
 
   ::selection {
-    @apply bg-ink text-white;
+    background-color: var(--theme-selection-bg);
+    color: var(--theme-selection-text);
   }
 
   :focus-visible {
-    @apply outline-2 outline-offset-2 outline-ink;
+    outline: 2px solid var(--theme-focus-ring);
+    outline-offset: 2px;
   }
 }
 
@@ -66,8 +128,9 @@
 
   /* Hero — editorial frame + grid (alt option) */
   .hero-section {
-    @apply relative flex min-h-[100svh] items-center overflow-hidden border-b border-stone-200/80 py-8;
-    @apply surface-warm;
+    @apply relative flex min-h-[100svh] items-center overflow-hidden py-8;
+    background-color: var(--theme-color-surface-warm);
+    border-bottom: var(--theme-border-width) solid var(--theme-hero-section-border);
   }
 
   @media (min-width: 768px) {
@@ -99,7 +162,8 @@
   }
 
   .hero-corner {
-    @apply absolute h-7 w-7 border-stone-400/35 sm:h-9 sm:w-9 md:h-14 md:w-14 md:border-ink/20;
+    @apply absolute h-7 w-7 sm:h-9 sm:w-9 md:h-14 md:w-14;
+    border-color: color-mix(in srgb, var(--theme-hero-corner) 35%, transparent);
   }
 
   .hero-corner--tl {
@@ -123,13 +187,16 @@
   }
 
   .hero-panel {
-    @apply flex w-full max-w-4xl flex-col items-center border border-stone-200/80 bg-white px-5 py-8 text-center shadow-[0_12px_36px_rgb(28_25_23/0.035)] sm:px-7 sm:py-9;
+    @apply flex w-full max-w-4xl flex-col items-center px-5 py-8 text-center sm:px-7 sm:py-9;
+    background-color: var(--theme-hero-panel-bg);
+    border: var(--theme-border-width) solid var(--theme-hero-panel-border);
+    border-radius: var(--theme-border-radius);
+    box-shadow: var(--theme-card-shadow);
   }
 
   @media (min-width: 768px) {
     .hero-panel {
-      border-color: rgb(214 211 209 / 0.75);
-      background-color: rgb(255 255 255 / 0.72);
+      background-color: color-mix(in srgb, var(--theme-hero-panel-bg) 72%, transparent);
       padding: 3.5rem 3.5rem;
       box-shadow: 0 24px 60px rgb(28 25 23 / 0.05);
       backdrop-filter: blur(2px);
@@ -158,7 +225,7 @@
     text-transform: uppercase;
     letter-spacing: 0.08em;
     font-size: clamp(2.25rem, 8.5vw, 5rem);
-    color: #1a1a1a;
+    color: var(--theme-hero-title);
   }
 
   .brand-wordmark {
@@ -166,20 +233,20 @@
     font-weight: 400;
     text-transform: uppercase;
     letter-spacing: 0.14em;
-    color: #1a1a1a;
+    color: var(--theme-hero-title);
   }
 
   .hero-name-bar {
     @apply mt-5 h-px md:mt-6;
     width: clamp(7.5rem, 28%, 10rem);
-    background-color: #dcdcdc;
+    background-color: var(--theme-hero-accent-bar);
   }
 
   .hero-subtitle {
     font-family: var(--font-hero-en), var(--font-display), system-ui, sans-serif;
     @apply mt-5 text-[clamp(0.75rem,1.9vw,0.9375rem)] font-normal uppercase leading-relaxed md:mt-6;
     letter-spacing: 0.15em;
-    color: #8a8a8a;
+    color: var(--theme-hero-subtitle);
   }
 
   .hero-copy {
@@ -258,15 +325,18 @@
 
   /* Typography */
   .label-caps {
-    @apply text-label font-semibold uppercase text-stone-400;
+    @apply text-label font-semibold uppercase;
+    color: var(--theme-color-text-subtle);
   }
 
   .text-prose {
-    @apply text-body-sm leading-relaxed text-stone-600;
+    @apply text-body-sm leading-relaxed;
+    color: var(--theme-color-text);
   }
 
   .text-prose-lg {
-    @apply text-body leading-relaxed text-stone-600;
+    @apply text-body leading-relaxed;
+    color: var(--theme-color-text);
   }
 
   .quote-emphasis {
@@ -279,15 +349,37 @@
   }
 
   .btn-primary {
-    @apply btn bg-ink text-white hover:bg-ink-soft;
+    @apply btn;
+    background-color: var(--theme-button-primary-bg);
+    color: var(--theme-button-primary-text);
+    border-radius: var(--theme-border-radius);
+  }
+
+  .btn-primary:hover {
+    background-color: var(--theme-button-primary-hover);
   }
 
   .btn-secondary {
-    @apply btn border border-stone-300 bg-white text-ink hover:border-ink;
+    @apply btn;
+    border: var(--theme-border-width) solid var(--theme-button-outline-border);
+    background-color: var(--theme-color-surface-white);
+    color: var(--theme-button-outline-text);
+    border-radius: var(--theme-border-radius);
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--theme-color-ink);
   }
 
   .btn-ghost {
-    @apply btn border border-transparent text-ink hover:border-stone-300;
+    @apply btn;
+    border: var(--theme-border-width) solid transparent;
+    color: var(--theme-color-ink);
+    border-radius: var(--theme-border-radius);
+  }
+
+  .btn-ghost:hover {
+    border-color: var(--theme-button-ghost-hover-border);
   }
 
   .btn-full {
@@ -300,7 +392,9 @@
 
   /* Cards */
   .card {
-    @apply border border-stone-200 bg-white;
+    background-color: var(--theme-card-bg);
+    border: var(--theme-border-width) solid var(--theme-card-border);
+    border-radius: var(--theme-border-radius);
   }
 
   .card-pad {
@@ -313,15 +407,22 @@
   }
 
   .service-package-card {
-    @apply relative flex w-full min-w-0 flex-col border p-7 transition-[border-color,box-shadow,transform] duration-500 ease-luxury md:p-8;
+    @apply relative flex w-full min-w-0 flex-col p-7 transition-[border-color,box-shadow,transform] duration-500 ease-luxury md:p-8;
+    border: var(--theme-border-width) solid var(--theme-card-border);
+    border-radius: var(--theme-border-radius);
   }
 
   .service-package-card--standard {
-    @apply border-ink bg-white shadow-soft hover:-translate-y-0.5;
+    background-color: var(--theme-card-bg);
+    box-shadow: var(--theme-shadow-soft);
+    @apply hover:-translate-y-0.5;
   }
 
   .service-package-card--featured {
-    @apply border-0 bg-ink p-2.5 text-white md:p-3;
+    background-color: var(--theme-featured-bg);
+    color: var(--theme-featured-text);
+    border: var(--theme-border-width) solid var(--theme-featured-border);
+    @apply p-2.5 md:p-3;
     box-shadow: 0 16px 40px rgb(28 25 23 / 0.14);
   }
 
@@ -350,11 +451,18 @@
   }
 
   .service-package-card__frame {
-    @apply flex w-full flex-col border-2 border-white bg-ink p-6 md:p-7 lg:px-8 lg:py-8;
+    @apply flex w-full flex-col p-6 md:p-7 lg:px-8 lg:py-8;
+    border: var(--theme-border-width-strong) solid var(--theme-featured-inner-border);
+    background-color: var(--theme-featured-bg);
+    border-radius: var(--theme-border-radius);
   }
 
   .service-package-badge {
-    @apply absolute top-0 inset-x-0 z-30 mx-auto w-fit -translate-y-1/2 border-2 border-ink bg-white px-4 py-1.5 label-caps !text-ink;
+    @apply absolute top-0 inset-x-0 z-30 mx-auto w-fit -translate-y-1/2 px-4 py-1.5 label-caps;
+    border: var(--theme-border-width-strong) solid var(--theme-featured-badge-border);
+    background-color: var(--theme-featured-badge-bg);
+    color: var(--theme-featured-badge-text) !important;
+    border-radius: var(--theme-border-radius);
   }
 
   .service-card-header {
@@ -366,7 +474,7 @@
   }
 
   .service-package-card--featured .service-card-tier {
-    @apply text-white/50;
+    color: var(--theme-featured-text-muted);
   }
 
   .service-card-title {
@@ -374,7 +482,7 @@
   }
 
   .service-package-card--featured .service-card-title {
-    @apply text-white;
+    color: var(--theme-featured-text);
   }
 
   .service-card-summary {
@@ -382,7 +490,7 @@
   }
 
   .service-package-card--featured .service-card-summary {
-    @apply text-white/75;
+    color: var(--theme-featured-text-muted);
   }
 
   .service-card-includes {
@@ -516,11 +624,15 @@
   /* Services — side-by-side comparison table */
   .services-table {
     direction: ltr;
-    @apply mt-2 grid grid-cols-3 items-stretch overflow-hidden border border-stone-200 bg-white;
+    @apply mt-2 grid grid-cols-3 items-stretch overflow-hidden;
+    border: var(--theme-border-width) solid var(--theme-border-color);
+    background-color: var(--theme-card-bg);
+    border-radius: var(--theme-border-radius);
   }
 
   .services-col {
-    @apply relative flex flex-col gap-3 border-s border-stone-200 px-2.5 py-6 text-center sm:gap-4 sm:px-5 sm:py-9 md:px-7 md:py-10;
+    @apply relative flex flex-col gap-3 px-2.5 py-6 text-center sm:gap-4 sm:px-5 sm:py-9 md:px-7 md:py-10;
+    border-inline-start: var(--theme-border-width) solid var(--theme-border-color);
   }
 
   .services-col:first-child {
@@ -528,7 +640,8 @@
   }
 
   .services-col--featured {
-    @apply bg-ink text-white;
+    background-color: var(--theme-featured-bg);
+    color: var(--theme-featured-text);
   }
 
   .services-col-badge {
@@ -575,9 +688,50 @@
     @apply text-white/75;
   }
 
+  /* Site header */
+  .site-header {
+    @apply fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,box-shadow] duration-300 ease-luxury;
+    background-color: color-mix(in srgb, var(--theme-header-bg) 92%, transparent);
+    backdrop-filter: blur(12px);
+    border-bottom: var(--theme-border-width) solid transparent;
+  }
+
+  .site-header--solid {
+    background-color: var(--theme-header-bg-scrolled);
+    border-bottom-color: var(--theme-header-border);
+    box-shadow: var(--theme-shadow-soft);
+  }
+
+  .site-header__nav-link {
+    @apply text-label font-semibold uppercase tracking-[0.12em] transition-colors duration-300;
+    color: var(--theme-color-text-muted);
+  }
+
+  .site-header__nav-link:hover {
+    color: var(--theme-color-ink);
+  }
+
+  .site-header__icon-btn {
+    @apply flex h-10 w-10 items-center justify-center transition-colors duration-300;
+    color: var(--theme-color-ink);
+    border: var(--theme-border-width) solid var(--theme-border-color);
+    border-radius: var(--theme-border-radius);
+  }
+
+  .site-header__icon-btn:hover {
+    border-color: var(--theme-color-ink);
+  }
+
+  .site-header__burger-line {
+    @apply block h-px w-5 transition-all duration-300;
+    background-color: var(--theme-color-ink);
+  }
+
   /* Mobile menu - refined dropdown panel */
   .mobile-menu {
-    @apply border-t border-stone-200/80 bg-white/95 px-gutter pb-8 pt-3 backdrop-blur-md;
+    @apply px-gutter pb-8 pt-3 backdrop-blur-md;
+    border-top: var(--theme-border-width) solid var(--theme-header-border);
+    background-color: color-mix(in srgb, var(--theme-header-bg-scrolled) 95%, transparent);
     box-shadow: 0 18px 40px rgb(28 25 23 / 0.06);
     animation: mobileMenuIn 0.28s cubic-bezier(0.22, 1, 0.36, 1);
   }
@@ -631,7 +785,8 @@
 
   /* Section headings */
   .section-heading {
-    @apply font-display text-display-lg text-ink;
+    @apply font-display text-display-lg;
+    color: var(--theme-color-ink);
   }
 
   html[lang="he"] .section-heading {
@@ -647,7 +802,8 @@
   }
 
   .section-heading-rule {
-    @apply mt-5 h-px w-11 bg-ink md:mt-6;
+    @apply mt-5 h-px w-11 md:mt-6;
+    background-color: var(--theme-section-rule);
   }
 
   .section-heading-rule--light {
@@ -684,11 +840,16 @@
   }
 
   .about-portrait-frame {
-    @apply relative flex aspect-[4/5] w-full flex-col items-center justify-center gap-3 overflow-hidden border border-dashed border-stone-300 bg-stone-50 text-stone-400;
+    @apply relative flex aspect-[4/5] w-full flex-col items-center justify-center gap-3 overflow-hidden;
+    border: var(--theme-border-width) dashed var(--theme-about-portrait-placeholder-border);
+    background-color: var(--theme-about-portrait-bg);
+    color: var(--theme-color-text-subtle);
+    border-radius: var(--theme-border-radius);
   }
 
   .about-portrait-frame--photo {
-    @apply border-solid border-stone-200 bg-stone-100;
+    border-style: solid;
+    border-color: var(--theme-about-portrait-border);
   }
 
   .about-portrait-icon {
@@ -726,8 +887,8 @@
     background-position: left bottom;
     background-image: linear-gradient(
       to left,
-      rgb(10 10 10 / 0.3),
-      rgb(10 10 10 / 0.1),
+      var(--theme-link-underline),
+      color-mix(in srgb, var(--theme-link-underline) 33%, transparent),
       transparent
     );
   }
@@ -735,8 +896,8 @@
   html[dir="ltr"] .about-pillar-label {
     background-image: linear-gradient(
       to right,
-      rgb(10 10 10 / 0.3),
-      rgb(10 10 10 / 0.1),
+      var(--theme-link-underline),
+      color-mix(in srgb, var(--theme-link-underline) 33%, transparent),
       transparent
     );
   }
@@ -746,7 +907,9 @@
   }
 
   .about-highlight {
-    @apply border-s-2 border-ink/20 ps-5 text-[0.9375rem] italic leading-[1.92] text-stone-700 md:ps-6;
+    @apply ps-5 text-[0.9375rem] italic leading-[1.92] md:ps-6;
+    border-inline-start: var(--theme-border-width-strong) solid var(--theme-about-highlight-border);
+    color: var(--theme-color-text);
   }
 
   html[dir="ltr"] .about-highlight {
@@ -789,11 +952,11 @@
 
   /* Site footer — same warm surface as hero */
   .site-footer {
-    background-color: var(--surface-warm);
+    background-color: var(--theme-footer-bg);
   }
 
   .site-footer__divider {
-    @apply border-t border-stone-200/50;
+    border-top: var(--theme-border-width) solid var(--theme-footer-border);
   }
 
   /* Contact */
@@ -806,7 +969,9 @@
   }
 
   .contact-form {
-    @apply bg-white shadow-soft;
+    background-color: var(--theme-card-bg);
+    box-shadow: var(--theme-shadow-soft);
+    border-radius: var(--theme-border-radius);
   }
 
   .contact-actions {
@@ -821,7 +986,16 @@
 
   /* Forms */
   .input-field {
-    @apply w-full border border-stone-200 bg-stone-50 px-4 py-3.5 text-body-sm text-ink outline-none transition-colors focus:border-ink focus:bg-white;
+    @apply w-full px-4 py-3.5 text-body-sm outline-none transition-colors;
+    border: var(--theme-border-width) solid var(--theme-input-border);
+    background-color: var(--theme-input-bg);
+    color: var(--theme-input-text);
+    border-radius: var(--theme-border-radius);
+  }
+
+  .input-field:focus {
+    border-color: var(--theme-color-ink);
+    background-color: var(--theme-color-surface-white);
   }
 
   /* Portfolio slideshow */
@@ -840,7 +1014,10 @@
 
   /* Portfolio image */
   .project-media {
-    @apply relative overflow-hidden bg-stone-200;
+    @apply relative overflow-hidden;
+    background-color: var(--theme-border-color-strong);
+    border: var(--theme-border-width) solid var(--theme-project-media-border);
+    border-radius: var(--theme-border-radius);
   }
 
   .project-media img {
@@ -853,7 +1030,13 @@
   }
 
   .project-media-overlay {
-    @apply pointer-events-none absolute inset-0 bg-ink/0 transition-colors duration-500 group-hover:bg-ink/10;
+    @apply pointer-events-none absolute inset-0 transition-colors duration-500;
+    background-color: transparent;
+  }
+
+  .project-media:hover .project-media-overlay,
+  .project-media:focus-within .project-media-overlay {
+    background-color: var(--theme-project-overlay);
   }
 
   /* Portfolio grid */
@@ -1648,5 +1831,67 @@
 
 .site-footer__legal-link {
   @apply text-stone-500 underline-offset-2 transition-colors hover:text-stone-800 hover:underline;
+}
+
+/* Theme editor (admin) */
+.admin-theme-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.65rem;
+  margin-bottom: 1.25rem;
+}
+
+.admin-theme-grid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.admin-theme-section {
+  display: grid;
+  gap: 0.85rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+}
+
+.admin-theme-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.admin-theme-field__label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--admin-ink);
+}
+
+.admin-theme-field__hint {
+  font-size: 0.72rem;
+  color: var(--admin-muted);
+  margin-top: -0.15rem;
+}
+
+.admin-theme-field__row {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.admin-theme-color {
+  width: 2.5rem;
+  height: 2.5rem;
+  flex-shrink: 0;
+  padding: 0.15rem;
+  border: 1px solid var(--admin-line);
+  border-radius: 0.45rem;
+  background: #fff;
+  cursor: pointer;
+}
+
+.admin-theme-input {
+  flex: 1;
+  min-width: 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.82rem;
 }
 

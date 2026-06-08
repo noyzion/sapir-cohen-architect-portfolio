@@ -3,6 +3,7 @@ import { LanguageProvider } from "@/context/LanguageContext";
 import { ContentProvider } from "@/context/ContentContext";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { ThemeStyles } from "@/components/site/ThemeStyles";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getAllContent } from "@/lib/content";
 import { buildSiteGraphSchema, getDefaultOgImage } from "@/lib/seo";
@@ -36,10 +37,12 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function SiteLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const { siteCopy, projects, services, projectTypes } = await getAllContent();
+  const { siteCopy, projects, services, projectTypes, siteTheme } =
+    await getAllContent();
 
   return (
     <>
+      <ThemeStyles theme={siteTheme} />
       <JsonLd data={buildSiteGraphSchema(siteCopy)} />
       <LanguageProvider copy={siteCopy}>
         <ContentProvider value={{ projects, services, projectTypes }}>

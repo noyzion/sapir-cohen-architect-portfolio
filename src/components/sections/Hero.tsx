@@ -5,6 +5,7 @@ import { useLanguage, pick } from "@/context/LanguageContext";
 export function Hero() {
   const { locale, t } = useLanguage();
   const headline = pick(t.hero.headline, locale);
+  const tagline = pick(t.tagline, locale);
 
   return (
     <section
@@ -26,7 +27,7 @@ export function Hero() {
             {headline}
           </h1>
           <span className="hero-name-bar" aria-hidden />
-          <p className="hero-subtitle">Architecture &amp; Interior Design</p>
+          <p className="hero-subtitle">{tagline}</p>
         </div>
       </div>
 

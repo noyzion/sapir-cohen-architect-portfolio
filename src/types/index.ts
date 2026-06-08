@@ -149,3 +149,87 @@ export type SiteCopy = {
     afterPortfolio: { title: LocalizedString; text: LocalizedString };
   };
 };
+
+export type SiteTheme = {
+  colors: {
+    ink: string;
+    inkSoft: string;
+    text: string;
+    textMuted: string;
+    textSubtle: string;
+    surfaceWarm: string;
+    surfaceWhite: string;
+    pageBackground: string;
+  };
+  borders: {
+    color: string;
+    colorLight: string;
+    colorStrong: string;
+    width: string;
+    widthStrong: string;
+    radius: string;
+  };
+  hero: {
+    panelBackground: string;
+    panelBorder: string;
+    cornerColor: string;
+    titleColor: string;
+    subtitleColor: string;
+    accentBar: string;
+    sectionBorder: string;
+  };
+  cards: {
+    background: string;
+    border: string;
+    shadow: string;
+  };
+  featured: {
+    background: string;
+    text: string;
+    textMuted: string;
+    border: string;
+    badgeBackground: string;
+    badgeBorder: string;
+    badgeText: string;
+    innerBorder: string;
+  };
+  buttons: {
+    primaryBackground: string;
+    primaryText: string;
+    primaryHover: string;
+    outlineBorder: string;
+    outlineText: string;
+    ghostHoverBorder: string;
+  };
+  header: {
+    border: string;
+    background: string;
+    backgroundScrolled: string;
+  };
+  forms: {
+    inputBorder: string;
+    inputBackground: string;
+    inputText: string;
+  };
+  footer: {
+    background: string;
+    border: string;
+  };
+  accents: {
+    selectionBackground: string;
+    selectionText: string;
+    focusRing: string;
+    sectionRule: string;
+    linkUnderline: string;
+  };
+  about: {
+    portraitBorder: string;
+    portraitBackground: string;
+    portraitPlaceholderBorder: string;
+    highlightBorder: string;
+  };
+  project: {
+    mediaBorder: string;
+    overlay: string;
+  };
+};

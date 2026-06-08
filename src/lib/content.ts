@@ -1,19 +1,22 @@
 import "server-only";
 import { cache } from "react";
-import type { Project, ProjectType, ServicePackage, SiteCopy } from "@/types";
+import type { Project, ProjectType, ServicePackage, SiteCopy, SiteTheme } from "@/types";
 import { storeGet } from "@/lib/store";
 import {
   seedProjects,
   seedProjectTypes,
   seedServices,
   seedSiteCopy,
+  seedSiteTheme,
 } from "@/lib/seed";
+import { mergeSiteTheme } from "@/lib/themeCss";
 
 export const CONTENT_KEYS = [
   "siteCopy",
   "projects",
   "services",
   "projectTypes",
+  "siteTheme",
 ] as const;
 
 export type ContentKey = (typeof CONTENT_KEYS)[number];
@@ -60,6 +63,11 @@ export const getProjectTypes = cache(
     (await storeGet<ProjectType[]>("projectTypes")) ?? seedProjectTypes
 );
 
+export const getSiteTheme = cache(async (): Promise<SiteTheme> => {
+  const stored = await storeGet<Partial<SiteTheme>>("siteTheme");
+  return mergeSiteTheme(stored);
+});
+
 export const getProjectBySlug = cache(
   async (slug: string): Promise<Project | undefined> => {
     const projects = await getProjects();
@@ -77,15 +85,19 @@ export async function getContentByKey(key: ContentKey): Promise<unknown> {
       return getServices();
     case "projectTypes":
       return getProjectTypes();
+    case "siteTheme":
+      return getSiteTheme();
   }
 }
 
 export async function getAllContent() {
-  const [siteCopy, projects, services, projectTypes] = await Promise.all([
-    getSiteCopy(),
-    getProjects(),
-    getServices(),
-    getProjectTypes(),
-  ]);
-  return { siteCopy, projects, services, projectTypes };
+  const [siteCopy, projects, services, projectTypes, siteTheme] =
+    await Promise.all([
+      getSiteCopy(),
+      getProjects(),
+      getServices(),
+      getProjectTypes(),
+      getSiteTheme(),
+    ]);
+  return { siteCopy, projects, services, projectTypes, siteTheme };
 }

@@ -26,6 +26,21 @@ export const getSiteCopy = cache(
       ...seedSiteCopy,
       ...stored,
       about: { ...seedSiteCopy.about, ...stored.about },
+      footer: { ...seedSiteCopy.footer, ...stored.footer },
+      privacy: {
+        ...seedSiteCopy.privacy,
+        ...stored.privacy,
+        sections: stored.privacy?.sections?.length
+          ? stored.privacy.sections
+          : seedSiteCopy.privacy.sections,
+      },
+      accessibility: {
+        ...seedSiteCopy.accessibility,
+        ...stored.accessibility,
+        sections: stored.accessibility?.sections?.length
+          ? stored.accessibility.sections
+          : seedSiteCopy.accessibility.sections,
+      },
     };
   }
 );

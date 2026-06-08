@@ -54,6 +54,18 @@ export type ProcessStep = {
   description: LocalizedString;
 };
 
+export type LegalSection = {
+  heading: LocalizedString;
+  paragraphs: LocalizedString[];
+};
+
+export type LegalPageCopy = {
+  title: LocalizedString;
+  updatedAt: LocalizedString;
+  intro: LocalizedString;
+  sections: LegalSection[];
+};
+
 export type SiteCopy = {
   meta: { title: LocalizedString; description: LocalizedString };
   brand: LocalizedString;
@@ -128,7 +140,11 @@ export type SiteCopy = {
   };
   footer: {
     rights: LocalizedString;
+    privacyLabel: LocalizedString;
+    accessibilityLabel: LocalizedString;
   };
+  privacy: LegalPageCopy;
+  accessibility: LegalPageCopy;
   ctaBand: {
     afterPortfolio: { title: LocalizedString; text: LocalizedString };
   };

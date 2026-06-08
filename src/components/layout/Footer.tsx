@@ -47,6 +47,16 @@ export function Footer() {
 
         <p className="site-footer__divider mt-14 pt-8 text-center text-xs text-stone-400">
           {pick(t.footer.rights, locale).replace("{year}", String(year))}
+          <span className="site-footer__legal">
+            {" · "}
+            <Link href="/privacy" className="site-footer__legal-link">
+              {pick(t.footer.privacyLabel, locale)}
+            </Link>
+            {" · "}
+            <Link href="/accessibility" className="site-footer__legal-link">
+              {pick(t.footer.accessibilityLabel, locale)}
+            </Link>
+          </span>
         </p>
       </div>
     </footer>

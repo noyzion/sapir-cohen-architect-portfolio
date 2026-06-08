@@ -54,10 +54,6 @@ export function LegalDocumentContent({ docKey, variant = "page" }: Props) {
           </Link>
         </p>
       ) : null}
-
-      <p className={isModal ? "legal-modal__disclaimer" : "legal-page__disclaimer"}>
-        {pick(t.legalDisclaimer, locale)}
-      </p>
     </div>
   );
 }

@@ -11,11 +11,6 @@ export const SITE_ENTITY_EN = "the Sapir Cohen website";
 /** Display phone derived from WhatsApp number (972524664443 → 052-466-4433). */
 export const CONTACT_PHONE_DISPLAY = "052-466-4433";
 
-export const LEGAL_DISCLAIMER: LocalizedString = {
-  he: "המידע בעמוד זה נועד למטרות כלליות ואינו מהווה ייעוץ משפטי.",
-  en: "The information on this page is for general purposes only and does not constitute legal advice.",
-};
-
 export const privacyPolicyCopy: LegalPageCopy = {
   title: { he: "מדיניות פרטיות", en: "Privacy Policy" },
   updatedAt: {
@@ -108,8 +103,8 @@ export const privacyPolicyCopy: LegalPageCopy = {
 export const accessibilityStatementCopy: LegalPageCopy = {
   title: { he: "הצהרת נגישות", en: "Accessibility Statement" },
   updatedAt: {
-    he: "תאריך עדכון ההצהרה: 30 במאי 2026",
-    en: "Statement last updated: May 30, 2026",
+    he: "תאריך עדכון ההצהרה: 9 ביוני 2026",
+    en: "Statement last updated: June 9, 2026",
   },
   intro: {
     he: `${SITE_ENTITY_HE} מקדיש מאמצים להנגיש את עצמו לאנשים עם מוגבלות, על מנת לאפשר לכל אדם גלישה שוויונית, נוחה ועצמאית ככל האפשר.`,
@@ -129,12 +124,16 @@ export const accessibilityStatementCopy: LegalPageCopy = {
       heading: { he: "התאמות נגישות שבוצעו", en: "Accessibility adaptations" },
       paragraphs: [
         {
-          he: "בין היתר: ניווט מקלדת, דילוג לתוכן הראשי, היררכיית כותרות ברורה, טקסט חלופי (Alt) לתמונות במידת האפשר, ניגודיות קריאה, עיצוב רספונסיבי למובייל, תמיכה בקוראי מסך במידת האפשר, קישורים וכפתורים ברורים, ותמיכה בכיווניות RTL/LTR.",
-          en: "Including: keyboard navigation, skip to main content, clear heading hierarchy, alt text for images where possible, readable contrast, responsive mobile design, screen reader support where possible, clear links and buttons, and RTL/LTR support.",
+          he: "בין היתר: ניווט מקלדת, דילוג לתוכן הראשי, היררכיית כותרות ברורה, טקסט חלופי (Alt) לתמונות במידת האפשר, סימון פוקוס ברור, ניגודיות קריאה, עיצוב רספונסיבי למובייל, תמיכה בקוראי מסך במידת האפשר, קישורים וכפתורים ברורים, תמיכה בכיווניות RTL/LTR, מעבר בין עברית לאנגלית (כולל שמירת בחירת שפה), והפחתת אנימציות למשתמשים שביקשו זאת בהגדרות המערכת.",
+          en: "Including: keyboard navigation, skip to main content, clear heading hierarchy, alt text for images where possible, visible focus indicators, readable contrast, responsive mobile design, screen reader support where possible, clear links and buttons, RTL/LTR support, Hebrew/English switching (with language preference saved), and reduced motion for users who request it in system settings.",
         },
         {
-          he: "באתר מותקן תפריט נגישות (כפתור קבוע בפינה) המאפשר: הגדלה/הקטנה של טקסט, מצב ניגודיות גבוהה, הדגשת קישורים, גופן קריא, והקראת טקסט (בהתאם לתמיכת הדפדפן).",
-          en: "The site includes an accessibility menu (fixed corner button) for: text size adjustment, high contrast, link underlining, readable font, and text-to-speech (subject to browser support).",
+          he: "באתר מותקן תפריט נגישות - כפתור קבוע בפינה השמאלית התחתונה עם אייקון. התפריט מאפשר: שינוי גודל טקסט בשלוש רמות (A- / A+), מצב ניגודיות גבוהה, הדגשת קישורים, גופן קריא, הקראת טקסט מסומן או תוכן העמוד הראשי ועצירת ההקראה (בהתאם לתמיכת הדפדפן, בעברית או באנגלית), איפוס הגדרות, וקישור להצהרת נגישות זו. העדפות הנגישות נשמרות בדפדפן.",
+          en: "The site includes an accessibility menu - a fixed icon button at the bottom-left corner. The menu offers: text size in three levels (A- / A+), high contrast mode, link underlining, readable font, reading selected text or main page content and stopping playback (subject to browser support, in Hebrew or English), reset settings, and a link to this statement. Accessibility preferences are saved in the browser.",
+        },
+        {
+          he: "בנוסף: גלריית תמונות (Lightbox) הניתנת לסגירה ולניווט במקלדת, חלונות משפטיים (כגון מדיניות פרטיות בטופס יצירת הקשר) עם סגירה במקלדת ומיקוד נגיש, וטופס יצירת קשר עם תוויות, הודעות שגיאה וקישור למדיניות הפרטיות.",
+          en: "In addition: an image gallery lightbox that can be closed and navigated by keyboard, legal dialogs (such as the Privacy Policy in the contact form) with keyboard close and accessible focus, and a contact form with labels, error messages, and a link to the Privacy Policy.",
         },
       ],
     },

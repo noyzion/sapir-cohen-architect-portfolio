@@ -1,6 +1,5 @@
 import type { SiteCopy } from "@/types";
 import {
-  LEGAL_DISCLAIMER,
   accessibilityStatementCopy,
   cookiesPolicyCopy,
   privacyPolicyCopy,
@@ -38,14 +37,6 @@ export const siteCopy: SiteCopy = {
   },
   hero: {
     headline: { he: "ספיר כהן", en: "Sapir Cohen" },
-    lead: {
-      he: "תכנון מדויק, עיצוב על-זמני, חללים עם חותם אישי",
-      en: "Precise planning, Timeless design, Spaces with a personal signature",
-    },
-    subtext: {
-      he: "הנדסאית אדריכלות ומעצבת פנים, בוגרת שנקר בהצטיינות יתרה",
-      en: "Architectural technologist & interior designer, Summa Cum Laude, Shenkar",
-    },
     scrollHint: {
       he: "גלילה למטה לתוכן האתר",
       en: "Scroll down to explore the site",
@@ -188,7 +179,6 @@ export const siteCopy: SiteCopy = {
     termsLabel: { he: "תנאי שימוש", en: "Terms of Use" },
     cookiesLabel: { he: "מדיניות Cookies", en: "Cookies Policy" },
   },
-  legalDisclaimer: LEGAL_DISCLAIMER,
   privacy: privacyPolicyCopy,
   accessibility: accessibilityStatementCopy,
   terms: termsOfUseCopy,

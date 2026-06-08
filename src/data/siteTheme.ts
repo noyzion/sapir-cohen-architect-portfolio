@@ -1,6 +1,6 @@
 import type { SiteTheme } from "@/types";
 
-/** Default visual theme — matches the shipped site design. */
+/** Default visual theme - matches the shipped site design. */
 export const siteTheme: SiteTheme = {
   colors: {
     ink: "#0a0a0a",

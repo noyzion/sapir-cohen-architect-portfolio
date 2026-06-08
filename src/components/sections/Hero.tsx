@@ -4,8 +4,8 @@ import { useLanguage, pick } from "@/context/LanguageContext";
 
 export function Hero() {
   const { locale, t } = useLanguage();
-  const headline = pick(t.hero.headline, locale);
-  const tagline = pick(t.tagline, locale);
+  const headline = t.hero.headline.en;
+  const tagline = t.tagline.en;
 
   return (
     <section
@@ -22,7 +22,7 @@ export function Hero() {
       </div>
 
       <div className="container-site hero-inner">
-        <div className="hero-panel">
+        <div className="hero-panel" dir="ltr" lang="en">
           <h1 id="hero-title" className="hero-name">
             {headline}
           </h1>

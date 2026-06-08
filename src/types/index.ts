@@ -81,8 +81,6 @@ export type SiteCopy = {
   };
   hero: {
     headline: LocalizedString;
-    lead: LocalizedString;
-    subtext: LocalizedString;
     scrollHint: LocalizedString;
   };
   about: {
@@ -148,7 +146,6 @@ export type SiteCopy = {
     termsLabel: LocalizedString;
     cookiesLabel: LocalizedString;
   };
-  legalDisclaimer: LocalizedString;
   privacy: LegalPageCopy;
   accessibility: LegalPageCopy;
   terms: LegalPageCopy;

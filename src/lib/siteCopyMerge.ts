@@ -35,7 +35,10 @@ export function mergeSiteCopy(
     ...stored,
     meta: { ...seed.meta, ...stored.meta },
     cta: { ...seed.cta, ...stored.cta },
-    hero: { ...seed.hero, ...stored.hero },
+    hero: {
+      headline: mergeLocalized(seed.hero.headline, stored.hero?.headline),
+      scrollHint: mergeLocalized(seed.hero.scrollHint, stored.hero?.scrollHint),
+    },
     about: {
       ...seed.about,
       ...stored.about,
@@ -100,10 +103,6 @@ export function mergeSiteCopy(
       termsLabel: mergeLocalized(seed.footer.termsLabel, stored.footer?.termsLabel),
       cookiesLabel: mergeLocalized(seed.footer.cookiesLabel, stored.footer?.cookiesLabel),
     },
-    legalDisclaimer: mergeLocalized(
-      seed.legalDisclaimer,
-      stored.legalDisclaimer ?? undefined
-    ),
     privacy: mergeLegalPage(seed.privacy, stored.privacy),
     accessibility: mergeLegalPage(seed.accessibility, stored.accessibility),
     terms: mergeLegalPage(seed.terms, stored.terms),

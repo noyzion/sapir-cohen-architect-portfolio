@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { ImageUploader } from "@/components/admin/ImageUploader";
 import {
   shouldSyncSlugFromName,
@@ -97,7 +98,7 @@ const LABELS: Record<string, string> = {
   title: "כותרת",
   description: "תיאור",
   brand: "שם המותג",
-  tagline: "סלוגן",
+  tagline: "כותרת משנה בשער",
   nav: "תפריט",
   cta: "כפתורים",
   hero: "שער (Hero)",
@@ -125,10 +126,10 @@ const LABELS: Record<string, string> = {
   paragraphs: "פסקאות",
   heading: "כותרת סעיף",
   ctaBand: "רצועת קריאה לפעולה",
-  headline: "כותרת ראשית",
+  headline: "שם בשער",
   lead: "משפט פתיחה",
   subtext: "טקסט משנה",
-  scrollHint: "רמז גלילה",
+  scrollHint: "רמז גלילה (נגישות - כפתור בתחתית השער)",
   intro: "שם",
   credentials: "תפקיד",
   portraitImage: "תמונת תדמית (אודות)",
@@ -195,13 +196,17 @@ function isProjectShape(v: unknown): v is Record<string, unknown> & {
   return typeof v.slug === "string" && isLocalized(v.name);
 }
 
-function humanize(key: string): string {
+export function humanizeFieldKey(key: string): string {
   if (LABELS[key]) return LABELS[key];
   return key
     .replace(/([A-Z])/g, " $1")
     .replace(/[_-]+/g, " ")
     .replace(/^\w/, (c) => c.toUpperCase())
     .trim();
+}
+
+function humanize(key: string): string {
+  return humanizeFieldKey(key);
 }
 
 function itemTitle(value: unknown, index: number): string {
@@ -322,6 +327,227 @@ function StringField({
 }
 
 /* -------------------------------------------------------------------------- */
+/* Object fields (shared by groups + array items)                             */
+/* -------------------------------------------------------------------------- */
+
+function ObjectFieldsNode({
+  value,
+  onChange,
+}: {
+  value: Record<string, unknown>;
+  onChange: (next: Record<string, unknown>) => void;
+}) {
+  const isProject = isProjectShape(value);
+
+  return (
+    <>
+      {Object.entries(value).map(([key, child]) => (
+        <JsonNode
+          key={key}
+          value={child}
+          fieldKey={key}
+          label={humanize(key)}
+          onChange={(next) => {
+            if (isProject && key === "name" && isLocalized(next)) {
+              const previousName = value.name as Localized;
+              const previousSlug =
+                typeof value.slug === "string" ? value.slug : "";
+              const updates: Record<string, unknown> = {
+                ...value,
+                name: next,
+              };
+              if (shouldSyncSlugFromName(previousSlug, previousName)) {
+                updates.slug = slugifyFromName(next);
+              }
+              onChange(updates);
+              return;
+            }
+            onChange({ ...value, [key]: next });
+          }}
+        />
+      ))}
+    </>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/* Array field (collapsible items)                                            */
+/* -------------------------------------------------------------------------- */
+
+function ArrayNode({
+  value,
+  onChange,
+  label,
+  fieldKey,
+}: {
+  value: unknown[];
+  onChange: (next: unknown[]) => void;
+  label: string;
+  fieldKey: string;
+}) {
+  const items = value;
+  const [openItems, setOpenItems] = useState<boolean[]>(() => items.map(() => true));
+
+  useEffect(() => {
+    setOpenItems((prev) => {
+      if (prev.length === items.length) return prev;
+      if (prev.length < items.length) {
+        return [...prev, ...Array(items.length - prev.length).fill(true)];
+      }
+      return prev.slice(0, items.length);
+    });
+  }, [items.length]);
+
+  const update = (i: number, next: unknown) => {
+    const copy = items.slice();
+    copy[i] = next;
+    onChange(copy);
+  };
+
+  const remove = (i: number) => {
+    const copy = items.slice();
+    copy.splice(i, 1);
+    onChange(copy);
+    setOpenItems((prev) => prev.filter((_, idx) => idx !== i));
+  };
+
+  const move = (i: number, dir: -1 | 1) => {
+    const j = i + dir;
+    if (j < 0 || j >= items.length) return;
+    const copy = items.slice();
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+    onChange(copy);
+    setOpenItems((prev) => {
+      const next = prev.slice();
+      [next[i], next[j]] = [next[j], next[i]];
+      return next;
+    });
+  };
+
+  const add = () => {
+    const template = arrayItemTemplate(fieldKey, items);
+    onChange([...items, template]);
+    setOpenItems((prev) => [...prev, true]);
+  };
+
+  const collapseAll = () => setOpenItems(items.map(() => false));
+  const expandAll = () => setOpenItems(items.map(() => true));
+
+  const setItemOpen = (index: number, open: boolean) => {
+    setOpenItems((prev) => {
+      if (prev[index] === open) return prev;
+      const next = prev.slice();
+      next[index] = open;
+      return next;
+    });
+  };
+
+  return (
+    <details className="admin-group" open>
+      <summary className="admin-group__summary">
+        {label} <span className="admin-group__count">({items.length})</span>
+      </summary>
+      <div className="admin-group__body">
+        {items.length > 0 ? (
+          <div className="admin-group__toolbar">
+            <button
+              type="button"
+              className="admin-btn admin-btn--ghost admin-btn--compact"
+              onClick={collapseAll}
+            >
+              סגירת הכל
+            </button>
+            <button
+              type="button"
+              className="admin-btn admin-btn--ghost admin-btn--compact"
+              onClick={expandAll}
+            >
+              פתיחת הכל
+            </button>
+          </div>
+        ) : null}
+        {items.map((rawItem, i) => {
+          const item = isImageArrayKey(fieldKey)
+            ? normalizeGalleryItem(rawItem)
+            : rawItem;
+
+          return (
+            <details
+              className="admin-item"
+              key={i}
+              open={openItems[i] ?? false}
+              onToggle={(e) => setItemOpen(i, e.currentTarget.open)}
+            >
+              <summary className="admin-item__summary">
+                <span className="admin-item__title">{itemTitle(item, i)}</span>
+                <span className="admin-item__tools">
+                  <button
+                    type="button"
+                    className="admin-icon-btn"
+                    title="העבר למעלה"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      move(i, -1);
+                    }}
+                  >
+                    ↑
+                  </button>
+                  <button
+                    type="button"
+                    className="admin-icon-btn"
+                    title="העבר למטה"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      move(i, 1);
+                    }}
+                  >
+                    ↓
+                  </button>
+                  <button
+                    type="button"
+                    className="admin-icon-btn admin-icon-btn--danger"
+                    title="מחיקה"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (window.confirm("למחוק פריט זה?")) remove(i);
+                    }}
+                  >
+                    ✕
+                  </button>
+                </span>
+              </summary>
+              <div className="admin-item__body">
+                {isPlainObject(item) && !isLocalized(item) ? (
+                  <ObjectFieldsNode
+                    value={item}
+                    onChange={(next) => update(i, next)}
+                  />
+                ) : (
+                  <JsonNode
+                    value={item}
+                    onChange={(next) => {
+                      if (isImageArrayKey(fieldKey) && typeof next === "string") {
+                        update(i, { ...normalizeGalleryItem(item), src: next });
+                        return;
+                      }
+                      update(i, next);
+                    }}
+                    label={itemTitle(item, i)}
+                  />
+                )}
+              </div>
+            </details>
+          );
+        })}
+        <button type="button" className="admin-btn admin-btn--add" onClick={add}>
+          + הוספת פריט
+        </button>
+      </div>
+    </details>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
 /* Recursive node                                                             */
 /* -------------------------------------------------------------------------- */
 
@@ -391,139 +617,26 @@ export function JsonNode({
 
   // Array -> list with controls
   if (Array.isArray(value)) {
-    const items = value as unknown[];
-
-    const update = (i: number, next: unknown) => {
-      const copy = items.slice();
-      copy[i] = next;
-      onChange(copy);
-    };
-    const remove = (i: number) => {
-      const copy = items.slice();
-      copy.splice(i, 1);
-      onChange(copy);
-    };
-    const move = (i: number, dir: -1 | 1) => {
-      const j = i + dir;
-      if (j < 0 || j >= items.length) return;
-      const copy = items.slice();
-      [copy[i], copy[j]] = [copy[j], copy[i]];
-      onChange(copy);
-    };
-    const add = () => {
-      const template = arrayItemTemplate(fieldKey, items);
-      onChange([...items, template]);
-    };
-
     return (
-      <details className="admin-group" open>
-        <summary className="admin-group__summary">
-          {label} <span className="admin-group__count">({items.length})</span>
-        </summary>
-        <div className="admin-group__body">
-          {items.map((rawItem, i) => {
-            const item = isImageArrayKey(fieldKey)
-              ? normalizeGalleryItem(rawItem)
-              : rawItem;
-
-            return (
-            <details className="admin-item" key={i} open>
-              <summary className="admin-item__summary">
-                <span className="admin-item__title">{itemTitle(item, i)}</span>
-                <span className="admin-item__tools">
-                  <button
-                    type="button"
-                    className="admin-icon-btn"
-                    title="העבר למעלה"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      move(i, -1);
-                    }}
-                  >
-                    ↑
-                  </button>
-                  <button
-                    type="button"
-                    className="admin-icon-btn"
-                    title="העבר למטה"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      move(i, 1);
-                    }}
-                  >
-                    ↓
-                  </button>
-                  <button
-                    type="button"
-                    className="admin-icon-btn admin-icon-btn--danger"
-                    title="מחיקה"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      if (window.confirm("למחוק פריט זה?")) remove(i);
-                    }}
-                  >
-                    ✕
-                  </button>
-                </span>
-              </summary>
-              <div className="admin-item__body">
-                <JsonNode
-                  value={item}
-                  onChange={(next) => {
-                    if (isImageArrayKey(fieldKey) && typeof next === "string") {
-                      update(i, { ...normalizeGalleryItem(item), src: next });
-                      return;
-                    }
-                    update(i, next);
-                  }}
-                  label={`פריט ${i + 1}`}
-                />
-              </div>
-            </details>
-            );
-          })}
-          <button type="button" className="admin-btn admin-btn--add" onClick={add}>
-            + הוספת פריט
-          </button>
-        </div>
-      </details>
+      <ArrayNode
+        value={value}
+        onChange={(next) => onChange(next)}
+        label={label}
+        fieldKey={fieldKey}
+      />
     );
   }
 
   // Plain object -> section
   if (isPlainObject(value)) {
-    const entries = Object.entries(value);
-    const isProject = isProjectShape(value);
-
     return (
       <details className="admin-group" open>
         <summary className="admin-group__summary">{label}</summary>
         <div className="admin-group__body">
-          {entries.map(([key, child]) => (
-            <JsonNode
-              key={key}
-              value={child}
-              fieldKey={key}
-              label={humanize(key)}
-              onChange={(next) => {
-                if (isProject && key === "name" && isLocalized(next)) {
-                  const previousName = value.name as Localized;
-                  const previousSlug =
-                    typeof value.slug === "string" ? value.slug : "";
-                  const updates: Record<string, unknown> = {
-                    ...value,
-                    name: next,
-                  };
-                  if (shouldSyncSlugFromName(previousSlug, previousName)) {
-                    updates.slug = slugifyFromName(next);
-                  }
-                  onChange(updates);
-                  return;
-                }
-                onChange({ ...value, [key]: next });
-              }}
-            />
-          ))}
+          <ObjectFieldsNode
+            value={value}
+            onChange={(next) => onChange(next)}
+          />
         </div>
       </details>
     );

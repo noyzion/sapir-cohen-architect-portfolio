@@ -9,22 +9,22 @@ export const projectGalleries: Record<
       {
         src: "/images/portfolio/duplex-ramat-aviv/01-before-living.webp",
         caption: {
-          he: "סלון ומטבח  - לפני",
-          en: "Living & kitchen  - before",
+          he: "סלון ומטבח - לפני",
+          en: "Living & kitchen - before",
         },
       },
       {
         src: "/images/portfolio/duplex-ramat-aviv/03-before-stairs.webp",
         caption: {
-          he: "גרם מדרגות  - לפני",
-          en: "Staircase  - before",
+          he: "גרם מדרגות - לפני",
+          en: "Staircase - before",
         },
       },
       {
         src: "/images/portfolio/duplex-ramat-aviv/04-before-balcony.webp",
         caption: {
-          he: "מרפסת  - לפני",
-          en: "Balcony  - before",
+          he: "מרפסת - לפני",
+          en: "Balcony - before",
         },
       },
     ],
@@ -32,37 +32,37 @@ export const projectGalleries: Record<
       {
         src: "/images/portfolio/duplex-ramat-aviv/07-render-dining.webp",
         caption: {
-          he: "פינת אוכל  - הדמיה",
-          en: "Dining area  - render",
+          he: "פינת אוכל - הדמיה",
+          en: "Dining area - render",
         },
       },
       {
         src: "/images/portfolio/duplex-ramat-aviv/08-render-open-plan.webp",
         caption: {
-          he: "תכנון פתוח  - מטבח, אוכל ומגורים",
-          en: "Open plan  - kitchen, dining & living",
+          he: "תכנון פתוח - מטבח, אוכל ומגורים",
+          en: "Open plan - kitchen, dining & living",
         },
       },
       {
         src: "/images/portfolio/duplex-ramat-aviv/06-render-living.webp",
-        caption: { he: "סלון  - הדמיה", en: "Living room  - render" },
+        caption: { he: "סלון - הדמיה", en: "Living room - render" },
       },
       {
         src: "/images/portfolio/duplex-ramat-aviv/09-render-kitchen.webp",
-        caption: { he: "מטבח  - הדמיה", en: "Kitchen  - render" },
+        caption: { he: "מטבח - הדמיה", en: "Kitchen - render" },
       },
       {
         src: "/images/portfolio/duplex-ramat-aviv/05-render-stairs.webp",
         caption: {
-          he: "גרם מדרגות  - הדמיה",
-          en: "Staircase  - render",
+          he: "גרם מדרגות - הדמיה",
+          en: "Staircase - render",
         },
       },
       {
         src: "/images/portfolio/duplex-ramat-aviv/10-render-bathroom.webp",
         caption: {
-          he: "חדר רחצה ראשי  - הדמיה",
-          en: "Master bathroom  - render",
+          he: "חדר רחצה ראשי - הדמיה",
+          en: "Master bathroom - render",
         },
       },
     ],

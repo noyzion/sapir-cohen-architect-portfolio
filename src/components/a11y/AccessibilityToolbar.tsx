@@ -63,10 +63,19 @@ function AccessibilityIcon() {
     <svg
       className="a11y-toolbar__icon"
       viewBox="0 0 24 24"
-      fill="currentColor"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
       aria-hidden
     >
-      <path d="M12 2c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm8 7h-5.1c-.5-2.5-2.4-4.3-4.9-4.3S5.6 6.5 5.1 9H0v2h5.1c.5 2.5 2.4 4.3 4.9 4.3s4.4-1.8 4.9-4.3H20V9zM12 17.5c-1.9 0-3.5 1.6-3.5 3.5h7c0-1.9-1.6-3.5-3.5-3.5z" />
+      <circle cx="12" cy="12" r="10" />
+      <circle cx="12" cy="7" r="1.25" fill="currentColor" stroke="none" />
+      <path d="M12 8.25V13" />
+      <path d="M7 11h10" />
+      <path d="M12 13l-3 4" />
+      <path d="M12 13l3 4" />
     </svg>
   );
 }

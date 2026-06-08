@@ -5,9 +5,14 @@ import path from "path";
 import { put } from "@vercel/blob";
 import { getBlobAccess, isBlobConfigured } from "@/lib/blobAccess";
 import { canUseLocalFilesystem, isVercelDeployment } from "@/lib/runtime";
+import {
+  compressImageBufferForUpload,
+  isLikelyImageContentType,
+} from "@/lib/serverImageCompress";
 import { SESSION_COOKIE, verifySessionToken } from "@/lib/session";
 
 export const runtime = "nodejs";
+export const maxDuration = 60;
 
 function sanitizeName(name: string): string {
   const base = name
@@ -45,23 +50,30 @@ export async function POST(req: Request) {
   const blobPath = `uploads/${filename}`;
 
   if (isBlobConfigured()) {
-    const maxBlobBytes = isVercelDeployment()
-      ? 4.5 * 1024 * 1024
-      : 4 * 1024 * 1024;
-    if (file.size > maxBlobBytes) {
-      return NextResponse.json(
-        {
-          error:
-            "התמונה גדולה מדי גם אחרי דחיסה. נסו תמונה קטנה יותר או דחסו אותה לפני ההעלאה.",
-        },
-        { status: 413 }
-      );
-    }
-
     try {
-      const blob = await put(blobPath, file, {
+      let uploadBody: Blob | Buffer = file;
+      let uploadPath = blobPath;
+      let contentType = file.type;
+
+      if (isLikelyImageContentType(file.type)) {
+        const raw = Buffer.from(await file.arrayBuffer());
+        const compressed = await compressImageBufferForUpload(raw);
+        uploadBody = compressed.data;
+        contentType = compressed.contentType;
+        uploadPath = blobPath.replace(/\.[^.]+$/i, "") + compressed.ext;
+      } else if (isVercelDeployment() && file.size > 4.5 * 1024 * 1024) {
+        return NextResponse.json(
+          {
+            error:
+              "התמונה גדולה מדי. נסו תמונה קטנה יותר, או שמרו מהטלפון כ-JPG.",
+          },
+          { status: 413 }
+        );
+      }
+
+      const blob = await put(uploadPath, uploadBody, {
         access: getBlobAccess(),
-        contentType: file.type,
+        contentType,
       });
       return NextResponse.json({ url: blob.url });
     } catch (err) {

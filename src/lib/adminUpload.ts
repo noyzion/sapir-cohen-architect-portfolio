@@ -27,57 +27,79 @@ type UploadJson = {
   access?: BlobAccessMode;
 };
 
-const MAX_DIMENSION = 2400;
-const COMPRESS_IF_LARGER_THAN = 1.2 * 1024 * 1024; // 1.2 MB
+const MAX_DIMENSION = 2000;
+/** Must stay under Vercel's ~4.5MB serverless body limit (OIDC uploads go via server). */
+const SERVER_UPLOAD_MAX_BYTES = 3.2 * 1024 * 1024;
 const UPLOAD_TIMEOUT_MS = 3 * 60 * 1000; // 3 minutes
 
-/** Shrink large photos before upload so uploads finish in seconds, not minutes. */
+function tooLargeError(): Error {
+  return new Error(
+    "התמונה גדולה מדי. נסו תמונה קטנה יותר, או שמרו מהטלפון כ-JPG לפני ההעלאה."
+  );
+}
+
+function unreadableImageError(): Error {
+  return new Error(
+    "לא הצלחנו לקרוא את התמונה (למשל HEIC). שמרו אותה כ-JPG או WEBP והעלו שוב."
+  );
+}
+
+/** Shrink photos before upload — always re-encode for predictable size on Vercel. */
 export async function compressImageForUpload(file: File): Promise<File> {
-  if (!file.type.startsWith("image/") || file.type === "image/gif") {
+  if (!file.type.startsWith("image/")) return file;
+
+  if (file.type === "image/gif") {
+    if (file.size > SERVER_UPLOAD_MAX_BYTES) throw tooLargeError();
     return file;
   }
 
   if (typeof createImageBitmap !== "function") {
+    if (file.size > SERVER_UPLOAD_MAX_BYTES) throw unreadableImageError();
     return file;
   }
 
   let bitmap: ImageBitmap | null = null;
   try {
-    bitmap = await createImageBitmap(file);
-    const { width, height } = bitmap;
-    const needsResize =
-      width > MAX_DIMENSION || height > MAX_DIMENSION;
-    const needsCompress = file.size > COMPRESS_IF_LARGER_THAN;
-
-    if (!needsResize && !needsCompress) {
+    try {
+      bitmap = await createImageBitmap(file);
+    } catch {
+      if (file.size > SERVER_UPLOAD_MAX_BYTES) throw unreadableImageError();
       return file;
     }
 
-    const scale = needsResize
-      ? Math.min(1, MAX_DIMENSION / Math.max(width, height))
-      : 1;
-    const w = Math.max(1, Math.round(width * scale));
-    const h = Math.max(1, Math.round(height * scale));
+    const { width, height } = bitmap;
+    const baseName = file.name.replace(/\.[^.]+$/i, "") || "image";
+    let smallest: File | null = null;
 
-    const canvas = document.createElement("canvas");
-    canvas.width = w;
-    canvas.height = h;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return file;
+    for (const maxDim of [MAX_DIMENSION, 1600, 1200, 960]) {
+      const scale = Math.min(1, maxDim / Math.max(width, height));
+      const w = Math.max(1, Math.round(width * scale));
+      const h = Math.max(1, Math.round(height * scale));
 
-    ctx.drawImage(bitmap, 0, 0, w, h);
-    bitmap.close();
-    bitmap = null;
+      const canvas = document.createElement("canvas");
+      canvas.width = w;
+      canvas.height = h;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) continue;
 
-    const blob = await new Promise<Blob | null>((resolve) => {
-      canvas.toBlob(resolve, "image/webp", 0.86);
-    });
-    if (!blob) return file;
+      ctx.drawImage(bitmap, 0, 0, w, h);
 
-    const base = file.name.replace(/\.[^.]+$/i, "") || "image";
-    return new File([blob], `${base}.webp`, { type: "image/webp" });
-  } catch {
-    return file;
+      for (const quality of [0.85, 0.72, 0.6, 0.5, 0.4]) {
+        const blob = await new Promise<Blob | null>((resolve) => {
+          canvas.toBlob(resolve, "image/webp", quality);
+        });
+        if (!blob) continue;
+
+        const candidate = new File([blob], `${baseName}.webp`, {
+          type: "image/webp",
+        });
+        if (!smallest || candidate.size < smallest.size) smallest = candidate;
+        if (candidate.size <= SERVER_UPLOAD_MAX_BYTES) return candidate;
+      }
+    }
+
+    if (smallest && smallest.size <= SERVER_UPLOAD_MAX_BYTES) return smallest;
+    throw tooLargeError();
   } finally {
     bitmap?.close();
   }

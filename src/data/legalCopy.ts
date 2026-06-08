@@ -4,6 +4,8 @@ const CONTACT_EMAIL = "sapircohenarc@gmail.com";
 
 /** Legal / site entity naming (the website, not the person). */
 export const SITE_ENTITY_HE = "האתר של ספיר כהן";
+/** Same entity after ל- (without ה): «לאתר של ספיר כהן», not «להאתר». */
+export const SITE_ENTITY_HE_AFTER_L = "אתר של ספיר כהן";
 export const SITE_ENTITY_EN = "the Sapir Cohen website";
 
 /** Display phone derived from WhatsApp number (972524664443 → 052-466-4433). */
@@ -168,7 +170,7 @@ export const termsOfUseCopy: LegalPageCopy = {
     en: "Last updated: May 30, 2026",
   },
   intro: {
-    he: `ברוכים הבאים ל${SITE_ENTITY_HE}. השימוש באתר כפוף לתנאים המפורטים להלן. גלישה באתר ו/או שימוש בו מהווים הסכמה לתנאים אלה.`,
+    he: `ברוכים הבאים ל${SITE_ENTITY_HE_AFTER_L}. השימוש באתר כפוף לתנאים המפורטים להלן. גלישה באתר ו/או שימוש בו מהווים הסכמה לתנאים אלה.`,
     en: `Welcome to ${SITE_ENTITY_EN}. Use of this site is subject to the terms below. Browsing or using the site constitutes acceptance of these terms.`,
   },
   sections: [

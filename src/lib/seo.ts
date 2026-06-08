@@ -29,6 +29,13 @@ export const SEO_KEYWORDS_EN = [
 export const SITE_NAME_HE = "ספיר כהן";
 export const SITE_NAME_EN = "Sapir Cohen";
 
+/** Production site URL (Vercel) — used for canonical, sitemap, and Open Graph. */
+export const DEFAULT_SITE_URL = "https://sapir-cohen-portfolio.vercel.app";
+
+export const HOME_TITLE = "ספיר כהן | אדריכלות ועיצוב פנים";
+export const HOME_DESCRIPTION =
+  "סטודיו לאדריכלות ועיצוב פנים המתמחה בתכנון בתים פרטיים, דירות וחללים בהתאמה אישית.";
+
 export function getSiteUrl(): string {
   const configured = process.env.NEXT_PUBLIC_SITE_URL?.trim();
   if (configured) {
@@ -37,14 +44,9 @@ export function getSiteUrl(): string {
     return `https://${normalized}`;
   }
 
-  const productionHost = process.env.VERCEL_PROJECT_PRODUCTION_URL?.trim();
-  if (productionHost) {
-    const host = productionHost.replace(/^https?:\/\//i, "").replace(/\/$/, "");
-    return `https://${host}`;
+  if (process.env.VERCEL === "1") {
+    return DEFAULT_SITE_URL;
   }
-
-  const vercel = process.env.VERCEL_URL?.trim();
-  if (vercel) return `https://${vercel.replace(/\/$/, "")}`;
 
   return "http://localhost:3000";
 }
@@ -155,13 +157,10 @@ export function buildPageMetadata(options: PageSeoOptions): Metadata {
 }
 
 export function buildHomeMetadata(siteCopy: SiteCopy, defaultImage?: string): Metadata {
-  const description =
-    `${siteCopy.meta.description.he} שירותי אדריכלות ועיצוב פנים במרכז: תכנון דירות, עיצוב דירת קבלן, בתים פרטיים וליווי שיפוץ.`;
-
   return buildPageMetadata({
-    title: siteCopy.meta.title.he,
+    title: HOME_TITLE,
     titleAbsolute: true,
-    description,
+    description: HOME_DESCRIPTION,
     path: "/",
     image: defaultImage,
     imageAlt: `${SITE_NAME_HE} – ${siteCopy.tagline.he}`,

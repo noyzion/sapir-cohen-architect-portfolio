@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Heebo, Outfit, Plus_Jakarta_Sans, Josefin_Sans } from "next/font/google";
-import { getSiteUrl, SITE_NAME_HE } from "@/lib/seo";
+import { getSiteUrl, HOME_DESCRIPTION, HOME_TITLE, SITE_NAME_HE } from "@/lib/seo";
 import "./globals.css";
 
 const heebo = Heebo({
@@ -29,11 +29,10 @@ const josefinSans = Josefin_Sans({
 export const metadata: Metadata = {
   metadataBase: new URL(getSiteUrl()),
   title: {
-    default: `${SITE_NAME_HE} | אדריכלות ועיצוב פנים`,
+    default: HOME_TITLE,
     template: `%s | ${SITE_NAME_HE}`,
   },
-  description:
-    "ספיר כהן – אדריכלית ומעצבת פנים. אדריכלות ועיצוב פנים במרכז: תכנון דירות, עיצוב דירת קבלן, בתים פרטיים וליווי שיפוץ.",
+  description: HOME_DESCRIPTION,
   robots: {
     index: true,
     follow: true,

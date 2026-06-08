@@ -31,7 +31,7 @@ export function Portfolio() {
             const { intervalMs, fadeMs } = getPortfolioSlideshowTiming(
               project.slug
             );
-            const projectLocation = project.location[locale]
+            const projectLocation = project.location?.[locale]
               ? pick(project.location, locale)
               : null;
             const slideshowAlt = projectLocation
@@ -58,7 +58,7 @@ export function Portfolio() {
               <div>
                 <p className="label-caps">
                   {pick(project.type, locale)}
-                  {project.location[locale] &&
+                  {project.location?.[locale] &&
                     `, ${pick(project.location, locale)}`}
                 </p>
                 <h3 className="mt-3 font-display text-display-lg text-ink">

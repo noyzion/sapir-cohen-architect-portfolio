@@ -9,7 +9,8 @@ import {
   useState,
 } from "react";
 import type { Locale, SiteCopy } from "@/types";
-import { siteCopy } from "@/data/siteCopy";
+import { siteCopy as seedSiteCopy } from "@/data/siteCopy";
+import { mergeSiteCopy } from "@/lib/siteCopyMerge";
 
 const STORAGE_KEY = "sapir-locale";
 
@@ -32,7 +33,10 @@ export function LanguageProvider({
   /** Editable site copy loaded server-side; falls back to built-in defaults. */
   copy?: SiteCopy;
 }) {
-  const t = copy ?? siteCopy;
+  const t = useMemo(
+    () => mergeSiteCopy(seedSiteCopy, copy),
+    [copy]
+  );
   const [locale, setLocaleState] = useState<Locale>("he");
   const [mounted, setMounted] = useState(false);
 

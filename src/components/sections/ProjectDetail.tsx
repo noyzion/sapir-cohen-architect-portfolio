@@ -24,7 +24,7 @@ export function ProjectDetail({ project }: Props) {
 
   const name = pick(project.name, locale);
   const type = pick(project.type, locale);
-  const location = project.location[locale]
+  const location = project.location?.[locale]
     ? pick(project.location, locale)
     : null;
   const coverAlt = location ? `${name} – ${type}, ${location}` : `${name} – ${type}`;

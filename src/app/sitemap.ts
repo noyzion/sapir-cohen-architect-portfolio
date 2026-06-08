@@ -1,9 +1,21 @@
 import type { MetadataRoute } from "next";
+import type { Project } from "@/types";
 import { getProjects } from "@/lib/content";
-import { absoluteUrl } from "@/lib/seo";
+import { seedProjects } from "@/lib/seed";
+import { absoluteUrl, isPublicProjectSlug, projectPageUrl } from "@/lib/seo";
+
+export const revalidate = 3600;
+
+async function loadProjects(): Promise<Project[]> {
+  try {
+    return await getProjects();
+  } catch {
+    return seedProjects;
+  }
+}
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const projects = await getProjects();
+  const projects = await loadProjects();
 
   const staticRoutes: MetadataRoute.Sitemap = [
     {
@@ -28,11 +40,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
-  const projectRoutes: MetadataRoute.Sitemap = projects.map((project) => ({
-    url: absoluteUrl(`/projects/${project.slug}`),
-    changeFrequency: "monthly",
-    priority: 0.7,
-  }));
+  const projectRoutes: MetadataRoute.Sitemap = projects
+    .filter((project) => isPublicProjectSlug(project.slug))
+    .map((project) => ({
+      url: projectPageUrl(project.slug),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    }));
 
   return [...staticRoutes, ...projectRoutes];
 }

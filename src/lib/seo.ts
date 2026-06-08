@@ -63,6 +63,19 @@ export function absoluteUrl(path: string): string {
   return `${base}${path.startsWith("/") ? path : `/${path}`}`;
 }
 
+/** Slugs used in public URLs must be URL-safe (no spaces or special chars). */
+export function isPublicProjectSlug(slug: string): boolean {
+  const normalized = slug.trim();
+  return /^[a-z0-9]+(?:-[a-z0-9]+)*$/i.test(normalized);
+}
+
+export function projectPageUrl(slug: string): string {
+  const normalized = slug.trim();
+  return absoluteUrl(
+    `/projects/${encodeURIComponent(normalized).replace(/%2F/g, "/")}`
+  );
+}
+
 export function truncateDescription(text: string, max = 160): string {
   const normalized = text.replace(/\s+/g, " ").trim();
   if (normalized.length <= max) return normalized;

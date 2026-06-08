@@ -136,8 +136,9 @@ export type SiteCopy = {
       message: LocalizedString;
       messagePlaceholder: LocalizedString;
       projectTypeOptions: LocalizedString[];
-      privacyConsent: LocalizedString;
-      privacySubmitNote: LocalizedString;
+      privacyConsentBefore: LocalizedString;
+      privacyConsentLink: LocalizedString;
+      privacyConsentAfter: LocalizedString;
     };
   };
   footer: {

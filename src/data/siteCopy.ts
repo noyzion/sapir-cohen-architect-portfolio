@@ -167,13 +167,17 @@ export const siteCopy: SiteCopy = {
         { he: "ייעוץ / קונספט", en: "Consultation / concept" },
         { he: "אחר", en: "Other" },
       ],
-      privacyConsent: {
-        he: "אני מאשר/ת את מדיניות הפרטיות ואת השימוש בפרטים לצורך יצירת קשר.",
-        en: "I agree to the Privacy Policy and to the use of my details for contact purposes.",
+      privacyConsentBefore: {
+        he: "אני מאשר/ת את ",
+        en: "I agree to the ",
       },
-      privacySubmitNote: {
-        he: "בלחיצה על שליחה אני מאשר/ת את העברת הפרטים לצורך יצירת קשר, בהתאם למדיניות הפרטיות של האתר.",
-        en: "By clicking send, I agree to share my details for contact purposes, in accordance with this site's Privacy Policy.",
+      privacyConsentLink: {
+        he: "מדיניות הפרטיות",
+        en: "Privacy Policy",
+      },
+      privacyConsentAfter: {
+        he: " ואת השימוש בפרטים שמסרתי לצורך יצירת קשר.",
+        en: " and to the use of the details I provided for contact purposes.",
       },
     },
   },

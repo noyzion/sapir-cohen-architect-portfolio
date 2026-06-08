@@ -1849,6 +1849,10 @@
   cursor: pointer;
 }
 
+.contact-privacy__error {
+  padding-inline-start: 1.75rem;
+}
+
 .site-footer__legal-nav {
   @apply border-t border-stone-200/50 pt-8;
 }

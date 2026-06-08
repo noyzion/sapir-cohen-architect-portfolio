@@ -30,6 +30,7 @@ export function Contact() {
   const [message, setMessage] = useState("");
   const [selectedPackage, setSelectedPackage] = useState("");
   const [privacyAccepted, setPrivacyAccepted] = useState(false);
+  const [privacyError, setPrivacyError] = useState(false);
   const contactEmail = t.contact.email || CONTACT_EMAIL;
   const whatsappNumber = t.contact.whatsapp || WHATSAPP_NUMBER;
 
@@ -53,7 +54,11 @@ export function Contact() {
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (!privacyAccepted) return;
+    if (!privacyAccepted) {
+      setPrivacyError(true);
+      return;
+    }
+    setPrivacyError(false);
     const form = e.currentTarget;
     const data = new FormData(form);
     const name = String(data.get("name") || "");
@@ -226,29 +231,42 @@ export function Contact() {
               </div>
             </div>
 
-            <div className="contact-privacy mt-6 space-y-4 border-t border-stone-200 pt-6">
+            <div className="contact-privacy mt-6 border-t border-stone-200 pt-6">
               <label className="contact-privacy__checkbox flex items-start gap-3 text-start">
                 <input
                   type="checkbox"
                   name="privacyConsent"
-                  required
                   checked={privacyAccepted}
-                  onChange={(e) => setPrivacyAccepted(e.target.checked)}
+                  onChange={(e) => {
+                    setPrivacyAccepted(e.target.checked);
+                    if (e.target.checked) setPrivacyError(false);
+                  }}
                   className="contact-privacy__input mt-0.5"
+                  aria-invalid={privacyError}
+                  aria-describedby={privacyError ? "privacy-consent-error" : undefined}
                 />
                 <span className="text-body-sm leading-relaxed text-stone-600">
-                  {pick(t.contact.form.privacyConsent, locale)}{" "}
+                  {pick(t.contact.form.privacyConsentBefore, locale)}
                   <Link
                     href={LEGAL_ROUTES.privacy}
                     className="text-ink underline-offset-2 hover:underline"
                   >
-                    {pick(t.footer.privacyLabel, locale)}
+                    {pick(t.contact.form.privacyConsentLink, locale)}
                   </Link>
+                  {pick(t.contact.form.privacyConsentAfter, locale)}
                 </span>
               </label>
-              <p className="contact-privacy__note text-[0.8125rem] leading-relaxed text-stone-500">
-                {pick(t.contact.form.privacySubmitNote, locale)}
-              </p>
+              {privacyError ? (
+                <p
+                  id="privacy-consent-error"
+                  className="contact-privacy__error mt-2 text-[0.8125rem] text-stone-600"
+                  role="alert"
+                >
+                  {locale === "he"
+                    ? "יש לאשר את מדיניות הפרטיות לפני שליחת הטופס."
+                    : "Please accept the Privacy Policy before submitting."}
+                </p>
+              ) : null}
             </div>
 
             <div className="contact-actions mt-8">

@@ -15,6 +15,10 @@ function mergeLegalPage(
   return {
     ...base,
     ...patch,
+    title: mergeLocalized(base.title, patch.title),
+    updatedAt: mergeLocalized(base.updatedAt, patch.updatedAt),
+    /** Legal intros are maintained in repo; do not let stale CMS copy override compliance text. */
+    intro: base.intro,
     sections: patch.sections?.length ? patch.sections : base.sections,
   };
 }

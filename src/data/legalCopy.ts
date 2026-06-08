@@ -23,8 +23,8 @@ export const privacyPolicyCopy: LegalPageCopy = {
     en: "Last updated: May 30, 2026",
   },
   intro: {
-    he: `מדיניות פרטיות זו מתארת כיצד ${SITE_ENTITY_HE} («האתר», «אנחנו») אוסף, משתמש, שומר ומגן על מידע אישי במסגרת השימוש באתר, לרבות מילוי טופס יצירת הקשר.`,
-    en: `This Privacy Policy describes how ${SITE_ENTITY_EN} ("the website", "we") collects, uses, stores, and protects personal information when you use this site, including the contact form.`,
+    he: `מדיניות פרטיות זו מתארת כיצד ${SITE_ENTITY_HE} (להלן: «האתר») אוסף, משתמש, שומר ומגין על מידע אישי במסגרת השימוש בו, לרבות מילוי טופס יצירת הקשר.`,
+    en: `This Privacy Policy describes how ${SITE_ENTITY_EN} ("the website") collects, uses, stores, and protects personal information when you use the site, including the contact form.`,
   },
   sections: [
     {

@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import {
   DEFAULT_LOCALE,
-  getPreferredLocale,
   pathnameHasLocale,
 } from "@/lib/i18n";
 import { SESSION_COOKIE, verifySessionToken } from "@/lib/session";
@@ -55,7 +54,7 @@ function handleI18n(req: NextRequest): NextResponse {
     return withLocaleHeader(NextResponse.next(), locale);
   }
 
-  const locale = getPreferredLocale(req.headers.get("accept-language"));
+  const locale = DEFAULT_LOCALE;
   const url = req.nextUrl.clone();
   url.pathname =
     pathname === "/" ? `/${locale}` : `/${locale}${pathname}`;

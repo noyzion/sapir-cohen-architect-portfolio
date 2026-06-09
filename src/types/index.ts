@@ -66,6 +66,44 @@ export type LegalPageCopy = {
   sections: LegalSection[];
 };
 
+export const SCHEMA_WEEKDAYS = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
+] as const;
+
+export type SchemaWeekday = (typeof SCHEMA_WEEKDAYS)[number];
+
+export type BusinessSocialLinks = {
+  instagram?: string;
+  linkedin?: string;
+  facebook?: string;
+  pinterest?: string;
+  houzz?: string;
+};
+
+export type BusinessOpeningHours = {
+  days: SchemaWeekday[];
+  opens: string;
+  closes: string;
+};
+
+/** Local SEO / Google Business Profile fields (Schema.org). Editable in admin → site texts. */
+export type SiteBusinessProfile = {
+  streetAddress: LocalizedString;
+  postalCode: string;
+  addressRegion: LocalizedString;
+  latitude: string;
+  longitude: string;
+  googleMapsUrl: string;
+  sameAs: BusinessSocialLinks;
+  openingHours: BusinessOpeningHours[];
+};
+
 export type SiteCopy = {
   meta: { title: LocalizedString; description: LocalizedString };
   brand: LocalizedString;
@@ -115,6 +153,8 @@ export type SiteCopy = {
     backToPortfolio: LocalizedString;
   };
   process: { title: LocalizedString; subtitle: LocalizedString };
+  /** Local SEO: address, map, social profiles, opening hours (Schema.org / Google Business). */
+  business: SiteBusinessProfile;
   contact: {
     title: LocalizedString;
     prompt: LocalizedString;

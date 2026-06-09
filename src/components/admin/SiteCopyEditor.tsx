@@ -37,6 +37,12 @@ const SITE_COPY_SECTIONS: SiteCopySection[] = [
     keys: ["services"],
   },
   {
+    id: "business",
+    label: "Google Business / SEO מקומי",
+    hint: "כתובת, מפה, רשתות חברתיות ושעות פעילות (Schema.org)",
+    keys: ["business"],
+  },
+  {
     id: "contact",
     label: "דף הבית - יצירת קשר",
     hint: "/#contact",

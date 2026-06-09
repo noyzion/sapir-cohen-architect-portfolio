@@ -3,6 +3,11 @@ import type { Locale, LocalizedString, Project, SiteCopy } from "@/types";
 import type { LegalDocKey } from "@/data/legalCopy";
 import { LEGAL_ROUTES } from "@/data/legalCopy";
 import { localizedPath } from "@/lib/i18n";
+import {
+  buildKnowsAbout,
+  buildLocalBusinessSchemaFields,
+  buildServiceTypes,
+} from "@/lib/localBusinessSchema";
 
 export const SEO_KEYWORDS_HE = [
   "אדריכלות ועיצוב פנים",
@@ -267,6 +272,8 @@ export function buildSiteGraphSchema(siteCopy: SiteCopy, locale: Locale = "he") 
   const siteUrl = getSiteUrl();
   const organizationId = `${siteUrl}/#organization`;
   const websiteId = `${siteUrl}/#website`;
+  const localBusiness = buildLocalBusinessSchemaFields(siteCopy, locale);
+  const serviceTypes = buildServiceTypes(locale);
 
   const organization = {
     "@type": "Organization",
@@ -279,26 +286,20 @@ export function buildSiteGraphSchema(siteCopy: SiteCopy, locale: Locale = "he") 
     description: siteCopy.meta.description[locale],
     areaServed: {
       "@type": "Country",
-      name: "Israel",
+      name: locale === "he" ? "ישראל" : "Israel",
     },
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: siteCopy.contact.location[locale],
-      addressRegion: locale === "he" ? "מרכז" : "Central District",
-      addressCountry: "IL",
-    },
-    knowsAbout: [
-      "אדריכלות",
-      "עיצוב פנים",
-      "תכנון דירות",
-      "עיצוב דירות קבלן",
-      "עיצוב בתים פרטיים",
-      "ליווי שיפוץ",
-    ],
+    address: localBusiness.address,
+    knowsAbout: buildKnowsAbout(locale),
+    ...(localBusiness.sameAs ? { sameAs: localBusiness.sameAs } : {}),
+    ...(localBusiness.openingHoursSpecification
+      ? { openingHoursSpecification: localBusiness.openingHoursSpecification }
+      : {}),
+    ...(localBusiness.geo ? { geo: localBusiness.geo } : {}),
+    ...(localBusiness.hasMap ? { hasMap: localBusiness.hasMap } : {}),
   };
 
   const professionalService = {
-    "@type": "ProfessionalService",
+    "@type": ["ProfessionalService", "HomeAndConstructionBusiness"],
     "@id": `${siteUrl}/#professional-service`,
     name: `${siteCopy.brand[locale]} - ${siteCopy.tagline[locale]}`,
     alternateName: `${siteCopy.brand[locale === "he" ? "en" : "he"]} - ${siteCopy.tagline[locale === "he" ? "en" : "he"]}`,
@@ -308,6 +309,7 @@ export function buildSiteGraphSchema(siteCopy: SiteCopy, locale: Locale = "he") 
     email: siteCopy.contact.email,
     telephone: `+${siteCopy.contact.whatsapp}`,
     description: siteCopy.meta.description[locale],
+    address: localBusiness.address,
     areaServed: [
       {
         "@type": "City",
@@ -315,19 +317,23 @@ export function buildSiteGraphSchema(siteCopy: SiteCopy, locale: Locale = "he") 
       },
       {
         "@type": "AdministrativeArea",
-        name: locale === "he" ? "מרכז" : "Central District",
+        name:
+          siteCopy.business.addressRegion[locale] ||
+          (locale === "he" ? "מרכז" : "Central District"),
+      },
+      {
+        "@type": "Country",
+        name: locale === "he" ? "ישראל" : "Israel",
       },
     ],
-    serviceType: [
-      "אדריכלות",
-      "עיצוב פנים",
-      "תכנון דירות",
-      "עיצוב דירות קבלן",
-      "עיצוב בתים פרטיים",
-      "ליווי שיפוץ",
-      "תכנון ועיצוב פנים",
-    ],
+    serviceType: serviceTypes,
     priceRange: "$$",
+    ...(localBusiness.sameAs ? { sameAs: localBusiness.sameAs } : {}),
+    ...(localBusiness.openingHoursSpecification
+      ? { openingHoursSpecification: localBusiness.openingHoursSpecification }
+      : {}),
+    ...(localBusiness.geo ? { geo: localBusiness.geo } : {}),
+    ...(localBusiness.hasMap ? { hasMap: localBusiness.hasMap } : {}),
   };
 
   const website = {

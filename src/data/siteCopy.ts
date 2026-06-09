@@ -123,6 +123,28 @@ export const siteCopy: SiteCopy = {
       en: "A clear, calm process, from first conversation to finished space",
     },
   },
+  business: {
+    streetAddress: { he: "", en: "" },
+    postalCode: "",
+    addressRegion: { he: "מרכז", en: "Central District" },
+    latitude: "",
+    longitude: "",
+    googleMapsUrl: "",
+    sameAs: {
+      instagram: "",
+      linkedin: "",
+      facebook: "",
+      pinterest: "",
+      houzz: "",
+    },
+    openingHours: [
+      {
+        days: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"],
+        opens: "09:00",
+        closes: "18:00",
+      },
+    ],
+  },
   contact: {
     title: { he: "בואו ניצור את החלל הבא שלכם", en: "Let's Create Your Next Space" },
     prompt: {

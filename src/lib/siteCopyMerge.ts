@@ -60,6 +60,25 @@ export function mergeSiteCopy(
     projectTypes: { ...seed.projectTypes, ...stored.projectTypes },
     portfolio: { ...seed.portfolio, ...stored.portfolio },
     process: { ...seed.process, ...stored.process },
+    business: {
+      ...seed.business,
+      ...stored.business,
+      streetAddress: mergeLocalized(
+        seed.business.streetAddress,
+        stored.business?.streetAddress
+      ),
+      addressRegion: mergeLocalized(
+        seed.business.addressRegion,
+        stored.business?.addressRegion
+      ),
+      sameAs: {
+        ...seed.business.sameAs,
+        ...stored.business?.sameAs,
+      },
+      openingHours: stored.business?.openingHours?.length
+        ? stored.business.openingHours
+        : seed.business.openingHours,
+    },
     contact: {
       ...seed.contact,
       ...stored.contact,

@@ -10,6 +10,7 @@ import {
   getPortfolioSlideshowImages,
   getPortfolioSlideshowTiming,
 } from "@/lib/portfolioSlideshow";
+import { getProjectImageAlt } from "@/lib/projectImageAlt";
 
 export function Portfolio() {
   const { locale, t } = useLanguage();
@@ -34,14 +35,19 @@ export function Portfolio() {
             const projectLocation = project.location?.[locale]
               ? pick(project.location, locale)
               : null;
-            const slideshowAlt = projectLocation
-              ? `${pick(project.name, locale)} - ${pick(project.type, locale)}, ${projectLocation}`
-              : `${pick(project.name, locale)} - ${pick(project.type, locale)}`;
+            const slideshowAlt = getProjectImageAlt(
+              project.slug,
+              locale,
+              projectLocation
+                ? `${pick(project.name, locale)} - ${pick(project.type, locale)}, ${projectLocation}`
+                : `${pick(project.name, locale)} - ${pick(project.type, locale)}`
+            );
 
             const media = (
               <Link
                 href={`/projects/${project.slug}`}
                 className="group project-media block aspect-[4/3] lg:aspect-[16/10]"
+                aria-label={slideshowAlt}
               >
                 <PortfolioSlideshow
                   images={slideshowImages}

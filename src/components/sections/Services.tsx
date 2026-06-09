@@ -35,7 +35,7 @@ export function Services() {
               {pkg.featured && (
                 <span className="services-col-badge">{popularLabel}</span>
               )}
-              <p className="services-col-tier">{pkg.tier}</p>
+              <h3 className="services-col-tier">{pkg.tier}</h3>
               <p className="services-col-desc">{pick(pkg.description, locale)}</p>
               <div className="services-col-fit">
                 <p className="services-col-fit-label">{suitableLabel}?</p>

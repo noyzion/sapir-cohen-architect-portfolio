@@ -21,7 +21,7 @@ export function ServicePackageCard({
 
   const cardBody = (
     <>
-      <p className="service-pkg-tier">{pkg.tier}</p>
+      <h3 className="service-pkg-tier">{pkg.tier}</h3>
       <p className="service-pkg-desc">{pick(pkg.description, locale)}</p>
       <div className="service-pkg-fit">
         <p className="service-pkg-fit-label">{suitableLabel}?</p>

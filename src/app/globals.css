@@ -666,8 +666,11 @@
   }
 
   .services-col-badge {
-    @apply mx-auto -mt-1 mb-1 w-fit text-[0.55rem] font-semibold uppercase leading-none tracking-[0.16em] sm:text-[0.65rem];
+    @apply mx-auto mb-1 w-fit px-3 py-1 text-[0.55rem] font-semibold uppercase leading-none tracking-[0.16em] sm:text-[0.65rem];
     color: var(--theme-featured-badge-text);
+    background-color: var(--theme-featured-badge-bg);
+    border: var(--theme-border-width-strong) solid var(--theme-featured-badge-border);
+    border-radius: var(--theme-border-radius);
   }
 
   .services-col-tier {

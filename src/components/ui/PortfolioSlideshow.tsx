@@ -73,7 +73,9 @@ export function PortfolioSlideshow({
     <div
       className="portfolio-slideshow"
       style={slideshowStyle}
-      aria-hidden={slides.length === 1}
+      role="group"
+      aria-roledescription="carousel"
+      aria-label={alt}
     >
       {slides.map((src, i) => (
         <div
@@ -81,10 +83,11 @@ export function PortfolioSlideshow({
           className={`portfolio-slideshow__slide ${
             i === index ? "is-active" : ""
           }`}
+          aria-hidden={slides.length > 1 ? i !== index : undefined}
         >
           <ProjectImage
             src={src}
-            alt={alt}
+            alt={i === index ? alt : ""}
             sizes={sizes}
             priority={priority && i === 0}
           />

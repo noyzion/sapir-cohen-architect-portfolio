@@ -6,18 +6,18 @@ import {
   useContext,
   useEffect,
   useMemo,
-  useState,
 } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import type { Locale, SiteCopy } from "@/types";
 import { siteCopy as seedSiteCopy } from "@/data/siteCopy";
+import { localizedPath, localeDir, switchLocalePath } from "@/lib/i18n";
 import { mergeSiteCopy } from "@/lib/siteCopyMerge";
-
-const STORAGE_KEY = "sapir-locale";
 
 type LanguageContextValue = {
   locale: Locale;
   setLocale: (locale: Locale) => void;
   toggleLocale: () => void;
+  localizedPath: (href: string) => string;
   t: SiteCopy;
   dir: "rtl" | "ltr";
   isHe: boolean;
@@ -28,51 +28,50 @@ const LanguageContext = createContext<LanguageContextValue | null>(null);
 export function LanguageProvider({
   children,
   copy,
+  locale,
 }: {
   children: React.ReactNode;
   /** Editable site copy loaded server-side; falls back to built-in defaults. */
   copy?: SiteCopy;
+  locale: Locale;
 }) {
-  const t = useMemo(
-    () => mergeSiteCopy(seedSiteCopy, copy),
-    [copy]
-  );
-  const [locale, setLocaleState] = useState<Locale>("he");
-  const [mounted, setMounted] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
+  const t = useMemo(() => mergeSiteCopy(seedSiteCopy, copy), [copy]);
 
   useEffect(() => {
-    const stored = localStorage.getItem(STORAGE_KEY) as Locale | null;
-    if (stored === "he" || stored === "en") setLocaleState(stored);
-    setMounted(true);
-  }, []);
-
-  const setLocale = useCallback((next: Locale) => {
-    setLocaleState(next);
-    localStorage.setItem(STORAGE_KEY, next);
-    document.documentElement.lang = next;
-    document.documentElement.dir = next === "he" ? "rtl" : "ltr";
-  }, []);
-
-  useEffect(() => {
-    if (!mounted) return;
     document.documentElement.lang = locale;
-    document.documentElement.dir = locale === "he" ? "rtl" : "ltr";
-  }, [locale, mounted]);
+    document.documentElement.dir = localeDir(locale);
+  }, [locale]);
+
+  const setLocale = useCallback(
+    (next: Locale) => {
+      if (next === locale) return;
+      router.push(switchLocalePath(pathname, next));
+    },
+    [locale, pathname, router]
+  );
 
   const toggleLocale = useCallback(() => {
     setLocale(locale === "he" ? "en" : "he");
   }, [locale, setLocale]);
+
+  const resolvePath = useCallback(
+    (href: string) => localizedPath(locale, href),
+    [locale]
+  );
 
   const value = useMemo(
     () => ({
       locale,
       setLocale,
       toggleLocale,
+      localizedPath: resolvePath,
       t,
-      dir: (locale === "he" ? "rtl" : "ltr") as "rtl" | "ltr",
+      dir: localeDir(locale),
       isHe: locale === "he",
     }),
-    [locale, setLocale, toggleLocale, t]
+    [locale, setLocale, toggleLocale, resolvePath, t]
   );
 
   return (

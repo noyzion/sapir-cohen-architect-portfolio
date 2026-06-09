@@ -5,11 +5,15 @@ import { Services } from "@/components/sections/Services";
 import { ProjectTypes } from "@/components/sections/ProjectTypes";
 import { Contact } from "@/components/sections/Contact";
 import { getAllContent } from "@/lib/content";
+import { parseLocale } from "@/lib/i18n";
 import { buildHomeMetadata, getDefaultOgImage } from "@/lib/seo";
 
-export async function generateMetadata(): Promise<Metadata> {
+type Props = { params: Promise<{ lang: string }> };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const locale = parseLocale((await params).lang);
   const { siteCopy, projects } = await getAllContent();
-  return buildHomeMetadata(siteCopy, getDefaultOgImage(projects));
+  return buildHomeMetadata(siteCopy, getDefaultOgImage(projects), locale);
 }
 
 export default function HomePage() {

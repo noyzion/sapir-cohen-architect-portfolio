@@ -1,6 +1,7 @@
+import { revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
 import { CONTENT_KEYS, getContentByKey, type ContentKey } from "@/lib/content";
-import { storeSet } from "@/lib/store";
+import { SITE_CONTENT_TAG, storeSet } from "@/lib/store";
 
 export const runtime = "nodejs";
 
@@ -34,6 +35,7 @@ export async function PUT(
   }
   try {
     await storeSet(key, body.data);
+    revalidateTag(SITE_CONTENT_TAG);
     return NextResponse.json({ ok: true });
   } catch (err) {
     const message =

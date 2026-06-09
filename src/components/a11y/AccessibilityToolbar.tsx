@@ -81,7 +81,7 @@ function AccessibilityIcon() {
 }
 
 export function AccessibilityToolbar() {
-  const { locale } = useLanguage();
+  const { locale, localizedPath } = useLanguage();
   const t = copy[locale];
   const panelId = useId();
   const [open, setOpen] = useState(false);
@@ -219,7 +219,7 @@ export function AccessibilityToolbar() {
           </button>
 
           <Link
-            href={LEGAL_ROUTES.accessibility}
+            href={localizedPath(LEGAL_ROUTES.accessibility)}
             className="a11y-toolbar__link"
             onClick={() => setOpen(false)}
           >

@@ -8,23 +8,35 @@ import { SkipLink } from "@/components/a11y/SkipLink";
 import { AccessibilityToolbar } from "@/components/a11y/AccessibilityToolbar";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getAllContent } from "@/lib/content";
+import { LOCALES, parseLocale } from "@/lib/i18n";
 import { buildSiteGraphSchema, getDefaultOgImage } from "@/lib/seo";
+import type { Locale } from "@/types";
 
-export async function generateMetadata(): Promise<Metadata> {
+type Props = {
+  children: React.ReactNode;
+  params: Promise<{ lang: string }>;
+};
+
+export function generateStaticParams() {
+  return LOCALES.map((lang) => ({ lang }));
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const locale = parseLocale((await params).lang);
   const { siteCopy, projects } = await getAllContent();
   const defaultImage = getDefaultOgImage(projects);
 
   return {
     openGraph: {
-      siteName: siteCopy.brand.he,
-      locale: "he_IL",
-      alternateLocale: ["en_US"],
+      siteName: siteCopy.brand[locale],
+      locale: locale === "he" ? "he_IL" : "en_US",
+      alternateLocale: locale === "he" ? ["en_US"] : ["he_IL"],
       ...(defaultImage
         ? {
             images: [
               {
                 url: defaultImage,
-                alt: `${siteCopy.brand.he} - ${siteCopy.tagline.he}`,
+                alt: `${siteCopy.brand[locale]} - ${siteCopy.tagline[locale]}`,
               },
             ],
           }
@@ -36,17 +48,16 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function SiteLayout({
-  children,
-}: Readonly<{ children: React.ReactNode }>) {
+export default async function LangLayout({ children, params }: Props) {
+  const locale: Locale = parseLocale((await params).lang);
   const { siteCopy, projects, services, projectTypes, siteTheme } =
     await getAllContent();
 
   return (
     <>
       <ThemeStyles theme={siteTheme} />
-      <JsonLd data={buildSiteGraphSchema(siteCopy)} />
-      <LanguageProvider copy={siteCopy}>
+      <JsonLd data={buildSiteGraphSchema(siteCopy, locale)} />
+      <LanguageProvider copy={siteCopy} locale={locale}>
         <ContentProvider value={{ projects, services, projectTypes }}>
           <SkipLink />
           <Header />

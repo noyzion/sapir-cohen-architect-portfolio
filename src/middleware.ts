@@ -1,5 +1,10 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import {
+  DEFAULT_LOCALE,
+  getPreferredLocale,
+  pathnameHasLocale,
+} from "@/lib/i18n";
 import { SESSION_COOKIE, verifySessionToken } from "@/lib/session";
 
 function withAdminRobotsTag(response: NextResponse): NextResponse {
@@ -7,10 +12,14 @@ function withAdminRobotsTag(response: NextResponse): NextResponse {
   return response;
 }
 
-export async function middleware(req: NextRequest) {
+function withLocaleHeader(response: NextResponse, locale: string): NextResponse {
+  response.headers.set("x-locale", locale);
+  return response;
+}
+
+async function handleAdmin(req: NextRequest): Promise<NextResponse> {
   const { pathname } = req.nextUrl;
 
-  // Login page + login endpoint + health check must stay public.
   if (
     pathname === "/admin/login" ||
     pathname === "/api/admin/login" ||
@@ -38,6 +47,44 @@ export async function middleware(req: NextRequest) {
   return withAdminRobotsTag(NextResponse.redirect(url));
 }
 
+function handleI18n(req: NextRequest): NextResponse {
+  const { pathname } = req.nextUrl;
+
+  if (pathnameHasLocale(pathname)) {
+    const locale = pathname.split("/")[1] ?? DEFAULT_LOCALE;
+    return withLocaleHeader(NextResponse.next(), locale);
+  }
+
+  const locale = getPreferredLocale(req.headers.get("accept-language"));
+  const url = req.nextUrl.clone();
+  url.pathname =
+    pathname === "/" ? `/${locale}` : `/${locale}${pathname}`;
+  return NextResponse.redirect(url);
+}
+
+function shouldSkipI18n(pathname: string): boolean {
+  return (
+    pathname.startsWith("/api/") ||
+    pathname.startsWith("/_next/") ||
+    pathname === "/favicon.ico" ||
+    /\.[^/]+$/.test(pathname)
+  );
+}
+
+export async function middleware(req: NextRequest) {
+  const { pathname } = req.nextUrl;
+
+  if (pathname.startsWith("/admin") || pathname.startsWith("/api/admin")) {
+    return handleAdmin(req);
+  }
+
+  if (shouldSkipI18n(pathname)) {
+    return NextResponse.next();
+  }
+
+  return handleI18n(req);
+}
+
 export const config = {
-  matcher: ["/admin/:path*", "/api/admin/:path*"],
+  matcher: ["/((?!_next/static|_next/image).*)"],
 };

@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useLanguage, pick } from "@/context/LanguageContext";
 import { ButtonLink } from "@/components/ui/Button";
 export function Header() {
-  const { locale, toggleLocale, t } = useLanguage();
+  const { locale, toggleLocale, t, localizedPath } = useLanguage();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -29,7 +29,7 @@ export function Header() {
     >
       <div className="container-site flex h-[4.25rem] items-center justify-between gap-6 md:h-[4.5rem]">
         <Link
-          href="/#home"
+          href={localizedPath("/#home")}
           className="shrink-0 transition-opacity hover:opacity-70"
           onClick={() => setMenuOpen(false)}
         >
@@ -45,7 +45,7 @@ export function Header() {
           {t.nav.map((link) => (
             <Link
               key={link.id}
-              href={link.href}
+              href={localizedPath(link.href)}
               className="site-header__nav-link"
             >
               {pick(link.label, locale)}
@@ -116,7 +116,7 @@ export function Header() {
                 style={{ animationDelay: `${0.05 + i * 0.05}s` }}
               >
                 <Link
-                  href={link.href}
+                  href={localizedPath(link.href)}
                   className="mobile-menu__link"
                   onClick={() => setMenuOpen(false)}
                 >

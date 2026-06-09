@@ -1,11 +1,15 @@
 import type { Metadata } from "next";
 import { About } from "@/components/sections/About";
 import { getAllContent } from "@/lib/content";
+import { parseLocale } from "@/lib/i18n";
 import { buildAboutMetadata, getDefaultOgImage } from "@/lib/seo";
 
-export async function generateMetadata(): Promise<Metadata> {
+type Props = { params: Promise<{ lang: string }> };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const locale = parseLocale((await params).lang);
   const { siteCopy, projects } = await getAllContent();
-  return buildAboutMetadata(siteCopy, getDefaultOgImage(projects));
+  return buildAboutMetadata(siteCopy, getDefaultOgImage(projects), locale);
 }
 
 export default function AboutPage() {

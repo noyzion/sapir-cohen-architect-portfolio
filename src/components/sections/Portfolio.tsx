@@ -13,7 +13,7 @@ import {
 import { getProjectImageAlt } from "@/lib/projectImageAlt";
 
 export function Portfolio() {
-  const { locale, t } = useLanguage();
+  const { locale, t, localizedPath } = useLanguage();
   const { projects } = useContent();
 
   return (
@@ -45,7 +45,7 @@ export function Portfolio() {
 
             const media = (
               <Link
-                href={`/projects/${project.slug}`}
+                href={localizedPath(`/projects/${project.slug}`)}
                 className="group project-media block aspect-[4/3] lg:aspect-[16/10]"
                 aria-label={slideshowAlt}
               >
@@ -74,7 +74,7 @@ export function Portfolio() {
                   {pick(project.description, locale)}
                 </p>
                 <ArrowLink
-                  href={`/projects/${project.slug}`}
+                  href={localizedPath(`/projects/${project.slug}`)}
                   className="mt-8"
                 >
                   {pick(t.cta.viewProject, locale)}

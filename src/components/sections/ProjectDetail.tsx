@@ -12,7 +12,7 @@ import { ButtonLink } from "@/components/ui/Button";
 type Props = { project: Project };
 
 export function ProjectDetail({ project }: Props) {
-  const { locale, t, dir } = useLanguage();
+  const { locale, t, dir, localizedPath } = useLanguage();
   const router = useRouter();
 
   function handleBack(e: MouseEvent<HTMLAnchorElement>) {
@@ -51,7 +51,7 @@ export function ProjectDetail({ project }: Props) {
       <div className="container-site project-detail-body">
         <div className="project-detail-back-bar">
           <Link
-            href="/#portfolio"
+            href={localizedPath("/#portfolio")}
             onClick={handleBack}
             className="project-detail-back inline-flex items-center gap-2 text-sm font-medium text-stone-600 transition-colors hover:text-ink md:text-body-sm"
           >
@@ -111,7 +111,7 @@ export function ProjectDetail({ project }: Props) {
         )}
 
         <div className="project-detail-cta">
-          <ButtonLink href="/#contact" variant="primary">
+          <ButtonLink href={localizedPath("/#contact")} variant="primary">
             {pick(t.cta.consult, locale)}
           </ButtonLink>
         </div>

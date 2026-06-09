@@ -1,7 +1,7 @@
 import "server-only";
 import { promises as fs } from "fs";
 import path from "path";
-import { unstable_noStore as noStore } from "next/cache";
+import { unstable_cache } from "next/cache";
 import { Redis } from "@upstash/redis";
 import { canUseLocalFilesystem } from "@/lib/runtime";
 
@@ -16,6 +16,9 @@ import { canUseLocalFilesystem } from "@/lib/runtime";
 
 const KEY_PREFIX = "content:";
 const DATA_FILE = path.join(process.cwd(), ".data", "content.json");
+
+/** Next.js cache tag for all CMS content reads (see storeGet). */
+export const SITE_CONTENT_TAG = "site-content";
 
 let redisClient: Redis | null = null;
 
@@ -52,16 +55,33 @@ async function fileWriteAll(map: Record<string, unknown>): Promise<void> {
   await fs.writeFile(DATA_FILE, JSON.stringify(map, null, 2), "utf8");
 }
 
-export async function storeGet<T>(key: string): Promise<T | null> {
-  // Reading editable content opts pages out of static caching so edits show up.
-  noStore();
-  const redis = getRedis();
-  if (redis) {
-    const value = await redis.get<T>(KEY_PREFIX + key);
-    return value ?? null;
-  }
+async function readFromFile<T>(key: string): Promise<T | null> {
   const all = await fileReadAll();
   return (all[key] as T) ?? null;
+}
+
+async function readFromRedis<T>(key: string): Promise<T | null> {
+  const redis = getRedis();
+  if (!redis) return null;
+  const value = await redis.get<T>(KEY_PREFIX + key);
+  return value ?? null;
+}
+
+const getCachedContent = unstable_cache(
+  async (key: string, mode: "redis" | "file") => {
+    if (mode === "redis") {
+      return readFromRedis<unknown>(key);
+    }
+    return readFromFile<unknown>(key);
+  },
+  ["site-content"],
+  { tags: [SITE_CONTENT_TAG] }
+);
+
+export async function storeGet<T>(key: string): Promise<T | null> {
+  const mode = storeMode();
+  const value = await getCachedContent(key, mode);
+  return (value as T | null) ?? null;
 }
 
 export async function storeSet<T>(key: string, value: T): Promise<void> {

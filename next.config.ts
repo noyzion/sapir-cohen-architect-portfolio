@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/privacy",
-        destination: "/privacy-policy",
+        destination: "/he/privacy-policy",
         permanent: true,
       },
     ];

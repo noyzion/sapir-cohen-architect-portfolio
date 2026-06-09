@@ -12,7 +12,7 @@ type Props = {
 };
 
 export function LegalDocumentContent({ docKey, variant = "page" }: Props) {
-  const { locale, t } = useLanguage();
+  const { locale, t, localizedPath } = useLanguage();
   const page = t[docKey];
   const isModal = variant === "modal";
 
@@ -49,7 +49,7 @@ export function LegalDocumentContent({ docKey, variant = "page" }: Props) {
       {docKey === "privacy" && !isModal ? (
         <p className="legal-page__related">
           {locale === "he" ? "למידע נוסף: " : "See also: "}
-          <Link href={LEGAL_ROUTES.cookies} className="legal-page__link">
+          <Link href={localizedPath(LEGAL_ROUTES.cookies)} className="legal-page__link">
             {pick(t.footer.cookiesLabel, locale)}
           </Link>
         </p>

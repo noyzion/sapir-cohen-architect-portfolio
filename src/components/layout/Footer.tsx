@@ -7,7 +7,7 @@ import { SITE_BUILDER_CREDIT, formatSiteCopyright } from "@/data/siteMeta";
 import { LEGAL_ROUTES } from "@/data/legalCopy";
 
 export function Footer() {
-  const { locale, t } = useLanguage();
+  const { locale, t, localizedPath } = useLanguage();
   const year = new Date().getFullYear();
   const email = t.contact.email || CONTACT_EMAIL;
 
@@ -28,7 +28,7 @@ export function Footer() {
             {t.nav.map((link) => (
               <Link
                 key={link.href}
-                href={link.href}
+                href={localizedPath(link.href)}
                 className="text-sm text-stone-600 transition-colors hover:text-stone-900"
               >
                 {pick(link.label, locale)}
@@ -51,16 +51,16 @@ export function Footer() {
           className="site-footer__legal-nav mt-10 flex flex-wrap justify-center gap-x-4 gap-y-2 text-xs"
           aria-label={locale === "he" ? "מסמכים משפטיים" : "Legal"}
         >
-          <Link href={LEGAL_ROUTES.privacy} className="site-footer__legal-link">
+          <Link href={localizedPath(LEGAL_ROUTES.privacy)} className="site-footer__legal-link">
             {pick(t.footer.privacyLabel, locale)}
           </Link>
-          <Link href={LEGAL_ROUTES.accessibility} className="site-footer__legal-link">
+          <Link href={localizedPath(LEGAL_ROUTES.accessibility)} className="site-footer__legal-link">
             {pick(t.footer.accessibilityLabel, locale)}
           </Link>
-          <Link href={LEGAL_ROUTES.terms} className="site-footer__legal-link">
+          <Link href={localizedPath(LEGAL_ROUTES.terms)} className="site-footer__legal-link">
             {pick(t.footer.termsLabel, locale)}
           </Link>
-          <Link href={LEGAL_ROUTES.cookies} className="site-footer__legal-link">
+          <Link href={localizedPath(LEGAL_ROUTES.cookies)} className="site-footer__legal-link">
             {pick(t.footer.cookiesLabel, locale)}
           </Link>
         </nav>

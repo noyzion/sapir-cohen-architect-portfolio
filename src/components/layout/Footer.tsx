@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useLanguage, pick } from "@/context/LanguageContext";
 import { CONTACT_EMAIL } from "@/data/siteCopy";
+import { resolveContactEmail } from "@/lib/contactEmail";
 import { SITE_BUILDER_CREDIT, formatSiteCopyright } from "@/data/siteMeta";
 import { LEGAL_ROUTES } from "@/data/legalCopy";
 import { ContactDetailLabel } from "@/components/ui/ContactIcons";
@@ -12,7 +13,7 @@ import { InstagramLink } from "@/components/ui/InstagramLink";
 export function Footer() {
   const { locale, t, localizedPath } = useLanguage();
   const year = new Date().getFullYear();
-  const email = t.contact.email || CONTACT_EMAIL;
+  const email = resolveContactEmail(t.contact.email, CONTACT_EMAIL);
   const instagramUrl = t.business?.sameAs?.instagram?.trim();
 
   return (

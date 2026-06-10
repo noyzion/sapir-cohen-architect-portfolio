@@ -98,6 +98,12 @@ export function mergeSiteCopy(
     contact: {
       ...seed.contact,
       ...stored.contact,
+      email: stored.contact?.email?.trim()
+        ? stored.contact.email.trim()
+        : seed.contact.email,
+      whatsapp: stored.contact?.whatsapp?.trim()
+        ? stored.contact.whatsapp.trim()
+        : seed.contact.whatsapp,
       form: {
         ...seed.contact.form,
         ...stored.contact?.form,

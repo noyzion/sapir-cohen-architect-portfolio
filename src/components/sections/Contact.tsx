@@ -3,6 +3,7 @@
 import { FormEvent, useEffect, useState } from "react";
 import { useLanguage, pick } from "@/context/LanguageContext";
 import { CONTACT_EMAIL, WHATSAPP_NUMBER } from "@/data/siteCopy";
+import { buildMailtoHref, openMailto, resolveContactEmail } from "@/lib/contactEmail";
 import {
   getPackageInquiryMessage,
   getStoredPackageInquiry,
@@ -34,7 +35,7 @@ export function Contact() {
   const [privacyAccepted, setPrivacyAccepted] = useState(false);
   const [privacyError, setPrivacyError] = useState(false);
   const [privacyModalOpen, setPrivacyModalOpen] = useState(false);
-  const contactEmail = t.contact.email || CONTACT_EMAIL;
+  const contactEmail = resolveContactEmail(t.contact.email, CONTACT_EMAIL);
   const whatsappNumber = t.contact.whatsapp || WHATSAPP_NUMBER;
   const instagramUrl = t.business?.sameAs?.instagram?.trim();
 
@@ -86,7 +87,9 @@ export function Contact() {
       .filter(Boolean)
       .join("\n");
 
-    window.location.href = `mailto:${contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    openMailto(
+      buildMailtoHref(contactEmail, locale, { subject, body })
+    );
     setSubmitted(true);
   }
 

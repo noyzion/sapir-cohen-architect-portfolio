@@ -1043,6 +1043,14 @@
     @apply h-[1rem] w-[1rem] text-stone-700;
   }
 
+  .email-link {
+    @apply cursor-pointer transition-opacity duration-300 ease-luxury;
+  }
+
+  .email-link:hover {
+    @apply opacity-70 underline decoration-stone-400 underline-offset-[3px];
+  }
+
   /* Forms */
   .input-field {
     @apply w-full px-4 py-3.5 text-body-sm outline-none transition-colors;

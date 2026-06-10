@@ -6,6 +6,7 @@ import { CONTACT_EMAIL } from "@/data/siteCopy";
 import { SITE_BUILDER_CREDIT, formatSiteCopyright } from "@/data/siteMeta";
 import { LEGAL_ROUTES } from "@/data/legalCopy";
 import { ContactDetailLabel } from "@/components/ui/ContactIcons";
+import { EmailLink } from "@/components/ui/EmailLink";
 import { InstagramLink } from "@/components/ui/InstagramLink";
 
 export function Footer() {
@@ -44,12 +45,11 @@ export function Footer() {
               <ContactDetailLabel icon="email">
                 {pick(t.contact.emailLabel, locale)}
               </ContactDetailLabel>
-              <a
-                href={`mailto:${email}`}
-                className="mt-3 block text-sm text-stone-700 transition-colors hover:text-stone-900"
-              >
-                {email}
-              </a>
+              <EmailLink
+                email={email}
+                locale={locale}
+                className="mt-3 block text-sm text-stone-700"
+              />
             </div>
             {instagramUrl ? (
               <div>

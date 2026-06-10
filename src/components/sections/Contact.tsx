@@ -9,6 +9,7 @@ import {
 } from "@/lib/packageInquiry";
 import { Button, ButtonLink } from "@/components/ui/Button";
 import { ContactDetailLabel } from "@/components/ui/ContactIcons";
+import { EmailLink } from "@/components/ui/EmailLink";
 import { InstagramLink } from "@/components/ui/InstagramLink";
 import { LegalModal } from "@/components/legal/LegalModal";
 
@@ -138,12 +139,11 @@ export function Contact() {
                 <ContactDetailLabel icon="email" className="block">
                   {pick(t.contact.emailLabel, locale)}
                 </ContactDetailLabel>
-                <a
-                  href={`mailto:${contactEmail}`}
-                  className="mt-1 block text-body-sm text-ink transition-opacity hover:opacity-70"
-                >
-                  {contactEmail}
-                </a>
+                <EmailLink
+                  email={contactEmail}
+                  locale={locale}
+                  className="mt-1 block text-body-sm text-ink"
+                />
               </li>
               {instagramUrl ? (
                 <li>

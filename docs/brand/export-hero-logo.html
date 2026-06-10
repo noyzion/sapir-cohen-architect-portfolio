@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      width: 1200px;
+      height: 800px;
+      background: #fcfbfa;
+      font-family: "Josefin Sans", system-ui, sans-serif;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      opacity: 0.28;
+      background-image:
+        linear-gradient(rgb(231 229 228 / 0.45) 1px, transparent 1px),
+        linear-gradient(90deg, rgb(231 229 228 / 0.45) 1px, transparent 1px);
+      background-size: 56px 56px;
+      mask-image: radial-gradient(ellipse 78% 70% at 50% 42%, black 18%, transparent 80%);
+      pointer-events: none;
+    }
+
+    .hero-corner {
+      position: absolute;
+      width: 56px;
+      height: 56px;
+      border-color: rgb(28 25 23 / 0.2);
+      border-style: solid;
+    }
+    .hero-corner--tl { top: 96px; left: 48px; border-width: 2px 0 0 2px; }
+    .hero-corner--tr { top: 96px; right: 48px; border-width: 2px 2px 0 0; }
+    .hero-corner--bl { bottom: 64px; left: 48px; border-width: 0 0 2px 2px; }
+    .hero-corner--br { bottom: 64px; right: 48px; border-width: 0 2px 2px 0; }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px;
+    }
+
+    .hero-panel {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      width: 100%;
+      max-width: 896px;
+      border: 1px solid rgb(214 211 209 / 0.75);
+      background: rgb(255 255 255 / 0.72);
+      padding: 56px 56px;
+      box-shadow: 0 24px 60px rgb(28 25 23 / 0.05);
+      backdrop-filter: blur(2px);
+    }
+
+    .hero-name {
+      font-family: "Josefin Sans", system-ui, sans-serif;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 80px;
+      line-height: 0.98;
+      color: #1a1a1a;
+      text-wrap: balance;
+    }
+
+    .hero-name-bar {
+      margin-top: 24px;
+      width: 160px;
+      height: 1px;
+      background: #dcdcdc;
+    }
+
+    .hero-subtitle {
+      margin-top: 24px;
+      font-family: "Josefin Sans", system-ui, sans-serif;
+      font-size: 15px;
+      font-weight: 400;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      line-height: 1.625;
+      color: #8a8a8a;
+    }
+
+    /* Tight crop variant — panel only, warm bg */
+    body.variant-panel-only {
+      width: 960px;
+      height: 420px;
+      background: #fcfbfa;
+    }
+    body.variant-panel-only .hero-grid,
+    body.variant-panel-only .hero-corner { display: none; }
+    body.variant-panel-only .hero-inner { padding: 32px; }
+    body.variant-panel-only .hero-panel {
+      background: #ffffff;
+      padding: 48px 56px;
+    }
+
+    /* Lockup only — transparent friendly */
+    body.variant-lockup {
+      width: 820px;
+      height: 220px;
+      background: #fcfbfa;
+    }
+    body.variant-lockup .hero-grid,
+    body.variant-lockup .hero-corner { display: none; }
+    body.variant-lockup .hero-panel {
+      border: none;
+      background: transparent;
+      box-shadow: none;
+      backdrop-filter: none;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="hero-grid" aria-hidden="true"></div>
+  <span class="hero-corner hero-corner--tl" aria-hidden="true"></span>
+  <span class="hero-corner hero-corner--tr" aria-hidden="true"></span>
+  <span class="hero-corner hero-corner--bl" aria-hidden="true"></span>
+  <span class="hero-corner hero-corner--br" aria-hidden="true"></span>
+
+  <div class="hero-inner">
+    <div class="hero-panel">
+      <h1 class="hero-name">Sapir Cohen</h1>
+      <span class="hero-name-bar" aria-hidden="true"></span>
+      <p class="hero-subtitle">Architecture &amp; Interior Design</p>
+    </div>
+  </div>
+
+  <script>
+    const variant = new URLSearchParams(location.search).get("variant");
+    if (variant) document.body.classList.add(`variant-${variant}`);
+  </script>
+</body>
+</html>

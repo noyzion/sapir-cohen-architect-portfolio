@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      width: 520px;
+      height: 120px;
+      display: flex;
+      align-items: center;
+      padding: 32px 40px;
+      background: #ffffff;
+    }
+    body.dark { background: #1a1a1a; }
+    .wordmark {
+      font-family: "Josefin Sans", system-ui, sans-serif;
+      font-size: 28px;
+      font-weight: 400;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #1a1a1a;
+      white-space: nowrap;
+    }
+    .wordmark--white { color: #ffffff; }
+  </style>
+</head>
+<body>
+  <div class="wordmark" id="logo">Sapir Cohen</div>
+  <script>
+    if (new URLSearchParams(location.search).get("variant") === "white") {
+      document.body.classList.add("dark");
+      document.getElementById("logo").classList.add("wordmark--white");
+    }
+  </script>
+</body>
+</html>

@@ -1,4 +1,23 @@
-import type { LegalPageCopy, LocalizedString, SiteCopy } from "@/types";
+import type {
+  BusinessSocialLinks,
+  LegalPageCopy,
+  LocalizedString,
+  SiteCopy,
+} from "@/types";
+
+function mergeSocialLinks(
+  seed: BusinessSocialLinks,
+  stored: BusinessSocialLinks | undefined
+): BusinessSocialLinks {
+  if (!stored) return seed;
+
+  const merged = { ...seed };
+  for (const key of Object.keys(seed) as (keyof BusinessSocialLinks)[]) {
+    const value = stored[key]?.trim();
+    if (value) merged[key] = value;
+  }
+  return merged;
+}
 
 function mergeLocalized(
   base: LocalizedString,
@@ -71,10 +90,7 @@ export function mergeSiteCopy(
         seed.business.addressRegion,
         stored.business?.addressRegion
       ),
-      sameAs: {
-        ...seed.business.sameAs,
-        ...stored.business?.sameAs,
-      },
+      sameAs: mergeSocialLinks(seed.business.sameAs, stored.business?.sameAs),
       openingHours: stored.business?.openingHours?.length
         ? stored.business.openingHours
         : seed.business.openingHours,

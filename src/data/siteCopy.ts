@@ -131,7 +131,7 @@ export const siteCopy: SiteCopy = {
     longitude: "",
     googleMapsUrl: "",
     sameAs: {
-      instagram: "",
+      instagram: "https://www.instagram.com/sapir_kalfa_cohen/",
       linkedin: "",
       facebook: "",
       pinterest: "",

@@ -8,6 +8,8 @@ import {
   getStoredPackageInquiry,
 } from "@/lib/packageInquiry";
 import { Button, ButtonLink } from "@/components/ui/Button";
+import { ContactDetailLabel } from "@/components/ui/ContactIcons";
+import { InstagramLink } from "@/components/ui/InstagramLink";
 import { LegalModal } from "@/components/legal/LegalModal";
 
 function WhatsAppIcon() {
@@ -33,6 +35,7 @@ export function Contact() {
   const [privacyModalOpen, setPrivacyModalOpen] = useState(false);
   const contactEmail = t.contact.email || CONTACT_EMAIL;
   const whatsappNumber = t.contact.whatsapp || WHATSAPP_NUMBER;
+  const instagramUrl = t.business?.sameAs?.instagram?.trim();
 
   useEffect(() => {
     function applyPackageFromInquiry() {
@@ -132,9 +135,9 @@ export function Contact() {
                 </span>
               </li>
               <li>
-                <span className="label-caps block text-stone-400">
+                <ContactDetailLabel icon="email" className="block">
                   {pick(t.contact.emailLabel, locale)}
-                </span>
+                </ContactDetailLabel>
                 <a
                   href={`mailto:${contactEmail}`}
                   className="mt-1 block text-body-sm text-ink transition-opacity hover:opacity-70"
@@ -142,6 +145,18 @@ export function Contact() {
                   {contactEmail}
                 </a>
               </li>
+              {instagramUrl ? (
+                <li>
+                  <ContactDetailLabel icon="instagram" className="block">
+                    {locale === "he" ? "אינסטגרם" : "Instagram"}
+                  </ContactDetailLabel>
+                  <InstagramLink
+                    href={instagramUrl}
+                    locale={locale}
+                    className="mt-1 block text-body-sm text-ink transition-opacity hover:opacity-70"
+                  />
+                </li>
+              ) : null}
             </ul>
           </div>
 

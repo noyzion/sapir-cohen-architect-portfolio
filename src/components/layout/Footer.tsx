@@ -5,11 +5,14 @@ import { useLanguage, pick } from "@/context/LanguageContext";
 import { CONTACT_EMAIL } from "@/data/siteCopy";
 import { SITE_BUILDER_CREDIT, formatSiteCopyright } from "@/data/siteMeta";
 import { LEGAL_ROUTES } from "@/data/legalCopy";
+import { ContactDetailLabel } from "@/components/ui/ContactIcons";
+import { InstagramLink } from "@/components/ui/InstagramLink";
 
 export function Footer() {
   const { locale, t, localizedPath } = useLanguage();
   const year = new Date().getFullYear();
   const email = t.contact.email || CONTACT_EMAIL;
+  const instagramUrl = t.business?.sameAs?.instagram?.trim();
 
   return (
     <footer className="site-footer surface-warm">
@@ -36,14 +39,30 @@ export function Footer() {
             ))}
           </nav>
 
-          <div>
-            <p className="label-caps text-stone-400">{pick(t.contact.emailLabel, locale)}</p>
-            <a
-              href={`mailto:${email}`}
-              className="mt-3 block text-sm text-stone-700 transition-colors hover:text-stone-900"
-            >
-              {email}
-            </a>
+          <div className="space-y-6">
+            <div>
+              <ContactDetailLabel icon="email">
+                {pick(t.contact.emailLabel, locale)}
+              </ContactDetailLabel>
+              <a
+                href={`mailto:${email}`}
+                className="mt-3 block text-sm text-stone-700 transition-colors hover:text-stone-900"
+              >
+                {email}
+              </a>
+            </div>
+            {instagramUrl ? (
+              <div>
+                <ContactDetailLabel icon="instagram">
+                  {locale === "he" ? "אינסטגרם" : "Instagram"}
+                </ContactDetailLabel>
+                <InstagramLink
+                  href={instagramUrl}
+                  locale={locale}
+                  className="mt-3 block text-sm text-stone-700 transition-colors hover:text-stone-900"
+                />
+              </div>
+            ) : null}
           </div>
         </div>
 
